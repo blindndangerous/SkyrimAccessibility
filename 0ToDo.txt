@@ -15,6 +15,7 @@ Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus
 - add introduction to Skyrim UI and Controls.
 
 
-0.8.2
+0.8.3
 1. Are there more activators?
 2. Test WalkInPlace.
+3. When items are taken, or expected category like ingredients harvesting player takes one item but is expeded to take more, we need to open same menu again. to avoid time loss on navigating all the way through menus.
