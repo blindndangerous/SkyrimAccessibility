@@ -9,6 +9,7 @@ Fast Travel will list all discovered locations per Skyrim Hold. While Undiscover
 8. Expand Ambient sounds.
 9. Audio from enemies that changes based on health left.
 10. Standartise activate menu ui.
+11. Update guides for mod managers. For vortex install skse before install if vortex. For MO2 add steps to install plugin Root builder.
 
 Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With settings menu for everything like sound volume, etc.
 
