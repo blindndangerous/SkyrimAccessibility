@@ -579,17 +579,23 @@ Function ShowActivatorsTreesSubMenu()
     ObjectReference[] Array = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, 700.0)
     If Array.Length > 0
         Int Index = 0
+        Int MenuEntryIndex = 0
+        ObjectReference[] MenuEntryArray = new ObjectReference[128]
         While Index < Array.Length
-            String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
-            ActivateMenu.AddEntryItem(Name)
+            If (!Array[Index].GetDisplayName() == None) && (!Array[Index].IsHarvested())
+                String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+                MenuEntryArray[MenuEntryIndex] = Array[Index]
+                MenuEntryIndex += 1
+            EndIf
             Index += 1
         EndWhile
-        If Array.Length > 0
+        If MenuEntryArray.Length > 0
             ActivateMenu.OpenMenu()
         EndIf
         Int Selection = ActivateMenu.GetResultInt()
         If Selection >= 0
-            Array[Selection].Activate(Game.GetPlayer())
+            MenuEntryArray[Selection].Activate(Game.GetPlayer())
             ShowActivatorsTreesSubMenu()
         EndIf
     EndIf
@@ -600,17 +606,23 @@ Function ShowActivatorsFloraSubMenu()
     ObjectReference[] Array = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, 700.0)
     If Array.Length > 0
         Int Index = 0
+        Int MenuEntryIndex = 0
+        ObjectReference[] MenuEntryArray = new ObjectReference[128]
         While Index < Array.Length
-            String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
-            ActivateMenu.AddEntryItem(Name)
+            If !Array[Index].IsHarvested()
+                String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+                MenuEntryArray[MenuEntryIndex] = Array[Index]
+                MenuEntryIndex += 1
+            EndIf
             Index += 1
         EndWhile
-        If Array.Length > 0
+        If MenuEntryArray.Length > 0
             ActivateMenu.OpenMenu()
         EndIf
         Int Selection = ActivateMenu.GetResultInt()
         If Selection >= 0
-            Array[Selection].Activate(Game.GetPlayer())
+            MenuEntryArray[Selection].Activate(Game.GetPlayer())
             ShowActivatorsFloraSubMenu()
         EndIf
     EndIf
