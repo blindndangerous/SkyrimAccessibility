@@ -654,8 +654,13 @@ Function ShowActivatorsMiscSubMenu()
     If Array.Length > 0
         Int Index = 0
         While Index < Array.Length
-            String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
-            ActivateMenu.AddEntryItem(Name)
+            If Array[Index].GetDisplayName() == ""
+                String Name = (PO3_SKSEFunctions.GetFormEditorID(Array[Index]) + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+            Else
+                String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+            EndIf
             Index += 1
         EndWhile
         If Array.Length > 0
@@ -674,8 +679,13 @@ Function ShowActivatorsTalkingSubMenu()
     If Array.Length > 0
         Int Index = 0
         While Index < Array.Length
-            String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
-            ActivateMenu.AddEntryItem(Name)
+            If Array[Index].GetDisplayName() == ""
+                String Name = (PO3_SKSEFunctions.GetFormEditorID(Array[Index]) + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+            Else
+                String Name = (Array[Index].GetDisplayName() + " " + (Game.GetPlayer().GetDistance(Array[Index]) As Int))
+                ActivateMenu.AddEntryItem(Name)
+            EndIf
             Index += 1
         EndWhile
         If Array.Length > 0
