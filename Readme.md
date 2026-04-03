@@ -1,5 +1,9 @@
 # Skyrim Accessibility Mod By Dio Kyrie
 
+## Contact
+Join our Discord server to help us test and develop this mod.
+https://discord.gg/ncREHq4cmx
+
 ## Available Features
 - Intro Walkthrough;
 - Clairvoyance. A Guiding spell which will lead you to current quest marker via sound trail.
