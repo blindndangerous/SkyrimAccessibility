@@ -137,6 +137,7 @@ Function ShowTakeItemIngestiblesSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemIngestiblesSubMenu()
     EndIf
 EndFunction
 
@@ -158,6 +159,7 @@ Function ShowTakeItemWeaponsSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemWeaponsSubMenu()
     EndIf
 EndFunction
 
@@ -179,6 +181,7 @@ Function ShowTakeItemAmmoSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemAmmoSubMenu()
     EndIf
 EndFunction
 
@@ -200,6 +203,7 @@ Function ShowTakeItemArmorsSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemArmorsSubMenu()
     EndIf
 EndFunction
 
@@ -221,6 +225,7 @@ Function ShowTakeItemBooksSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemBooksSubMenu()
     EndIf
 EndFunction
 
@@ -242,6 +247,7 @@ Function ShowTakeItemKeysSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemKeysSubMenu()
     EndIf
 EndFunction
 
@@ -263,6 +269,7 @@ Function ShowTakeItemSoulGemsSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemSoulGemsSubMenu()
     EndIf
 EndFunction
 
@@ -284,6 +291,7 @@ Function ShowTakeItemIngredientsSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemIngredientsSubMenu()
     EndIf
 EndFunction
 
@@ -305,6 +313,7 @@ Function ShowTakeItemScrollsSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemScrollsSubMenu()
     EndIf
 EndFunction
 
@@ -326,6 +335,7 @@ Function ShowTakeItemMiscSubMenu()
     Int Selection = ActivateMenu.GetResultInt()
     If Selection >= 0
         Array[Selection].Activate(Game.GetPlayer())
+        ShowTakeItemMiscSubMenu()
     EndIf
 EndFunction
 
@@ -552,6 +562,7 @@ Function ShowActivatorsTreesSubMenu()
         Int Selection = ActivateMenu.GetResultInt()
         If Selection >= 0
             Array[Selection].Activate(Game.GetPlayer())
+            ShowActivatorsTreesSubMenu()
         EndIf
     EndIf
 EndFunction
@@ -570,6 +581,7 @@ Function ShowActivatorsFloraSubMenu()
         Int Selection = ActivateMenu.GetResultInt()
         If Selection >= 0
             Array[Selection].Activate(Game.GetPlayer())
+            ShowActivatorsFloraSubMenu()
         EndIf
     EndIf
 EndFunction
