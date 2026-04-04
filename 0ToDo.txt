@@ -20,3 +20,7 @@ Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus
 0.9.1
 1. Are there more activators?
 2. Test WalkInPlace.
+
+
+There is a reported bug with V menu when you open an empty category you will hear a disrupted muffled voice. And v menu does not work.
+Temporary workaround is to Press V key and then Esc key. This will solve the bug untill you open empty category again.
