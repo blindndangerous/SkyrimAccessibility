@@ -11,6 +11,8 @@ Fast Travel will list all discovered locations per Skyrim Hold. While Undiscover
 10. Standartise activate menu ui.
 11. Update guides for mod managers. For MO2 add steps to install plugin Root builder.
 12. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
+13. Add pets to haul small items of players choise.
+e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
 
 Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With settings menu for everything like sound volume, etc.
 
