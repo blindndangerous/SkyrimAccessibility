@@ -13,6 +13,7 @@ Fast Travel will list all discovered locations per Skyrim Hold. While Undiscover
 12. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
 13. Add pets to haul small items of players choise.
 e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
+14. Add workflow for xmake to build msvc plugins on linux.
 
 Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With settings menu for everything like sound volume, etc.
 
