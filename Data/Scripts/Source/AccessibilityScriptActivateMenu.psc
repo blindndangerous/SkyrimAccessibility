@@ -95,25 +95,35 @@ Function ShowTakeItemSubMenu()
     EndWhile
     ActivateMenu.OpenMenu()
     Int Selection = ActivateMenu.GetResultInt()
-    If Selection == 0
+    ObjectReference[] IngestiblesArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 700.0)
+    ObjectReference[] WeaponsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, 700.0)
+    ObjectReference[] AmmoArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, 700.0)
+    ObjectReference[] ArmorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, 700.0)
+    ObjectReference[] BooksArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, 700.0)
+    ObjectReference[] KeysArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, 700.0)
+    ObjectReference[] SoulGemsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, 700.0)
+    ObjectReference[] IngredientsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, 700.0)
+    ObjectReference[] ScrollsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, 700.0)
+    ObjectReference[] MiscArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, 700.0)
+    If (Selection == 0) && (IngestiblesArray.Length > 0)
         ShowTakeItemIngestiblesSubMenu()
-    ElseIf Selection == 1
+    ElseIf (Selection == 1) && (WeaponsArray.Length > 0)
         ShowTakeItemWeaponsSubMenu()
-    ElseIf Selection == 2
+    ElseIf (Selection == 2) && (AmmoArray.Length > 0)
         ShowTakeItemAmmoSubMenu()
-    ElseIf Selection == 3
+    ElseIf (Selection == 3) && (ArmorsArray.Length > 0)
         ShowTakeItemArmorsSubMenu()
-    ElseIf Selection == 4
+    ElseIf (Selection == 4) && (BooksArray.Length > 0)
         ShowTakeItemBooksSubMenu()
-    ElseIf Selection == 5
+    ElseIf (Selection == 5) && (KeysArray.Length > 0)
         ShowTakeItemKeysSubMenu()
-    ElseIf Selection == 6
+    ElseIf (Selection == 6) && (SoulGemsArray.Length > 0)
         ShowTakeItemSoulGemsSubMenu()
-    ElseIf Selection == 7
+    ElseIf (Selection == 7) && (IngredientsArray.Length > 0)
         ShowTakeItemIngredientsSubMenu()
-    ElseIf Selection == 8
+    ElseIf (Selection == 8) && (ScrollsArray.Length > 0)
         ShowTakeItemScrollsSubMenu()
-    ElseIf Selection == 9
+    ElseIf (Selection == 9) && (MiscArray.Length > 0)
         ShowTakeItemMiscSubMenu()
     EndIf
 EndFunction
