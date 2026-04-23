@@ -1,35 +1,29 @@
-1. Add travel menu. It should have a Fast Travel sub menu and Undiscovered. https://ck.uesp.net/wiki/Game_Script
-Fast Travel will list all discovered locations per Skyrim Hold. While Undiscovered will have a list of not yet discovered locations per Skyrim Hold. It will autowalk to selected Undiscovered location.
+0.9.2
+1 Add introduction to Skyrim UI and Controls.
 2. Clairvorance toggle move to Initialisation menu.
-3. Clairvoyance Lost Knife Cave No Direct Path Seen.
-4. Coin purse script? Is it still needed?
-5. All sounds from items should be togleable.
-6. All ambiant sounds should be moved to a single script.
-7. Reduce volume of ambiant sounds.
-8. Expand Ambient sounds.
-9. Audio from enemies that changes based on health left.
-10. Standartise activate menu ui.
-11. Update guides for mod managers. For MO2 add steps to install plugin Root builder.
-12. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
-13. Add pets to haul small items of players choise.
-e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
-14. Add workflow for xmake to build msvc plugins on linux.
+3. Move install guides into html.
 
-Magnum Ultimus: Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With settings menu for everything like sound volume, etc.
-
-- add introduction to Skyrim UI and Controls.
-
-
-0.9.1
+0.9.3
 1. Are there more activators?
 2. Test WalkInPlace.
-
-
-
 3. Reopen lockpick options menu on failed lockpick.
+4. Clairvoyance Lost Knife Cave No Direct Path Seen.
 
+1.0.0
+1. Add travel menu. It should have a Fast Travel sub menu and Undiscovered. https://ck.uesp.net/wiki/Game_Script
+Fast Travel will list all discovered locations per Skyrim Hold. While Undiscovered will have a list of not yet discovered locations per Skyrim Hold. It will autowalk to selected Undiscovered location.
+2. Coin purse script? Is it still needed?
+3. All ambiant sounds should be moved to a single script.
+4. Reduce volume of ambiant sounds.
+5. Expand Ambient sounds.
+6. Audio from enemies that changes based on health left.
+7. Standartise activate menu ui.
+8. Update guides for mod managers. For MO2 add steps to install plugin Root builder.
+9. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
+10. Add pets to haul small items of players choise.
+e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
+11. Add workflow for xmake to build msvc plugins on linux.
 
-
-
-There is a reported bug with V menu when you open an empty category you will hear a disrupted muffled voice. And v menu does not work.
-Temporary workaround is to Press V key and then Esc key. This will solve the bug untill you open empty category again.
+2.0.0
+1. Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With MCM settings menu for everything like sound volume, etc.
+2. All sounds from items should be togleable.
