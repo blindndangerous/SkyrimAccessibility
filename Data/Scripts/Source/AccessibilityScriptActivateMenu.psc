@@ -8,8 +8,6 @@ Scriptname AccessibilityScriptActivateMenu extends ReferenceAlias
 ;ToDo Add sound for when not enough lockpicks Papyrus
 ;ToDo Change the lockpick ammount need and exp gain dynamicaly based on lock level instead of hardcoding every time. c++
 
-;Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
-
 Import UIExtensions
 Import UIListMenu
 
