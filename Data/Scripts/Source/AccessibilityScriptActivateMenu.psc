@@ -416,6 +416,8 @@ Function ShowLootContainersSubMenu()
                             (Game.GetPlayer().RemoveItem(Lockpick, 1))
                             (Game.AdvanceSkill("Lockpicking", 1.0))
                             (AccessibilityCNDLockPickFail.Play(Game.GetPlayer()))
+                            (ShowLockpickMenu())
+
                         EndIf
                     Else
                         Debug.Notification("Not enough Lockpicks")
@@ -472,6 +474,7 @@ Function ShowOpenCloseDoorSubMenu()
                             (Game.GetPlayer().RemoveItem(Lockpick, 1))
                             (Game.AdvanceSkill("Lockpicking", 1.0))
                             (AccessibilityCNDLockPickFail.Play(Game.GetPlayer()))
+                            (ShowLockpickMenu())
                         EndIf
                     Else
                         Debug.Notification("Not enough Lockpicks")
