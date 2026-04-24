@@ -31,3 +31,4 @@ e.g. go search for potions. Pet will be absent for some minutes and will bring b
 1. Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With MCM settings menu for everything like sound volume, etc.
 2. All sounds from items should be togleable.
 3. Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
+4. Add MCM settings.
