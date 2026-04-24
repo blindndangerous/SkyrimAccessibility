@@ -1,15 +1,16 @@
-0.9.2
+0.10.0
 1 Add introduction to Skyrim UI and Controls.
 2. Clairvorance toggle move to Initialisation menu.
 3. Move install guides into html.
 4. Tell if category of items is empty.
 5. Add changelog section with mod's versions to html.
+6. Add FOMOD.
+7. Reopen lockpick options menu on failed lockpick.
+8. Test WalkInPlace.
 
-0.9.3
+0.10.1
 1. Are there more activators?
-2. Test WalkInPlace.
-3. Reopen lockpick options menu on failed lockpick.
-4. Clairvoyance Lost Knife Cave No Direct Path Seen.
+2. Clairvoyance Lost Knife Cave No Direct Path Seen.
 
 1.0.0
 1. Add travel menu. It should have a Fast Travel sub menu and Undiscovered. https://ck.uesp.net/wiki/Game_Script
