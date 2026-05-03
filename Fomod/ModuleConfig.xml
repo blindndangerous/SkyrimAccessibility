@@ -1,0 +1,51 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+
+    <moduleName>Skyrim Accessibility</moduleName>
+
+    <installSteps order="Explicit">
+        <installStep name="Core Mod Install">
+            <optionalFileGroups order="Explicit">
+                <group type="SelectAny">
+                    <plugins order="Explicit">
+
+                        <plugin name="Core Mod Files">
+                            <description>Required files will be installed!</description>
+                            <files>
+                                <folder source="Skyrim Data/Scripts" destination="Scripts"/>
+                                <file source="Skyrim Data/accessibility.esp" destination="accessibility.esp"/>
+                                <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav" destination="Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav"/>
+                                <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickFail.wav" destination="Sound/FX/Accessibility/Conditional/LockPickFail.wav"/>
+                                <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickSuccess.wav" destination="Sound/FX/Accessibility/Conditional/LockPickSuccess.wav"/>
+                            </files>
+                            <typeDescriptor>
+                                <type name="Required"/>
+                            </typeDescriptor>
+                        </plugin>
+
+                    </plugins>
+                </group>
+            </optionalFileGroups>
+        </installStep>
+        <installStep name="Optional Sounds">
+            <optionalFileGroups order="Explicit">
+                <group type="SelectAny">
+                    <plugins order="Explicit">
+
+                        <plugin name="Experimental Sounds">
+                            <description>Optional experimental ambient sounds. They may be loud and distracting!</description>
+                            <files>
+                                <folder source="Skyrim Data/Sound" destination="Sound"/>
+                            </files>
+                            <typeDescriptor>
+                                <type name="Optional"/>
+                            </typeDescriptor>
+                        </plugin>
+
+                    </plugins>
+                </group>
+            </optionalFileGroups>
+        </installStep>
+    </installSteps>
+
+</config>

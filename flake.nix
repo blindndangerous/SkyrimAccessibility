@@ -50,4 +50,4 @@
 
 
 # Use command bellow to compile .psc files. Update to include 2 outpus and multiple header folders.
-# papyrus-compiler compile -h "/home/cubozoa/Games/Skyrim Special Edition/Data/Scripts/Source/" -i ./Data/Scripts/Source/ -o ./Data/Scripts/
+# papyrus-compiler compile -h "/home/cubozoa/Games/Skyrim Special Edition/Data/Scripts/Source/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"

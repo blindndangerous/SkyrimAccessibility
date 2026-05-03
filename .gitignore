@@ -1,6 +1,6 @@
 .xmake/
 .papyrus/
 build/
-Data/Sounds
+"Skyrim Data/Sounds"
 
 *.wav
