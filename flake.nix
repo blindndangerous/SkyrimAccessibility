@@ -26,20 +26,9 @@
             xmake build
           '';
           nativeBuildInputs = with pkgs; [
-          git
+          #git
           papyrus-compiler.packages.${system}.default
-
-
-
-          xmake # Build tool.
-          # msvc-wine
-          #wine64
-          #python315
-          #msitools
-
-
-          #llvmPackages.clang-unwrapped
-          #llvmPackages.bintools-unwrapped
+          #xmake
           ];
         };
         # Development shell with tools for hacking on the package
