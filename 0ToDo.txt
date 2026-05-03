@@ -1,6 +1,5 @@
 0.10.0
 1 Add introduction to Skyrim UI and Controls.
-2. Clairvorance toggle move to Initialisation menu.
 3. Move install guides into html.
 4. Tell if category of items is empty.
 5. Add changelog section with mod's versions to html.

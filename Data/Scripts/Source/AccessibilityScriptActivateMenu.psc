@@ -73,19 +73,27 @@ Function ShowLockpickMenu()
     ShowLockpickMenu.OpenMenu()
 EndFunction
 
+String Function CheckEmptySubMenu(ObjectReference[] TargetArray, string BaseName)
+    If TargetArray.Length > 0
+        Return BaseName
+    Else
+        Return BaseName + " (Empty)"
+    EndIf
+EndFunction
+
 Function ShowTakeItemSubMenu()
     UIListMenu ActivateMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
     String[] SubMenus = new String[10]
-    SubMenus[0] = "Ingestibles"
-    SubMenus[1] = "Weapons"
-    SubMenus[2] = "Ammo"
-    SubMenus[3] = "Armors"
-    SubMenus[4] = "Books"
-    SubMenus[5] = "Keys"
-    SubMenus[6] = "Soul Gems"
-    SubMenus[7] = "Ingredients"
-    SubMenus[8] = "Scrolls"
-    SubMenus[9] = "Misc"
+    SubMenus[0] = CheckEmptySubMenu(IngestiblesArray, "Ingestibles")
+    SubMenus[1] = CheckEmptySubMenu(WeaponsArray, "Weapons")
+    SubMenus[2] = CheckEmptySubMenu(AmmoArray, "Ammo")
+    SubMenus[3] = CheckEmptySubMenu(ArmorsArray, "Armors")
+    SubMenus[4] = CheckEmptySubMenu(BooksArray, "Books")
+    SubMenus[5] = CheckEmptySubMenu(KeysArray, "Keys")
+    SubMenus[6] = CheckEmptySubMenu(SoulGemsArray, "Soul Gems")
+    SubMenus[7] = CheckEmptySubMenu(IngredientsArray, "Ingredients")
+    SubMenus[8] = CheckEmptySubMenu(ScrollsArray, "Scrolls")
+    SubMenus[9] = CheckEmptySubMenu(MiscArray, "Misc")
     Int Index = 0
     While Index < SubMenus.Length
         ActivateMenu.AddEntryItem(SubMenus[Index])
