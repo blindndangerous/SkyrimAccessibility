@@ -15,6 +15,7 @@
                                 <folder source="Skyrim Data/Scripts" destination="Scripts"/>
                                 <file source="Skyrim Data/accessibility.esp" destination="accessibility.esp"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav" destination="Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav"/>
+                                <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav" destination="Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickFail.wav" destination="Sound/FX/Accessibility/Conditional/LockPickFail.wav"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickSuccess.wav" destination="Sound/FX/Accessibility/Conditional/LockPickSuccess.wav"/>
                             </files>
