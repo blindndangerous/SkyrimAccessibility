@@ -30,7 +30,7 @@ EndEvent
 
 Function ShowInitialisationMenu()
     UIListMenu InitialisationMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
-    String[] SubMenus = new String[2]
+    String[] SubMenus = new String[3]
     SubMenus[0] = "Walkthroughs"
     SubMenus[1] = "Debug Menu"
     SubMenus[2] = "Clairvoyance"
