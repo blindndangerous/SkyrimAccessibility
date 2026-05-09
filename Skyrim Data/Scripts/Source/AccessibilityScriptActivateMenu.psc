@@ -31,12 +31,33 @@ EndEvent
 
 Function ShowActivateMenu()
     UIListMenu ActivateMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
+    ObjectReference[] ContainersArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, 700.0)
+    ObjectReference[] DoorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, 700.0)
+    ObjectReference[] TotalNPCArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 700.0)
+    ObjectReference[] AliveNPCArray = new ObjectReference[128]
+    ObjectReference[] DeadNPCArray = new ObjectReference[128]
+    If TotalNPCArray.Length > 0
+        Int TotalNPCIndex = 0
+        Int AliveNPCIndex = 0
+        Int DeadNPCIndex = 0
+        While TotalNPCIndex < TotalNPCArray.Length
+            Actor CurrentNPC = TotalNPCArray[TotalNPCIndex] As Actor
+            If !CurrentNPC.IsDead() && (AliveNPCIndex < AliveNPCArray.Length) && (CurrentNPC != Game.GetPlayer())
+                AliveNPCArray[AliveNPCIndex] = TotalNPCArray[TotalNPCIndex]
+                AliveNPCIndex += 1
+            ElseIf CurrentNPC.IsDead() && (DeadNPCIndex < DeadNPCArray.Length)
+                DeadNPCArray[DeadNPCIndex] = TotalNPCArray[TotalNPCIndex]
+                DeadNPCIndex += 1
+            EndIf
+            TotalNPCIndex += 1
+        EndWhile
+    EndIf
     String[] SubMenus = new String[6]
     SubMenus[0] = "Take Item"
-    SubMenus[1] = "Loot Containers"
-    SubMenus[2] = "Loot NPC"
-    SubMenus[3] = "Talk to/Pickpocket NPC"
-    SubMenus[4] = "Open/Close Door"
+    SubMenus[1] = CheckEmptySubMenu(ContainersArray, "Loot Containers")
+    SubMenus[2] = CheckEmptySubMenu(DeadNPCArray, "Loot NPC")
+    SubMenus[3] = CheckEmptySubMenu(AliveNPCArray, "Talk to/Pickpocket NPC")
+    SubMenus[4] = CheckEmptySubMenu(DoorsArray, "Open/Close Door")
     SubMenus[5] = "Activators"
     Int Index = 0
     While Index < SubMenus.Length
@@ -534,7 +555,7 @@ Function ShowTalkToNPCSubMenu()
         ObjectReference[] AliveNPCArray = new ObjectReference[128]
         While TotalNPCIndex < TotalNPCArray.Length
             Actor CurrentNPC = TotalNPCArray[TotalNPCIndex] As Actor
-            If !CurrentNPC.IsDead() && (AliveNPCIndex < AliveNPCArray.Length)
+            If !CurrentNPC.IsDead() && (AliveNPCIndex < AliveNPCArray.Length) && (CurrentNPC != Game.GetPlayer())
                 AliveNPCArray[AliveNPCIndex] = TotalNPCArray[TotalNPCIndex]
                 AliveNPCIndex += 1
             EndIf
