@@ -14,7 +14,7 @@ https://discord.gg/ncREHq4cmx
 ## Hotkeys
 - V Key - Interact Menu. Interact with NPC, Doors, Containers, etc.
 - L Key - Help Menu. Lots of situational things and settings.
-- O Key - 
+- O Key - WIP.
 - G Key - Fast Travel Menu. Accessible map controlls.
 
 ## Choose Your Install Guide

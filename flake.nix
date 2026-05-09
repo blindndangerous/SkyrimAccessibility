@@ -18,7 +18,7 @@
       {
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "SkyrimAccessibility";
-          version = "0.8.0";
+          version = "0.11.0";
           # Sources
           src = (./.);
           sourceRoot = "pname"; # Build starts in parent directory of all source directories.

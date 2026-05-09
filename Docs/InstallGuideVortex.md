@@ -31,6 +31,7 @@ Download latest setup of [Vortex](https://github.com/Nexus-Mods/Vortex/releases)
 > - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
 > - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
 > - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
+> - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
 > - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
 18. Download latest releases of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) and [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
 19. Use Tab and go to Downloads Button and press Space.
