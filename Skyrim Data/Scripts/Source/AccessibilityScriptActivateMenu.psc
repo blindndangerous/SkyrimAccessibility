@@ -96,7 +96,23 @@ EndFunction
 
 String Function CheckEmptySubMenu(ObjectReference[] TargetArray, string BaseName)
     If TargetArray.Length > 0
-        Return BaseName
+        If TargetArray.Length == 128
+            Int Index = 0
+            Int EmptyIndex = 0
+            While Index < TargetArray.Length
+                If TargetArray[Index] == None
+                    EmptyIndex += 1
+                EndIf
+                Index += 1
+            EndWhile
+            If EmptyIndex == 128
+                Return BaseName + " (Empty)"
+            Else
+                Return BaseName
+            EndIf
+        Else
+            Return BaseName
+        EndIf
     Else
         Return BaseName + " (Empty)"
     EndIf
