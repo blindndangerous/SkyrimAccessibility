@@ -602,12 +602,17 @@ EndFunction
 
 Function ShowActivatorsSubMenu()
     UIListMenu ActivateMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
+    ObjectReference[] TreesArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, 700.0)
+    ObjectReference[] FloraArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, 700.0)
+    ObjectReference[] FurnitureArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, 700.0)
+    ObjectReference[] MiscArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, 700.0)
+    ObjectReference[] TalkingArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 700.0)
     String[] SubMenus = new String[5]
-    SubMenus[0] = "Furniture"
-    SubMenus[1] = "Flora"
-    SubMenus[2] = "Trees"
-    SubMenus[3] = "Misc"
-    SubMenus[4] = "Talking"
+    SubMenus[0] = CheckEmptySubMenu(FurnitureArray, "Furniture")
+    SubMenus[1] = CheckEmptySubMenu(FloraArray, "Flora")
+    SubMenus[2] = CheckEmptySubMenu(TreesArray, "Trees")
+    SubMenus[3] = CheckEmptySubMenu(MiscArray, "Misc")
+    SubMenus[4] = CheckEmptySubMenu(TalkingArray, "Talking")
     Int Index = 0
     While Index < SubMenus.Length
         ActivateMenu.AddEntryItem(SubMenus[Index])
