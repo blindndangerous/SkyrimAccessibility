@@ -6,12 +6,19 @@ Import UIListMenu
 Static Property AccessibilityReferenceXMarkerHeading Auto
 ObjectReference Property AccessibilityReferenceXMarkerHeadingMQ101 Auto
 
+Spell Property AccessibilityClairvoyance Auto
+Bool Property IsAutoCastEnabled Auto
+
 Event OnInit()
+    RegisterForSingleUpdate(5.0)
     RegisterForKey(38) ;L Key
 EndEvent
 
-Event OnPlayerLoadGame()
-    Debug.Notification("Accessibility Mod V1 By Dio Kyrie Loaded")
+Event OnUpdate()
+    If IsAutoCastEnabled == True
+        AccessibilityClairvoyance.Cast(Game.GetPlayer())
+    EndIf
+    RegisterForSingleUpdate(5.0)
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
@@ -26,6 +33,7 @@ Function ShowInitialisationMenu()
     String[] SubMenus = new String[2]
     SubMenus[0] = "Walkthroughs"
     SubMenus[1] = "Debug Menu"
+    SubMenus[2] = "Clairvoyance"
     Int Index = 0
     While Index < SubMenus.Length
         InitialisationMenu.AddEntryItem(SubMenus[Index])
@@ -37,6 +45,29 @@ Function ShowInitialisationMenu()
         ShowWalkthroughsSubMenu()
     ElseIf Selection == 1
         ShowDebugSubMenu()
+    ElseIf Selection == 2
+        ShowClairvoyanceMenu()
+    EndIf
+EndFunction
+
+Function ShowClairvoyanceMenu()
+    UIListMenu ClairvoyanceMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
+    String[] SubMenus = new String[2]
+    SubMenus[0] = "Enable"
+    SubMenus[1] = "Disable"
+    Int Index = 0
+    While Index < SubMenus.Length
+        ClairvoyanceMenu.AddEntryItem(SubMenus[Index])
+        Index += 1
+    EndWhile
+    ClairvoyanceMenu.OpenMenu()
+    Int Selection = ClairvoyanceMenu.GetResultInt()
+    If Selection == 0
+        IsAutoCastEnabled = True
+        RegisterForSingleUpdate(5.0)
+    ElseIf Selection == 1
+        IsAutoCastEnabled = False
+        UnregisterForUpdate()
     EndIf
 EndFunction
 
