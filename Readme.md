@@ -15,7 +15,7 @@ https://discord.gg/ncREHq4cmx
 - V Key - Interact Menu. Interact with NPC, Doors, Containers, etc.
 - L Key - Help Menu. Lots of situational things and settings.
 - O Key - 
-- G Key - 
+- G Key - Fast Travel Menu. Accessible map controlls.
 
 ## Choose Your Install Guide
 1. [Mod Organizer 2](https://github.com/DioKyrie-Git/SkyrimAccessibility/blob/main/Docs/InstallGuideMO2.md)
