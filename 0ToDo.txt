@@ -1,12 +1,7 @@
 0.10.1
-1. Are there more activators?
-2. Clairvoyance Lost Knife Cave No Direct Path Seen.
-3. Reopen lockpick options menu on failed lockpick.
-4. Add introduction to Skyrim UI and Controls.
-5. Move install guides into html.
-6. Add changelog section with mod's versions to html.
-7. Test WalkInPlace.
-8. Add (Empty) notice to other categories as well. E.g. activators.
+1. Clairvoyance Lost Knife Cave No Direct Path Seen.
+2. Reopen lockpick options menu on failed lockpick.
+3. Test WalkInPlace.
 
 1.0.0
 1. Add travel menu. It should have a Fast Travel sub menu and Undiscovered. https://ck.uesp.net/wiki/Game_Script
@@ -28,3 +23,8 @@ e.g. go search for potions. Pet will be absent for some minutes and will bring b
 2. All sounds from items should be togleable.
 3. Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
 4. Add MCM settings.
+
+Documentation:
+1. Add introduction to Skyrim UI and Controls.
+2. Move install guides into html.
+3. Add changelog section with mod's versions to html.
