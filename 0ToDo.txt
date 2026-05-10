@@ -1,4 +1,4 @@
-0.11.1
+0.11.2
 1. Reopen lockpick options menu on failed lockpick.
 2. Test WalkInPlace.
 

@@ -93,7 +93,7 @@ ObjectReference[] FlashingQuestMarkerArray
 Int FlashingQuestMarkerIndex = 0
 
 Event OnInit()
-    RegisterForKey(34) ; G
+    RegisterForKey(24) ; O Key
     MapMarkers = DbSkseFunctions.GetAllMapMarkerRefs(-1, -1)
     Int MapMarkersIndex = 0
 
