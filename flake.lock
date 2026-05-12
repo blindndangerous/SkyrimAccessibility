@@ -74,15 +74,15 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1773862850,
-        "narHash": "sha256-SlDHJaBiY80EpEyu4UiBJ1KnB705ImTlkBVza397HbE=",
-        "owner": "DioKyrie-Git",
+        "lastModified": 1778509203,
+        "narHash": "sha256-eUDyCTJBcOw7sFbhGzUl8N5sMcAaRoB8MDfTGZ5yafU=",
+        "owner": "russo-2025",
         "repo": "papyrus-compiler",
-        "rev": "2e2be0b858f9be6d086b24954977280a7c9e0cd5",
+        "rev": "569f1256b04a0a1196bb5ca9f60eaec4f2393609",
         "type": "github"
       },
       "original": {
-        "owner": "DioKyrie-Git",
+        "owner": "russo-2025",
         "repo": "papyrus-compiler",
         "type": "github"
       }

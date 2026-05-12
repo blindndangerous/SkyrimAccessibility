@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    papyrus-compiler.url = "github:DioKyrie-Git/papyrus-compiler";
+    papyrus-compiler.url = "github:russo-2025/papyrus-compiler";
   };
   outputs = { self, nixpkgs, flake-utils, papyrus-compiler }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -18,7 +18,7 @@
       {
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "SkyrimAccessibility";
-          version = "0.11.1";
+          version = "0.11.2";
           # Sources
           src = (./.);
           sourceRoot = "pname"; # Build starts in parent directory of all source directories.
