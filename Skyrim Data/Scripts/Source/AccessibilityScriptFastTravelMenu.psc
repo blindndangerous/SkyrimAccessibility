@@ -274,7 +274,7 @@ Event OnInit()
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
-    If KeyCode == 34 && !Utility.IsInMenuMode()
+    If KeyCode == 24 && !Utility.IsInMenuMode()
         Utility.Wait(0.1)
         ShowFastTravelMenu()
     EndIf
