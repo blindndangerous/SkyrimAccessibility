@@ -1,12 +1,16 @@
 Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 
 Bool IsAccessibilityMenuOpen Auto
+
+String[] MenuList Auto
 Int CurrentMenu Auto
 Int MenuCount Auto
+
+String[] SubMenuList Auto
 Int CurrentSubMenu Auto
+
 Int CurrentSelection Auto
 Int SelectionCount Auto
-String[] MenuList Auto
 
 Event OnInit()
     RegisterForKey(47) ;V key
@@ -22,6 +26,7 @@ Event OnInit()
     CurrentSelection = 0 ;Reset CurrentSelection
     String[] MenuList = New String[4] ;Set MenuCount
     MenuCount = MenuList.Length ;Set MenuCount
+    SelectionCount = 10 ;Set SelectionCount
     Debug.Notification("Accessibility menu is ready")
 EndEvent
 
@@ -37,11 +42,9 @@ EndEvent
 
 Function AccessibilityMenu()
     While IsAccessibilityMenuOpen == True
-        Utility.Wait(0.5)
-        Debug.Notification(CurrentSelection As String + " : " + CurrentMenu As String)
-    EndWhile
-    While IsAccessibilityMenuOpen == True
         Game.DisablePlayerControls()
+        Utility.Wait(0.5)
+        Debug.Notification(SubMenuList[CurrentSelection] + " : " + MenuList[CurrentMenu])
         If Input.IsKeyPressed(47) ;V key
             Game.EnablePlayerControls()
             IsAccessibilityMenuOpen = False
