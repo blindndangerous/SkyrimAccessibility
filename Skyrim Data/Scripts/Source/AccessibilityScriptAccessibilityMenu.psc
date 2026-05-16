@@ -3,14 +3,13 @@ Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 Bool IsAccessibilityMenuOpen Auto
 
 String[] MenuList Auto
-Int MenuCount Auto
 Int CurrentMenu Auto
 
 Int CurrentSubMenuDepth Auto
 String CurrentSubMenuName Auto
 
 Int CurrentSelection Auto
-Int SelectionCount Auto
+Int MenuEntriesLimit Auto
 
 Event OnInit()
     RegisterForKey(47) ;V key
@@ -21,13 +20,12 @@ Event OnInit()
     RegisterForKey(29) ;Left Ctrl
     RegisterForKey(57) ;Spacebar
     IsAccessibilityMenuOpen = False ;Reset Bool
-    MenuList = New String[4] ;Set MenuCount
-    MenuCount = MenuList.Length ;Set MenuCount
+    MenuList = New String[4] ;Set Length of MenuList
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenuDepth = 0 ;Reset CurrentSubMenuDepth
     CurrentSubMenuName = "" ;Reset CurrentSubMenuName
     CurrentSelection = 0 ;Reset CurrentSelection
-    SelectionCount = 10 ;Set SelectionCount
+    MenuEntriesLimit = 10 ;Set MenuEntriesLimit
     MenuList() ;Populate MenuList
     Debug.Notification("Accessibility menu is ready")
 EndEvent
@@ -58,7 +56,7 @@ Event OnKeyDown(Int KeyCode)
 EndEvent
 
 Function ScrollCurrentMenuRight()
-    If CurrentMenu != MenuCount
+    If CurrentMenu < MenuList.Length - 1
         CurrentMenu += 1
     Else
         CurrentMenu = 0
@@ -70,13 +68,13 @@ Function ScrollCurrentMenuLeft()
     If CurrentMenu > 0
         CurrentMenu -= 1
     Else
-        CurrentMenu = MenuCount
+        CurrentMenu = MenuList.Length - 1
     EndIf
     CurrentMenuName()
 EndFunction
 
 Function ScrollCurrentSelectionDown()
-    If CurrentSelection != SelectionCount
+    If CurrentSelection < MenuEntriesLimit - 1
         CurrentSelection += 1
     Else
         CurrentSelection = 0
@@ -88,7 +86,7 @@ Function ScrollCurrentSelectionUp()
     If CurrentSelection > 0
         CurrentSelection -= 1
     Else
-        CurrentSelection = SelectionCount
+        CurrentSelection = MenuEntriesLimit - 1
     EndIf
     CurrentMenuName()
 EndFunction
