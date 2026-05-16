@@ -5,11 +5,12 @@ Bool IsAccessibilityMenuOpen Auto
 String[] MenuList Auto
 Int CurrentMenu Auto
 
-Int CurrentSubMenuDepth Auto
-String CurrentSubMenuName Auto
+String[] SubMenuList Auto
+Int CurrentSubMenu Auto
 
-Int CurrentSelection Auto
-Int MenuEntriesLimit Auto
+ObjectReference[] EntriesList Auto
+Int CurrentEntry Auto
+
 
 Event OnInit()
     RegisterForKey(47) ;V key
@@ -19,19 +20,23 @@ Event OnInit()
     RegisterForKey(32) ;D key
     RegisterForKey(29) ;Left Ctrl
     RegisterForKey(57) ;Spacebar
+    RegisterForKey(20) ;T key
+    RegisterForKey(16) ;Q key
+    RegisterForKey(18) ;E key
+    RegisterForKey(33) ;F key
+    RegisterForKey(19) ;R key
+    RegisterForKey(44) ;Z key
+    RegisterForKey(46) ;C key
     IsAccessibilityMenuOpen = False ;Reset Bool
-    MenuList = New String[4] ;Set Length of MenuList
     CurrentMenu = 0 ;Reset CurrentMenu
-    CurrentSubMenuDepth = 0 ;Reset CurrentSubMenuDepth
-    CurrentSubMenuName = "" ;Reset CurrentSubMenuName
-    CurrentSelection = 0 ;Reset CurrentSelection
-    MenuEntriesLimit = 10 ;Set MenuEntriesLimit
-    MenuList() ;Populate MenuList
+    CurrentSubMenu = 0 ;Reset CurrentSubMenu
+    CurrentEntry = 0 ;Reset CurrentEntry
     Debug.Notification("Accessibility menu is ready")
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
     If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
+        MenuListRefresh()
         Utility.Wait(0.1)
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
@@ -41,17 +46,29 @@ Event OnKeyDown(Int KeyCode)
         IsAccessibilityMenuOpen = False
         Debug.Notification("Accessibility menu is closed")
     ElseIf KeyCode == 17 && IsAccessibilityMenuOpen == True ;W key
-        ScrollCurrentSelectionUp()
+        ScrollCurrentEntryUp()
     ElseIf KeyCode == 30 && IsAccessibilityMenuOpen == True ;A key
-        ScrollCurrentMenuLeft()
+        ScrollCurrentSubMenuLeft()
     ElseIf KeyCode == 31 && IsAccessibilityMenuOpen == True ;S key
-        ScrollCurrentSelectionDown()
+        ScrollCurrentEntryDown()
     ElseIf KeyCode == 32 && IsAccessibilityMenuOpen == True ;D key
+        ScrollCurrentSubMenuRight()
+    ElseIf KeyCode == 44 && IsAccessibilityMenuOpen == True ;Z key
+        ScrollCurrentMenuLeft()
+    ElseIf KeyCode == 46 && IsAccessibilityMenuOpen == True ;C key
         ScrollCurrentMenuRight()
-    ElseIf KeyCode == 29 && IsAccessibilityMenuOpen == True ;Left Ctrl
-        CurrentSubMenuDepthUp()
     ElseIf KeyCode == 57 && IsAccessibilityMenuOpen == True ;Spacebar
         Select()
+    ElseIf KeyCode == 20 && IsAccessibilityMenuOpen == True ;T key
+        Teleport()
+    ElseIf KeyCode == 16 && IsAccessibilityMenuOpen == True ;Q key
+        PlaceSoundMark()
+    ElseIf KeyCode == 18 && IsAccessibilityMenuOpen == True ;E key
+        WalkTo()
+    ElseIf KeyCode == 33 && IsAccessibilityMenuOpen == True ;F key
+        Follow()
+    ElseIf KeyCode == 19 && IsAccessibilityMenuOpen == True ;R key
+        LockCameraOn()
     EndIf
 EndEvent
 
@@ -73,56 +90,112 @@ Function ScrollCurrentMenuLeft()
     CurrentMenuName()
 EndFunction
 
-Function ScrollCurrentSelectionDown()
-    If CurrentSelection < MenuEntriesLimit - 1
-        CurrentSelection += 1
+Function ScrollCurrentEntryDown()
+    If CurrentEntry < EntriesList.Length - 1
+        CurrentEntry += 1
     Else
-        CurrentSelection = 0
+        CurrentEntry = 0
     EndIf
-    CurrentMenuName()
+    CurrentEntryName()
 EndFunction
 
-Function ScrollCurrentSelectionUp()
-    If CurrentSelection > 0
-        CurrentSelection -= 1
+Function ScrollCurrentEntryUp()
+    If CurrentEntry > 0
+        CurrentEntry -= 1
     Else
-        CurrentSelection = MenuEntriesLimit - 1
+        CurrentEntry = EntriesList.Length - 1
+    EndIf
+    CurrentEntryName()
+EndFunction
+
+Function ScrollCurrentSubMenuLeft()
+    If CurrentSubMenu > 0
+        CurrentSubMenu -= 1
+    Else
+        CurrentSubMenu = SubMenuList.Length - 1
     EndIf
     CurrentMenuName()
 EndFunction
 
-Function CurrentSubMenuDepthUp()
-    If CurrentSubMenuDepth > 0
-        CurrentSubMenuDepth -= 1
+Function ScrollCurrentSubMenuRight()
+    If CurrentSubMenu < SubMenuList.Length - 1
+        CurrentSubMenu += 1
+    Else
+        CurrentSubMenu = 0
     EndIf
     CurrentMenuName()
 EndFunction
 
-Function CurrentSubMenuDepthDown()
-    CurrentSubMenuDepth += 1
-    CurrentMenuName()
-EndFunction
-
-Function MenuList()
+Function MenuListRefresh()
+    MenuList = New String[4]
     MenuList[0] = "Accessibility Menu"
     MenuList[1] = "Travel Menu"
     MenuList[2] = "Utility Menu"
     MenuList[3] = "Settings Menu"
 EndFunction
 
-Function CurrentMenuName()
-    Debug.Notification(CurrentSubMenuName + " : " + MenuList[CurrentMenu])
-EndFunction
+Function SubMenuListRefresh()
+    ObjectReference[] TotalNPCArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 700.0)
 
-Function Select()
     If CurrentMenu == 0
-
+        SubMenuList = New String[1]
+        SubMenuList[0] = "0 menu"
     ElseIf CurrentMenu == 1
-
+        SubMenuList = New String[2]
+        SubMenuList[0] = "Abc"
+        SubMenuList[1] = "Cba"
+        If CurrentSubMenu == 1
+            EntriesList = TotalNPCArray
+        EndIf
     ElseIf CurrentMenu == 2
-
+        SubMenuList = New String[1]
+        SubMenuList[0] = "2 menu"
     ElseIf CurrentMenu == 3
-
+        SubMenuList = New String[1]
+        SubMenuList[0] = "3 menu"
     EndIf
 EndFunction
 
+Function CurrentMenuName()
+    SubMenuListRefresh()
+    Debug.Notification(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
+EndFunction
+
+Function CurrentEntryName()
+    Debug.Notification(EntriesList[CurrentEntry].GetDisplayName() + " " + CurrentEntry + "/" + EntriesList.Length + " " + ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int)))
+EndFunction
+
+
+
+
+
+
+
+
+
+
+
+
+Function Select()
+
+EndFunction
+
+Function Teleport()
+
+EndFunction
+
+Function PlaceSoundMark() ;60 Seconds of sound mark. Only one can exist.
+
+EndFunction
+
+Function WalkTo() ;Stop when Near or WASD key pressed
+
+EndFunction
+
+Function Follow() ;Stop only when wasd key pressed
+
+EndFunction
+
+Function LockCameraOn() ;30 Seconds of Camera Lock On
+
+EndFunction
