@@ -3,11 +3,11 @@ Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 Bool IsAccessibilityMenuOpen Auto
 
 String[] MenuList Auto
-Int CurrentMenu Auto
 Int MenuCount Auto
+Int CurrentMenu Auto
 
-String[] SubMenuList Auto
-Int CurrentSubMenu Auto
+Int CurrentSubMenuDepth Auto
+String CurrentSubMenuName Auto
 
 Int CurrentSelection Auto
 Int SelectionCount Auto
@@ -21,49 +21,41 @@ Event OnInit()
     RegisterForKey(29) ;Left Ctrl
     RegisterForKey(57) ;Spacebar
     IsAccessibilityMenuOpen = False ;Reset Bool
-    CurrentMenu = 0 ;Reset CurrentMenu
-    CurrentSubMenu = 0 ;Reset CurrentSubMenu
-    CurrentSelection = 0 ;Reset CurrentSelection
-    String[] MenuList = New String[4] ;Set MenuCount
+    MenuList = New String[4] ;Set MenuCount
     MenuCount = MenuList.Length ;Set MenuCount
+    CurrentMenu = 0 ;Reset CurrentMenu
+    CurrentSubMenuDepth = 0 ;Reset CurrentSubMenuDepth
+    CurrentSubMenuName = "" ;Reset CurrentSubMenuName
+    CurrentSelection = 0 ;Reset CurrentSelection
     SelectionCount = 10 ;Set SelectionCount
+    MenuList() ;Populate MenuList
     Debug.Notification("Accessibility menu is ready")
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
-    If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False
+    If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
         Utility.Wait(0.1)
         IsAccessibilityMenuOpen = True
+        Game.DisablePlayerControls()
         Debug.Notification("Accessibility menu is open")
-        AccessibilityMenu()
+    ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
+        Game.EnablePlayerControls()
+        IsAccessibilityMenuOpen = False
         Debug.Notification("Accessibility menu is closed")
+    ElseIf KeyCode == 17 && IsAccessibilityMenuOpen == True ;W key
+        ScrollCurrentSelectionUp()
+    ElseIf KeyCode == 30 && IsAccessibilityMenuOpen == True ;A key
+        ScrollCurrentMenuLeft()
+    ElseIf KeyCode == 31 && IsAccessibilityMenuOpen == True ;S key
+        ScrollCurrentSelectionDown()
+    ElseIf KeyCode == 32 && IsAccessibilityMenuOpen == True ;D key
+        ScrollCurrentMenuRight()
+    ElseIf KeyCode == 29 && IsAccessibilityMenuOpen == True ;Left Ctrl
+        CurrentSubMenuDepthUp()
+    ElseIf KeyCode == 57 && IsAccessibilityMenuOpen == True ;Spacebar
+        Select()
     EndIf
 EndEvent
-
-Function AccessibilityMenu()
-    While IsAccessibilityMenuOpen == True
-        Game.DisablePlayerControls()
-        Utility.Wait(0.5)
-        Debug.Notification(SubMenuList[CurrentSelection] + " : " + MenuList[CurrentMenu])
-        If Input.IsKeyPressed(47) ;V key
-            Game.EnablePlayerControls()
-            IsAccessibilityMenuOpen = False
-            Utility.Wait(1.0)
-        ElseIf Input.IsKeyPressed(17) ;W key
-            ScrollCurrentSelectionUp()
-        ElseIf Input.IsKeyPressed(30) ;A key
-            ScrollCurrentMenuLeft()
-        ElseIf Input.IsKeyPressed(31) ;S key
-            ScrollCurrentSelectionDown()
-        ElseIf Input.IsKeyPressed(32) ;D key
-            ScrollCurrentMenuRight()
-        ElseIf Input.IsKeyPressed(29) ;Left Ctrl
-            CurrentSubMenuDepthUp()
-        ElseIf Input.IsKeyPressed(57) ;Spacebar
-            Select()
-        EndIf
-    EndWhile
-EndFunction
 
 Function ScrollCurrentMenuRight()
     If CurrentMenu != MenuCount
@@ -71,6 +63,7 @@ Function ScrollCurrentMenuRight()
     Else
         CurrentMenu = 0
     EndIf
+    CurrentMenuName()
 EndFunction
 
 Function ScrollCurrentMenuLeft()
@@ -79,6 +72,7 @@ Function ScrollCurrentMenuLeft()
     Else
         CurrentMenu = MenuCount
     EndIf
+    CurrentMenuName()
 EndFunction
 
 Function ScrollCurrentSelectionDown()
@@ -87,6 +81,7 @@ Function ScrollCurrentSelectionDown()
     Else
         CurrentSelection = 0
     EndIf
+    CurrentMenuName()
 EndFunction
 
 Function ScrollCurrentSelectionUp()
@@ -95,16 +90,19 @@ Function ScrollCurrentSelectionUp()
     Else
         CurrentSelection = SelectionCount
     EndIf
+    CurrentMenuName()
 EndFunction
 
 Function CurrentSubMenuDepthUp()
-    If CurrentSubMenu > 0
-        CurrentSubMenu -= 1
+    If CurrentSubMenuDepth > 0
+        CurrentSubMenuDepth -= 1
     EndIf
+    CurrentMenuName()
 EndFunction
 
 Function CurrentSubMenuDepthDown()
-    CurrentSubMenu += 1
+    CurrentSubMenuDepth += 1
+    CurrentMenuName()
 EndFunction
 
 Function MenuList()
@@ -112,6 +110,10 @@ Function MenuList()
     MenuList[1] = "Travel Menu"
     MenuList[2] = "Utility Menu"
     MenuList[3] = "Settings Menu"
+EndFunction
+
+Function CurrentMenuName()
+    Debug.Notification(CurrentSubMenuName + " : " + MenuList[CurrentMenu])
 EndFunction
 
 Function Select()
@@ -125,3 +127,4 @@ Function Select()
 
     EndIf
 EndFunction
+
