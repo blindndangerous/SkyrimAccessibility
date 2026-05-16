@@ -32,3 +32,4 @@ Add a walk to aimlocked enemy
 False empty menus.
 Divide units by 70
 Add ambient sounds to obstacles.
+resize array before so it is not always 127 in travel
