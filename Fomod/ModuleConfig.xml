@@ -13,7 +13,7 @@
                             <description>Required files will be installed!</description>
                             <files>
                                 <folder source="Skyrim Data/Scripts" destination="Scripts"/>
-                                <file source="Skyrim Data/accessibility.esp" destination="accessibility.esp"/>
+                                <file source="Skyrim Data/SkyrimAccessibility.esp" destination="SkyrimAccessibility.esp"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav" destination="Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav" destination="Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav"/>
                                 <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickFail.wav" destination="Sound/FX/Accessibility/Conditional/LockPickFail.wav"/>
