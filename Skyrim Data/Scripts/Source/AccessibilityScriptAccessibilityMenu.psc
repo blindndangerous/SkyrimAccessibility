@@ -135,8 +135,6 @@ Function MenuListRefresh()
 EndFunction
 
 Function SubMenuListRefresh()
-    ObjectReference[] TotalNPCArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 700.0)
-
     If CurrentMenu == 0
         SubMenuList = New String[1]
         SubMenuList[0] = "0 menu"
@@ -144,9 +142,6 @@ Function SubMenuListRefresh()
         SubMenuList = New String[2]
         SubMenuList[0] = "Abc"
         SubMenuList[1] = "Cba"
-        If CurrentSubMenu == 1
-            EntriesList = TotalNPCArray
-        EndIf
     ElseIf CurrentMenu == 2
         SubMenuList = New String[1]
         SubMenuList[0] = "2 menu"
@@ -156,13 +151,26 @@ Function SubMenuListRefresh()
     EndIf
 EndFunction
 
+Function EntriesListRefresh()
+    ObjectReference[] TotalNPCArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 700.0)
+
+    If CurrentMenu == 1 && CurrentSubMenu == 1
+        EntriesList = TotalNPCArray
+    EndIf
+EndFunction
+
 Function CurrentMenuName()
     SubMenuListRefresh()
     Debug.Notification(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
 EndFunction
 
 Function CurrentEntryName()
-    Debug.Notification(EntriesList[CurrentEntry].GetDisplayName() + " " + CurrentEntry + "/" + EntriesList.Length + " " + ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int)))
+    EntriesListRefresh()
+    String Name = EntriesList[CurrentEntry].GetDisplayName()
+    String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
+    String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
+    String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
+    Debug.Notification(Name + " " + OutOf + " " + Distance + " " + Units)
 EndFunction
 
 
