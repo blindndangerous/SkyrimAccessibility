@@ -37,11 +37,15 @@ EndEvent
 
 Function AccessibilityMenu()
     While IsAccessibilityMenuOpen == True
+        Utility.Wait(0.5)
+        Debug.Notification(CurrentSelection As String + " : " + CurrentMenu As String)
+    EndWhile
+    While IsAccessibilityMenuOpen == True
         Game.DisablePlayerControls()
-        Debug.Notification(CurrentSelection + " : " + CurrentMenu)
         If Input.IsKeyPressed(47) ;V key
             Game.EnablePlayerControls()
             IsAccessibilityMenuOpen = False
+            Utility.Wait(1.0)
         ElseIf Input.IsKeyPressed(17) ;W key
             ScrollCurrentSelectionUp()
         ElseIf Input.IsKeyPressed(30) ;A key
@@ -53,7 +57,7 @@ Function AccessibilityMenu()
         ElseIf Input.IsKeyPressed(29) ;Left Ctrl
             CurrentSubMenuDepthUp()
         ElseIf Input.IsKeyPressed(57) ;Spacebar
-
+            Select()
         EndIf
     EndWhile
 EndFunction
@@ -105,4 +109,16 @@ Function MenuList()
     MenuList[1] = "Travel Menu"
     MenuList[2] = "Utility Menu"
     MenuList[3] = "Settings Menu"
+EndFunction
+
+Function Select()
+    If CurrentMenu == 0
+
+    ElseIf CurrentMenu == 1
+
+    ElseIf CurrentMenu == 2
+
+    ElseIf CurrentMenu == 3
+
+    EndIf
 EndFunction
