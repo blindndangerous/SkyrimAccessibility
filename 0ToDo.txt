@@ -18,8 +18,17 @@ e.g. go search for potions. Pet will be absent for some minutes and will bring b
 3. Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
 4. Add MCM settings.
 5. Clairvoyance Lost Knife Cave No Direct Path Seen.
+6. Output to braile display
+
 
 Documentation:
 1. Add introduction to Skyrim UI and Controls.
 2. Move install guides into html.
 3. Add changelog section with mod's versions to html.
+
+Add achievements enabler mod
+Add a follow mod that does not stop
+Add a walk to aimlocked enemy
+False empty menus.
+Divide units by 70
+Add ambient sounds to obstacles.
