@@ -19,7 +19,7 @@ MiscObject Property SkeletonKey Auto
 
 Event OnInit()
     Debug.Notification("Accessibility Activate Menu Loaded")
-    RegisterForKey(47) ;V key
+    ;RegisterForKey(47) ;V key
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
@@ -94,7 +94,7 @@ Function ShowLockpickMenu()
     ShowLockpickMenu.OpenMenu()
 EndFunction
 
-String Function CheckEmptySubMenu(ObjectReference[] TargetArray, string BaseName)
+String Function CheckEmptySubMenu(ObjectReference[] TargetArray, string BaseName) ;Should I move this above?
     If TargetArray.Length > 0
         If TargetArray.Length == 128
             Int Index = 0
