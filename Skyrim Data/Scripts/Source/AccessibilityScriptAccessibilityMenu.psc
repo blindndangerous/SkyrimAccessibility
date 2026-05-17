@@ -118,6 +118,7 @@ Function ScrollCurrentMenuRight()
         CurrentMenu = 0
     EndIf
     CurrentMenuName()
+    CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
 Function ScrollCurrentMenuLeft()
@@ -127,6 +128,7 @@ Function ScrollCurrentMenuLeft()
         CurrentMenu = MenuList.Length - 1
     EndIf
     CurrentMenuName()
+    CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
 Function ScrollCurrentEntryDown()
@@ -155,6 +157,7 @@ Function ScrollCurrentSubMenuLeft()
     EndIf
     CurrentMenuName()
     EntriesListRefresh()
+    CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
 Function ScrollCurrentSubMenuRight()
@@ -165,6 +168,7 @@ Function ScrollCurrentSubMenuRight()
     EndIf
     CurrentMenuName()
     EntriesListRefresh()
+    CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
 Function MenuListRefresh()
