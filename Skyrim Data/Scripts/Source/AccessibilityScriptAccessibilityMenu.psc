@@ -49,6 +49,30 @@ ObjectReference[] CapitolArray Auto
 ObjectReference[] DLC02Array Auto
 
 
+ObjectReference[] ContainersArray Auto
+ObjectReference[] TotalNPCArray Auto
+ObjectReference[] LootNPCArray Auto
+ObjectReference[] AliveNPCArray Auto
+ObjectReference[] DoorsArray Auto
+ObjectReference[] IngestiblesArray Auto
+ObjectReference[] WeaponArray Auto
+ObjectReference[] AmmoArray Auto
+ObjectReference[] ArmorArray Auto
+ObjectReference[] BooksArray Auto
+ObjectReference[] KeysArray Auto
+ObjectReference[] SoulGemsArray Auto
+ObjectReference[] IngredientsArray Auto
+ObjectReference[] ScrollsArray Auto
+ObjectReference[] MiscItemsArray Auto
+ObjectReference[] FurnitureArray Auto
+ObjectReference[] FloraArray Auto
+ObjectReference[] TreesArray Auto
+ObjectReference[] NatureArray Auto
+ObjectReference[] HalfMiscActivatorsArray Auto
+ObjectReference[] TalkingActivatorsArray Auto
+ObjectReference[] MiscActivatorsArray Auto
+
+
 
 Event OnInit()
     RegisterForKey(47) ;V key
@@ -76,6 +100,7 @@ Event OnKeyDown(Int KeyCode)
     If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
         MenuListRefresh()
         CurrentMenuName()
+        SortActivators()
         CurrentEntryName()
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
@@ -181,13 +206,27 @@ EndFunction
 
 Function SubMenuListRefresh()
     If CurrentMenu == 0
-        SubMenuList = New String[3]
-        SubMenuList[0] = ""
-        SubMenuList[0] = ""
-        SubMenuList[0] = ""
+        SubMenuList = New String[17]
+        SubMenuList[0] = "Containers"
+        SubMenuList[1] = "Loot NPC"
+        SubMenuList[2] = "Alive NPC"
+        SubMenuList[3] = "Doors"
+        SubMenuList[4] = "Ingestibles"
+        SubMenuList[5] = "Weapon"
+        SubMenuList[6] = "Ammo"
+        SubMenuList[7] = "Armor"
+        SubMenuList[8] = "Books"
+        SubMenuList[9] = "Keys"
+        SubMenuList[10] = "Soul Gems"
+        SubMenuList[11] = "Ingredients"
+        SubMenuList[12] = "Scrolls"
+        SubMenuList[13] = "Misc Items"
+        SubMenuList[14] = "Furniture"
+        SubMenuList[15] = "Nature"
+        SubMenuList[16] = "Misc Activators"
     ElseIf CurrentMenu == 1
         SubMenuList = New String[34]
-        SubMenuList[0] = "Misc"
+        SubMenuList[0] = "Misc Locations"
         SubMenuList[1] = "Town"
         SubMenuList[2] = "Settlement"
         SubMenuList[3] = "Cave"
@@ -231,7 +270,43 @@ Function SubMenuListRefresh()
 EndFunction
 
 Function EntriesListRefresh()
-    If CurrentMenu == 1
+    If CurrentMenu == 0
+        If CurrentSubMenu == 0
+            EntriesList = ContainersArray
+        ElseIf CurrentSubMenu == 1
+            EntriesList = LootNPCArray
+        ElseIf CurrentSubMenu == 2
+            EntriesList = AliveNPCArray
+        ElseIf CurrentSubMenu == 3
+            EntriesList = DoorsArray
+        ElseIf CurrentSubMenu == 4
+            EntriesList = IngestiblesArray
+        ElseIf CurrentSubMenu == 5
+            EntriesList = WeaponArray
+        ElseIf CurrentSubMenu == 6
+            EntriesList = AmmoArray
+        ElseIf CurrentSubMenu == 7
+            EntriesList = ArmorArray
+        ElseIf CurrentSubMenu == 8
+            EntriesList = BooksArray
+        ElseIf CurrentSubMenu == 9
+            EntriesList = KeysArray
+        ElseIf CurrentSubMenu == 10
+            EntriesList = SoulGemsArray
+        ElseIf CurrentSubMenu == 11
+            EntriesList = IngredientsArray
+        ElseIf CurrentSubMenu == 12
+            EntriesList = ScrollsArray
+        ElseIf CurrentSubMenu == 13
+            EntriesList = MiscItemsArray
+        ElseIf CurrentSubMenu == 14
+            EntriesList = FurnitureArray
+        ElseIf CurrentSubMenu == 15
+            EntriesList = NatureArray
+        ElseIf CurrentSubMenu == 16
+            EntriesList = MiscActivatorsArray
+        EndIf
+    ElseIf CurrentMenu == 1
         If CurrentSubMenu == 0
             EntriesList = MiscArray
         ElseIf CurrentSubMenu == 1
@@ -569,38 +644,76 @@ Function SortMapMarkers()
         MapMarkersIndex += 1
     EndWhile
 
-    MiscArray = PapyrusUtil.ResizeObjRefArray(MiscArray, MiscIndex)
-    TownArray = PapyrusUtil.ResizeObjRefArray(TownArray, TownIndex)
-    SettlementArray = PapyrusUtil.ResizeObjRefArray(SettlementArray, SettlementIndex)
-    CaveArray = PapyrusUtil.ResizeObjRefArray(CaveArray, CaveIndex)
-    CampArray = PapyrusUtil.ResizeObjRefArray(CampArray, CampIndex)
-    FortArray = PapyrusUtil.ResizeObjRefArray(FortArray, FortIndex)
-    NordicRuinsArray = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, NordicRuinsIndex)
-    DwemerRuinArray = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, DwemerRuinIndex)
-    ShipwreckArray = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, ShipwreckIndex)
-    GroveArray = PapyrusUtil.ResizeObjRefArray(GroveArray, GroveIndex)
-    LandmarkArray = PapyrusUtil.ResizeObjRefArray(LandmarkArray, LandmarkIndex)
-    DragonLairArray = PapyrusUtil.ResizeObjRefArray(DragonLairArray, DragonLairIndex)
-    FarmArray = PapyrusUtil.ResizeObjRefArray(FarmArray, FarmIndex)
-    WoodMillArray = PapyrusUtil.ResizeObjRefArray(WoodMillArray, WoodMillIndex)
-    MineArray = PapyrusUtil.ResizeObjRefArray(MineArray, MineIndex)
-    ImperialCampArray = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, ImperialCampIndex)
+    MiscArray           = PapyrusUtil.ResizeObjRefArray(MiscArray, MiscIndex)
+    TownArray           = PapyrusUtil.ResizeObjRefArray(TownArray, TownIndex)
+    SettlementArray     = PapyrusUtil.ResizeObjRefArray(SettlementArray, SettlementIndex)
+    CaveArray           = PapyrusUtil.ResizeObjRefArray(CaveArray, CaveIndex)
+    CampArray           = PapyrusUtil.ResizeObjRefArray(CampArray, CampIndex)
+    FortArray           = PapyrusUtil.ResizeObjRefArray(FortArray, FortIndex)
+    NordicRuinsArray    = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, NordicRuinsIndex)
+    DwemerRuinArray     = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, DwemerRuinIndex)
+    ShipwreckArray      = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, ShipwreckIndex)
+    GroveArray          = PapyrusUtil.ResizeObjRefArray(GroveArray, GroveIndex)
+    LandmarkArray       = PapyrusUtil.ResizeObjRefArray(LandmarkArray, LandmarkIndex)
+    DragonLairArray     = PapyrusUtil.ResizeObjRefArray(DragonLairArray, DragonLairIndex)
+    FarmArray           = PapyrusUtil.ResizeObjRefArray(FarmArray, FarmIndex)
+    WoodMillArray       = PapyrusUtil.ResizeObjRefArray(WoodMillArray, WoodMillIndex)
+    MineArray           = PapyrusUtil.ResizeObjRefArray(MineArray, MineIndex)
+    ImperialCampArray   = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, ImperialCampIndex)
     StormcloakCampArray = PapyrusUtil.ResizeObjRefArray(StormcloakCampArray, StormcloakCampIndex)
-    DoomstoneArray = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, DoomstoneIndex)
-    WheatMillArray = PapyrusUtil.ResizeObjRefArray(WheatMillArray, WheatMillIndex)
-    StableArray = PapyrusUtil.ResizeObjRefArray(StableArray, StableIndex)
-    ImperialTowerArray = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, ImperialTowerIndex)
-    ClearingArray = PapyrusUtil.ResizeObjRefArray(ClearingArray, ClearingIndex)
-    PassArray = PapyrusUtil.ResizeObjRefArray(PassArray, PassIndex)
-    LighthouseArray = PapyrusUtil.ResizeObjRefArray(LighthouseArray, LighthouseIndex)
-    OrcStrongholdArray = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, OrcStrongholdIndex)
-    GiantCampArray = PapyrusUtil.ResizeObjRefArray(GiantCampArray, GiantCampIndex)
-    ShackArray = PapyrusUtil.ResizeObjRefArray(ShackArray, ShackIndex)
-    NordicTowerArray = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, NordicTowerIndex)
+    DoomstoneArray      = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, DoomstoneIndex)
+    WheatMillArray      = PapyrusUtil.ResizeObjRefArray(WheatMillArray, WheatMillIndex)
+    StableArray         = PapyrusUtil.ResizeObjRefArray(StableArray, StableIndex)
+    ImperialTowerArray  = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, ImperialTowerIndex)
+    ClearingArray       = PapyrusUtil.ResizeObjRefArray(ClearingArray, ClearingIndex)
+    PassArray           = PapyrusUtil.ResizeObjRefArray(PassArray, PassIndex)
+    LighthouseArray     = PapyrusUtil.ResizeObjRefArray(LighthouseArray, LighthouseIndex)
+    OrcStrongholdArray  = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, OrcStrongholdIndex)
+    GiantCampArray      = PapyrusUtil.ResizeObjRefArray(GiantCampArray, GiantCampIndex)
+    ShackArray          = PapyrusUtil.ResizeObjRefArray(ShackArray, ShackIndex)
+    NordicTowerArray    = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, NordicTowerIndex)
     NordicDwellingArray = PapyrusUtil.ResizeObjRefArray(NordicDwellingArray, NordicDwellingIndex)
-    DocksArray = PapyrusUtil.ResizeObjRefArray(DocksArray, DocksIndex)
-    ShrineArray = PapyrusUtil.ResizeObjRefArray(ShrineArray, ShrineIndex)
-    CastleArray = PapyrusUtil.ResizeObjRefArray(CastleArray, CastleIndex)
-    CapitolArray = PapyrusUtil.ResizeObjRefArray(CapitolArray, CapitolIndex)
-    DLC02Array = PapyrusUtil.ResizeObjRefArray(DLC02Array, DLC02Index)
+    DocksArray          = PapyrusUtil.ResizeObjRefArray(DocksArray, DocksIndex)
+    ShrineArray         = PapyrusUtil.ResizeObjRefArray(ShrineArray, ShrineIndex)
+    CastleArray         = PapyrusUtil.ResizeObjRefArray(CastleArray, CastleIndex)
+    CapitolArray        = PapyrusUtil.ResizeObjRefArray(CapitolArray, CapitolIndex)
+    DLC02Array          = PapyrusUtil.ResizeObjRefArray(DLC02Array, DLC02Index)
+EndFunction
+
+Function SortActivators()
+    ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, 3500.0)
+    TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 3500.0)
+    LootNPCArray            = new ObjectReference[1]
+    AliveNPCArray           = new ObjectReference[1]
+    DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, 3500.0)
+    IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 3500.0)
+    WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, 3500.0)
+    AmmoArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, 3500.0)
+    ArmorArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, 3500.0)
+    BooksArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, 3500.0)
+    KeysArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, 3500.0)
+    SoulGemsArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, 3500.0)
+    IngredientsArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, 3500.0)
+    ScrollsArray            = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, 3500.0)
+    MiscItemsArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, 3500.0)
+    FurnitureArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, 3500.0)
+    FloraArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, 3500.0)
+    TreesArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, 3500.0)
+    NatureArray             = PapyrusUtil.MergeObjRefArray(FloraArray, TreesArray)
+    HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, 3500.0)
+    TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 3500.0)
+    MiscActivatorsArray     = PapyrusUtil.MergeObjRefArray(HalfMiscActivatorsArray, TalkingActivatorsArray)
+
+    If TotalNPCArray.Length > 0
+        Int TotalNPCIndex = 0
+        While TotalNPCIndex < TotalNPCArray.Length
+            Actor CurrentNPC = TotalNPCArray[TotalNPCIndex] As Actor
+            If !CurrentNPC.IsDead() && (CurrentNPC != Game.GetPlayer())
+                AliveNPCArray   = PapyrusUtil.PushObjRef(AliveNPCArray, CurrentNPC)
+            ElseIf CurrentNPC.IsDead()
+                LootNPCArray    = PapyrusUtil.PushObjRef(LootNPCArray, CurrentNPC)
+            EndIf
+            TotalNPCIndex += 1
+        EndWhile
+    EndIf
 EndFunction
