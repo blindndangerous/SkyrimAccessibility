@@ -1,0 +1,43 @@
+---
+title: Skyrim Accessibility Docs
+description: Bringing screen reader support and audio accessibility tools to Skyrim.
+template: splash
+hero:
+  tagline: Bringing Text-to-Speech, screen reader support, and audio tools to Skyrim. Developed by Dio Kyrie.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Mod Organizer 2 Guide
+      link: /guides/install/mo2/
+      icon: right-arrow
+      variant: primary
+    - text: Vortex Guide
+      link: /guides/install/vortex/
+      icon: right-arrow
+    - text: Join our Discord
+      link: https://discord.gg/ncREHq4cmx
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+## Available Features
+
+<CardGrid stagger>
+	<Card title="Intro Walkthrough" icon="open-book">
+		Accessible guidance right from the start of your new game.
+	</Card>
+	<Card title="Clairvoyance Audio Trails" icon="moon">
+		A guiding spell that generates a distinct sound trail leading you directly
+		to your current quest marker.
+	</Card>
+	<Card title="Auto Lockpicking" icon="setting">
+		A 25% chance to automatically open any lock. Available exclusively via the
+		Interact Menu.
+	</Card>
+	<Card title="Under Development" icon="warning">
+		Sound notifications for walking in place, and spatial audio markers for
+		items, NPCs, containers, and doors.
+	</Card>
+</CardGrid>
