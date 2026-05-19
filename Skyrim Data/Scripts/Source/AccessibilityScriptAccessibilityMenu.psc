@@ -1,5 +1,8 @@
 Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 
+Quest Property AccessibilityQuest Auto
+ReferenceAlias Property AccessibilityPlayerMapMarkerRef000 Auto
+
 Bool IsAccessibilityMenuOpen Auto
 
 String[] MenuList Auto
@@ -93,6 +96,9 @@ Event OnInit()
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
     SortMapMarkers()
+    If !AccessibilityQuest.IsRunning()
+        AccessibilityQuest.Start()
+    EndIf
     Debug.Notification("Accessibility menu is ready")
 EndEvent
 
@@ -417,26 +423,32 @@ Function CurrentEntryName()
     EndIf
 EndFunction
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 Function Select()
+    If CurrentMenu == 0
 
+    ElseIf CurrentMenu == 1
+        If AccessibilityPlayerMapMarkerRef000.GetReference() != EntriesList[CurrentEntry]
+            AccessibilityPlayerMapMarkerRef000.Clear()
+            AccessibilityPlayerMapMarkerRef000.ForceRefTo(EntriesList[CurrentEntry])
+            AccessibilityQuest.SetObjectiveDisplayed(0, True, True)
+            Debug.MessageBox(EntriesList[CurrentEntry])
+        ElseIf AccessibilityPlayerMapMarkerRef000.GetReference() == EntriesList[CurrentEntry]
+            AccessibilityPlayerMapMarkerRef000.Clear()
+            AccessibilityQuest.SetObjectiveDisplayed(0, False)
+        EndIf
+    ElseIf CurrentMenu == 2
+
+    ElseIf CurrentMenu == 3
+    EndIf
 EndFunction
 
 Function Teleport()
     If CurrentMenu == 0
-
+        If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 3500
+            Debug.Notification("Too far to teleport")
+        Else
+            Game.GetPlayer().MoveTo(EntriesList[CurrentEntry])
+        EndIf
     ElseIf CurrentMenu == 1
         Game.FastTravel(EntriesList[CurrentEntry])
     EndIf
@@ -457,7 +469,6 @@ EndFunction
 Function LockCameraOn() ;30 Seconds of Camera Lock On
 
 EndFunction
-
 
 Function SortMapMarkers()
     MapMarkers = DbSkseFunctions.GetAllMapMarkerRefs(-1, -1)
