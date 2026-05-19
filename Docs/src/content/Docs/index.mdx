@@ -7,7 +7,7 @@ hero:
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Mod Organizer 2 Guide
+    - text: Get Started (MO2 Guide)
       link: /guides/install/mo2/
       icon: right-arrow
       variant: primary
@@ -20,9 +20,31 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
 
-## Available Features
+## Documentation Directory
+
+For returning players, you can skip installation setup and jump straight to specific guides here:
+
+<CardGrid>
+	<LinkCard
+		title="UI Controls & Navigation"
+		description="Learn how to navigate Skyrim's menus, inventory, and dialogue systems using screen reader cues."
+		href="/guides/ui/"
+	/>
+	<LinkCard
+		title="Game Mechanics"
+		description="Understand accessible gameplay systems including combat indicators, auto-lockpicking, and audio trails."
+		href="/guides/mechanics/"
+	/>
+	<LinkCard
+		title="Quest Walkthroughs"
+		description="Step-by-step accessible paths for the Main Story, Dark Brotherhood, and other faction questlines."
+		href="/guides/walkthroughs/quests/"
+	/>
+</CardGrid>
+
+## Mod Features
 
 <CardGrid stagger>
 	<Card title="Intro Walkthrough" icon="open-book">

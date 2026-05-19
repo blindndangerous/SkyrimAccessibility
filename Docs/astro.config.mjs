@@ -46,7 +46,18 @@ export default defineConfig({
 					href: "https://github.com/DioKyrie-Git/SkyrimAccessibility",
 				},
 			],
-			sidebar: [],
+			sidebar: [
+				{
+					label: "Guides & Walkthroughs",
+					// Scans everything inside src/content/docs/guides/
+					items: [{ autogenerate: { directory: "guides" } }],
+				},
+				{
+					label: "Contributing",
+					collapsed: true,
+					items: [{ autogenerate: { directory: "contributing" } }],
+				},
+			],
 		}),
 	],
 });
