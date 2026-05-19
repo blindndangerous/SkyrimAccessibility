@@ -1,8 +1,5 @@
 Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 
-Quest Property AccessibilityQuest Auto
-ReferenceAlias Property AccessibilityPlayerMapMarkerRef000 Auto
-
 Bool IsAccessibilityMenuOpen Auto
 
 String[] MenuList Auto
@@ -13,6 +10,14 @@ Int CurrentSubMenu Auto
 
 ObjectReference[] EntriesList Auto
 Int CurrentEntry Auto
+
+Bool AutoLockPick Auto ;Add Setting to enable/disable this.
+
+Sound Property AccessibilityCNDLockPickFail Auto
+Sound Property AccessibilityCNDLockPickSuccess Auto
+
+MiscObject Property Lockpick Auto
+MiscObject Property SkeletonKey Auto
 
 
 ObjectReference[] MapMarkers Auto
@@ -96,9 +101,6 @@ Event OnInit()
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
     SortMapMarkers()
-    If !AccessibilityQuest.IsRunning()
-        AccessibilityQuest.Start()
-    EndIf
     Debug.Notification("Accessibility menu is ready")
 EndEvent
 
@@ -423,19 +425,45 @@ Function CurrentEntryName()
     EndIf
 EndFunction
 
-Function Select()
+Function Select() ;ToDo Add Skill based lockpicking.
     If CurrentMenu == 0
-
-    ElseIf CurrentMenu == 1
-        If AccessibilityPlayerMapMarkerRef000.GetReference() != EntriesList[CurrentEntry]
-            AccessibilityPlayerMapMarkerRef000.Clear()
-            AccessibilityPlayerMapMarkerRef000.ForceRefTo(EntriesList[CurrentEntry])
-            AccessibilityQuest.SetObjectiveDisplayed(0, True, True)
-            Debug.MessageBox(EntriesList[CurrentEntry])
-        ElseIf AccessibilityPlayerMapMarkerRef000.GetReference() == EntriesList[CurrentEntry]
-            AccessibilityPlayerMapMarkerRef000.Clear()
-            AccessibilityQuest.SetObjectiveDisplayed(0, False)
+        If CurrentSubMenu == 0 || CurrentSubMenu == 3
+            If EntriesList[CurrentEntry].IsLocked() == 0
+                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
+                If AutoLockPick == False
+                    EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+                Else
+                    If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
+                        EntriesList[CurrentEntry].Lock(False)
+                        AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+                    ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                        If Utility.RandomInt(0, 3) == 0
+                            EntriesList[CurrentEntry].Lock(False)
+                            AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+                            Game.GetPlayer().RemoveItem(Lockpick, 1)
+                            Game.AdvanceSkill("Lockpicking", 2.0)
+                        Else
+                            Game.GetPlayer().RemoveItem(Lockpick, 1)
+                            Game.AdvanceSkill("Lockpicking", 1.0)
+                            AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
+                        EndIf
+                    Else
+                        Debug.Notification("Not enough Lockpicks")
+                    EndIf
+                EndIf
+            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255
+                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+            EndIf
+        Else
+            If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
+                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+            Else
+                Debug.Notification("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + "meters too far")
+            EndIf
         EndIf
+    ElseIf CurrentMenu == 1
+
     ElseIf CurrentMenu == 2
 
     ElseIf CurrentMenu == 3
@@ -466,8 +494,18 @@ Function Follow() ;Stop only when wasd key pressed
 
 EndFunction
 
-Function LockCameraOn() ;30 Seconds of Camera Lock On
-
+Function LockCameraOn() ;30 Seconds of Camera Lock On. !!!Vertical Angle Not Working
+    If !EntriesList[CurrentEntry].IsDisabled()
+        Int LockCameraTimer = 0
+        While LockCameraTimer < 60
+            Float XAngle = Game.GetPlayer().GetAngleX()
+            Float YAngle = Game.GetPlayer().GetAngleY()
+            Float ZAngle = Game.GetPlayer().GetAngleZ() + Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
+            Game.GetPlayer().SetAngle(XAngle, YAngle, ZAngle)
+            Utility.Wait(0.5)
+            LockCameraTimer += 1
+        EndWhile
+    EndIf
 EndFunction
 
 Function SortMapMarkers()
