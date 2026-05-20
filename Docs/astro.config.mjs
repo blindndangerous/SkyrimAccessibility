@@ -9,35 +9,35 @@ import starlightImageZoom from "starlight-image-zoom";
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [
-		starlight({
-			title: "Skyrim Accessibility Docs",
-			defaultLocale: "root",
-			// Read about the locales option in the Starlight documentation: https://starlight.astro.build/guides/i18n/
-			locales: {
-				root: {
-					label: "English",
-					lang: "en",
-				},
-			},
-			plugins: [
-				starlightLinksValidator(),
-				starlightKbd({
-					types: [
-						{
-							id: "windows",
-							label: "Windows",
-							detector: "windows",
-							default: true,
-						},
-						{
-							id: "controller",
-							label: "Controller",
-						},
-					],
-				}),
-				starlightImageZoom(),
-				/*
+  integrations: [
+    starlight({
+      title: "Skyrim Accessibility Docs",
+      defaultLocale: "root",
+      // Read about the locales option in the Starlight documentation: https://starlight.astro.build/guides/i18n/
+      locales: {
+        root: {
+          label: "English",
+          lang: "en",
+        },
+      },
+      plugins: [
+        starlightLinksValidator(),
+        starlightKbd({
+          types: [
+            {
+              id: "windows",
+              label: "Windows",
+              detector: "windows",
+              default: true,
+            },
+            {
+              id: "controller",
+              label: "Controller",
+            },
+          ],
+        }),
+        starlightImageZoom(),
+        /*
 				starlightVersions({
 					versions: [
 						{
@@ -46,26 +46,26 @@ export default defineConfig({
 					],
 				}),
 				*/
-			],
-			social: [
-				{
-					icon: "github",
-					label: "GitHub",
-					href: "https://github.com/DioKyrie-Git/SkyrimAccessibility",
-				},
-			],
-			sidebar: [
-				{
-					label: "Guides & Walkthroughs",
-					// Scans everything inside src/content/docs/guides/
-					items: [{ autogenerate: { directory: "guides" } }],
-				},
-				{
-					label: "Contributing",
-					collapsed: true,
-					items: [{ autogenerate: { directory: "contributing" } }],
-				},
-			],
-		}),
-	],
+      ],
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/DioKyrie-Git/SkyrimAccessibility",
+        },
+      ],
+      sidebar: [
+        {
+          label: "Guides & Walkthroughs",
+          // Scans everything inside src/content/docs/guides/
+          items: [{ autogenerate: { directory: "guides" } }],
+        },
+        {
+          label: "Contributing",
+          collapsed: true,
+          items: [{ autogenerate: { directory: "contributing" } }],
+        },
+      ],
+    }),
+  ],
 });
