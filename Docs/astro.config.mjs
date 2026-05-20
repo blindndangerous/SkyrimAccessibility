@@ -19,6 +19,10 @@ export default defineConfig({
           label: "English",
           lang: "en",
         },
+        es: {
+          label: "Español",
+          lang: "es",
+        },
       },
       plugins: [
         starlightLinksValidator(),
