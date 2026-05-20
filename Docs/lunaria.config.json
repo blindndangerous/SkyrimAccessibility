@@ -7,8 +7,8 @@
   },
   "files": [
     {
-      "location": "src/content/docs/**/*.{md,mdx}",
-      "pattern": "src/content/docs/@lang/@path",
+      "location": "src/content/Docs/**/*.{md,mdx}",
+      "pattern": "src/content/Docs/@lang/@path",
       "type": "universal"
     }
   ],
