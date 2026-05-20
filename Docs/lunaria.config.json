@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@lunariajs/core/config.schema.json",
   "repository": {
     "name": "DioKyrie-Git/SkyrimAccessibility",
-    "rootDir": "docs"
+    "hosting": "github",
+    "rootDir": "Docs"
   },
   "files": [
     {
