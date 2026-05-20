@@ -13,11 +13,11 @@ Int CurrentEntry Auto
 
 Bool AutoLockPick Auto ;Add Setting to enable/disable this.
 
-Sound Property AccessibilityCNDLockPickFail Auto
-Sound Property AccessibilityCNDLockPickSuccess Auto
+Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
+Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
 
-MiscObject Property Lockpick Auto
-MiscObject Property SkeletonKey Auto
+MiscObject Property Lockpick Auto ;Add to esp
+MiscObject Property SkeletonKey Auto ;Add to esp
 
 
 ObjectReference[] MapMarkers Auto
@@ -428,33 +428,7 @@ EndFunction
 Function Select() ;ToDo Add Skill based lockpicking.
     If CurrentMenu == 0
         If CurrentSubMenu == 0 || CurrentSubMenu == 3
-            If EntriesList[CurrentEntry].IsLocked() == 0
-                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
-                If AutoLockPick == False
-                    EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-                Else
-                    If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
-                        EntriesList[CurrentEntry].Lock(False)
-                        AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                    ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
-                        If Utility.RandomInt(0, 3) == 0
-                            EntriesList[CurrentEntry].Lock(False)
-                            AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                            Game.GetPlayer().RemoveItem(Lockpick, 1)
-                            Game.AdvanceSkill("Lockpicking", 2.0)
-                        Else
-                            Game.GetPlayer().RemoveItem(Lockpick, 1)
-                            Game.AdvanceSkill("Lockpicking", 1.0)
-                            AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
-                        EndIf
-                    Else
-                        Debug.Notification("Not enough Lockpicks")
-                    EndIf
-                EndIf
-            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255
-                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-            EndIf
+            AutoLockPick()
         Else
             If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
                 EntriesList[CurrentEntry].Activate(Game.GetPlayer())
@@ -467,6 +441,42 @@ Function Select() ;ToDo Add Skill based lockpicking.
     ElseIf CurrentMenu == 2
 
     ElseIf CurrentMenu == 3
+    EndIf
+EndFunction
+
+Function AutoLockPick()
+    If EntriesList[CurrentEntry].IsLocked() == 0
+        EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+    ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
+        If AutoLockPick == False
+            EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+        Else
+            If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
+                EntriesList[CurrentEntry].Lock(False)
+                AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                    If Utility.RandomInt(0, 3) == 0
+                        EntriesList[CurrentEntry].Lock(False)
+                        AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+                        Game.GetPlayer().RemoveItem(Lockpick, 1)
+                        Game.AdvanceSkill("Lockpicking", 2.0)
+                    Else
+                        Game.GetPlayer().RemoveItem(Lockpick, 1)
+                        Game.AdvanceSkill("Lockpicking", 1.0)
+                        AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
+                    EndIf
+                    Utility.Wait(0.5)
+                EndWhile
+                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) == 0
+                    Debug.Notification("You run out of Lockpicks")
+                EndIf
+            Else
+                Debug.Notification("Not enough Lockpicks")
+            EndIf
+        EndIf
+    ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255
+        EntriesList[CurrentEntry].Activate(Game.GetPlayer())
     EndIf
 EndFunction
 
