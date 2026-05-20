@@ -12,6 +12,14 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: "Skyrim Accessibility Docs",
+			defaultLocale: "root",
+			// Read about the locales option in the Starlight documentation: https://starlight.astro.build/guides/i18n/
+			locales: {
+				root: {
+					label: "English",
+					lang: "en",
+				},
+			},
 			plugins: [
 				starlightLinksValidator(),
 				starlightKbd({
