@@ -44,6 +44,20 @@ A short list menu with three choices.
 - **Position info**. Speaks your current position in the world and takes a screenshot. Useful when reporting a bug.
 - **Clairvoyance**. Turn the auto-cast Clairvoyance guide spell on or off. When on, the mod casts Clairvoyance every 5 seconds and you hear a sound trail toward your current quest marker.
 
+### Moving through list menus
+
+The helper menu and its sub-menus use Skyrim's standard list-menu controls:
+
+- `Up Arrow` / `Down Arrow`. Previous / next entry.
+- `Enter`. Select the current entry.
+- `Tab` or `Escape`. Close the list without picking anything.
+
+These controls also apply to the lockpick options menu and any other list dialogue the mod opens.
+
+## Casting Clairvoyance manually
+
+The mod adds Clairvoyance to your spellbook as a regular spell. You can equip it from your magic menu and cast it the same way you cast any other spell, even when auto-cast is off. The auto-cast toggle in the helper menu just saves you from re-casting every few seconds.
+
 ## Lockpicking
 
 When you select a locked door or container through the Accessibility Menu, the mod tries to pick it with a 25 percent success chance per attempt. If you fail, the lock options menu re-opens so you can try again or back out.
