@@ -33,3 +33,6 @@ Documentation:
 2. Move install guides into html.
 3. Add changelog section with mod's versions to html.
 4. Add achievements enabler mod as Dependency
+
+TTS:
+Add narration of pickpocket chance.
