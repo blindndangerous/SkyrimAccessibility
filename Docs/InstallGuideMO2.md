@@ -1,58 +1,96 @@
-# Skyrim Accessibility Install Guide for Mod Organizer 2.
-1. Install [Skyrim Special Edition](https://store.steampowered.com/app/489830/The_Elder_Scrolls_V_Skyrim_Special_Edition/).
+# Skyrim Accessibility: Install Guide for Mod Organizer 2
+
+This guide walks you through a full install on Windows using Mod Organizer 2 (MO2) and a screen reader. It is written for blind and low-vision players, so every step uses the keyboard.
+
+## 1. Install Skyrim Special Edition
+
+Buy and install [Skyrim Special Edition](https://store.steampowered.com/app/489830/The_Elder_Scrolls_V_Skyrim_Special_Edition/) on Steam.
+
 > [!Note]
-> Skyrim Anniversary Edition is update with community mods on top of Skyrim Special Edition.
-> It is still the same game version, you can use eighther of those two editions.
-2. Download Portable [Mod.Organizer-2.5.2.7z](https://github.com/ModOrganizer2/modorganizer/releases/tag/v2.5.2) and extract it where you like.
-3. Make a shortcut for ModOrganizer.exe and move it to desktop so you don't have to launch it from MO2 folder every time.
-4. Launch MO2.
-5. Create a new Instance.
-6. Select Create Portable Instance.
-7. Browse for a game to manage. Exempli gratia: J:\Games\Skyrim Special Edition.
-8. Select game editon.
-9. When selecting folder where data should be stored, just go with the default path, it should be the same folder where MO2 is installed.
-10. Link Mod Organizer to your Nexus Mods account.
-11. Finsih Installation.
-12. Launch Mod Organizer 2.
-13. Use Tab to scroll through control elements.
-14. Find Combo Box to select a program to run.
-15. Make sure you have selected skyrim launcher.
-16. Navigate to Run button.
-17. Launch Skyrim Launcher once and close it, to generate ini files.
-18. Open web browser.
-19. Download [SKSE](https://www.nexusmods.com/skyrimspecialedition/mods/30379?tab=files) and install it manually by extracting contents of archive into game folder where .exe files are.
-20. Download [nvdaControllerClient](https://download.nvaccess.org/releases/stable/) and extract nvdaControllerClient.dll into game folder where .exe files are.
+> Skyrim Anniversary Edition is the same base game with extra Creation Club content layered on top. This mod works on both Special Edition and Anniversary Edition.
+
+## 2. Install Mod Organizer 2
+
+1. Download the portable build of [Mod Organizer 2.5.2](https://github.com/ModOrganizer2/modorganizer/releases/tag/v2.5.2) (the `.7z` file).
+2. Extract the archive to a folder of your choice. Avoid `Program Files` and `Program Files (x86)` because Windows blocks writes there.
+3. Open the extracted folder and create a desktop shortcut for `ModOrganizer.exe` so you can launch it without opening the folder every time.
+
+## 3. Create a portable MO2 instance
+
+1. Launch `ModOrganizer.exe`.
+2. Choose "Create new instance".
+3. Choose "Portable instance".
+4. When prompted to pick the game to manage, browse to your Skyrim Special Edition install folder (for example, `D:\Steam\steamapps\common\Skyrim Special Edition`).
+5. Select the game edition (Special Edition or Anniversary Edition).
+6. When asked where to store mod data, accept the default. It will be the same folder MO2 lives in.
+7. Link MO2 to your Nexus Mods account when prompted. This is needed for one-click downloads later.
+8. Finish the setup wizard.
+
+## 4. Generate Skyrim's `.ini` files
+
+Skyrim needs to be launched at least once so it can create its config files in `Documents\My Games\Skyrim Special Edition\`.
+
+1. With MO2 running, press Tab until you reach the executable combo box (top-right area of the window).
+2. Select "Skyrim" (the Skyrim Launcher).
+3. Tab to the Run button and press Space.
+4. The launcher opens. You can close it immediately. The `.ini` files are now generated.
+
+## 5. Install SKSE and the NVDA controller bridge
+
+Both of these go into the Skyrim game folder, not into MO2.
+
+1. Download [SKSE (Skyrim Script Extender)](https://www.nexusmods.com/skyrimspecialedition/mods/30379?tab=files). Pick the build that matches your runtime: SE 1.5.97 or AE 1.6.x. The wrong build will refuse to load.
+2. Extract the SKSE archive into your Skyrim install folder, next to `SkyrimSE.exe`.
+3. Download the latest stable [NVDA Controller Client](https://download.nvaccess.org/releases/stable/). It is a `.zip` file containing several `.dll` files.
+4. Extract only `nvdaControllerClient64.dll` (the 64-bit version) into the same Skyrim install folder, next to `SkyrimSE.exe`. Rename it to `nvdaControllerClient.dll` if the mod expects that name.
+
 > [!Note]
-> If you've done all correctly both skse64_loader.exe and nvdaControllerClient.dll should now be in same folder with SkyrimSE.exe
-21. Download all the mods below from Nexus Mods using the "Install via Mod Manager" button.
+> After this step, `SkyrimSE.exe`, `skse64_loader.exe`, and `nvdaControllerClient.dll` should all sit in the same folder.
+
+## 6. Download the required dependency mods
+
+In your web browser, log in to Nexus Mods, then open each mod page below and use "Install via Mod Manager" to send the download to MO2.
+
+- [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files). Pick "All in one (Anniversary Edition)" for AE 1.6.x, or "All in one (Special Edition)" for SE 1.5.97. A mismatch silently disables the SKSE plugin.
+- [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files)
+- [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files)
+- [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files)
+- [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files)
+- [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files)
+- [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files)
+- [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files)
+
+## 7. Download Skyrim Accessibility and SkyrimTTS
+
+Both of these are required.
+
+1. Download the latest release of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) from GitHub.
+2. Download the latest release of [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
+3. Move both archives into MO2's `downloads` folder (for example, `D:\ModOrganizer2\downloads\`).
+
+## 8. Install all downloaded mods in MO2
+
+1. In MO2, press Tab until you reach the Plugins tab control.
+2. Use Left/Right arrows to switch to the Downloads tab.
+3. Tab into the downloads list.
+4. Use Up/Down arrows to navigate the list.
+5. Press Enter on each mod to quick-install it.
+
 > [!Note]
-> - [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files). Pick "All in one (Anniversary Edition)" for AE 1.6.x or "All in one (Special Edition)" for SE 1.5.97. A mismatch silently disables the plugin.
-> - [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files);
-> - [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files);
-> - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
-> - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
-> - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
-> - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
-> - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
-22. Download latest releases of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) and [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
-23. Go to folder where you extracted MO2.
-24. Move two downloaded archives inside of Mod Organizer's downloads folder. Exempli gratia: Z:/Moding/ModOrganizer2/downloads/
-25. Go back to Mod Organizer.
-26. Use the Tab key to find the Plugins tab control.
-27. Use the right/left arrows to navigate and open the Downloads tab.
-28. Use Tab until you reach the tree view with downloads.
-29. Use the up/down arrows to navigate through the Downloads tab.
-30. Press Enter to quick-install the selected mod.
-> [!Note]
-> When installing Skyrim Accessibility itself, the FOMOD installer has two steps:
+> When you install Skyrim Accessibility, the FOMOD installer offers two steps:
 > - "Core Mod Install" is required and installs automatically.
-> - "Optional Sounds > Experimental Sounds" is optional and off by default. These ambient sounds for items, doors, and similar objects can be loud or distracting. You can leave them off for now and reinstall later if you want them.
-31. Install all mods in the Downloads tab.
-32. Use Tab until you reach the tree view with mods.
-33. Press Shift+F10 and select "Enable All Mods".
-34. Now use Tab to go back to the Downloads tab.
-35. Use the right/left arrows to navigate to the Plugins tab.
-36. Use Tab until you reach the tree view with plugins.
-37. Press Shift+F10 and select "Enable All".
-38. Use Tab until you reach the combo box to select a program to run, select "SKSE".
-39. Use the Run button to play the game.
+> - "Optional Sounds > Experimental Sounds" is off by default. These ambient cues for items, doors, and similar objects can be loud or distracting. Leave them off for now; you can reinstall later if you want them.
+
+## 9. Enable all mods and plugins
+
+1. With the Mods tree view focused, press Shift+F10 and choose "Enable All Mods".
+2. Switch to the Plugins tab using Left/Right arrows.
+3. With the plugin tree view focused, press Shift+F10 and choose "Enable All".
+
+## 10. Launch the game
+
+1. Tab to the executable combo box.
+2. Select "SKSE".
+3. Tab to the Run button and press Space.
+
+Make sure NVDA is running before you launch. If anything does not work, see [Troubleshooting.md](Troubleshooting.md).
