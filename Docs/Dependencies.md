@@ -31,7 +31,7 @@ Required mods for Skyrim Accessibility to run. Install all before launching the 
 - **Stay At The System Page - AE**. Keeps the pause menu on the System page after closing it.
   - <https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files>
 
-## Companion mod (recommended)
+## Required companion mod
 
-- **SkyrimTTS**. Text-to-speech bridge.
+- **SkyrimTTS**. Text-to-speech bridge. Required to read in-game text aloud.
   - <https://github.com/DioKyrie-Git/SkyrimTTS/releases>
