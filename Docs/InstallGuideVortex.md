@@ -23,7 +23,16 @@
 > [!Note]
 > You should do this once to generate ini files. You can close the game right after.
 17. Open a web browser.
-18. Download all required mods from Nexus Mods using the "Install via Mod Manager" button. See [Dependencies](Dependencies.md) for the full list with version notes.
+18. Download all the mods below from Nexus Mods using the "Install via Mod Manager" button.
+> [!Note]
+> - [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files). Pick "All in one (Anniversary Edition)" for AE 1.6.x or "All in one (Special Edition)" for SE 1.5.97. A mismatch silently disables the plugin.
+> - [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files);
+> - [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files);
+> - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
+> - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
+> - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
+> - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
+> - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
 19. Download the latest releases of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) and [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
 20. Use Tab to reach the Downloads button and press Space.
 21. Use Tab to reach the Open Folder link and press Space.
