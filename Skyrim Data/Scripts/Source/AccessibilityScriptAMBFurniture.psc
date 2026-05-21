@@ -7,7 +7,7 @@ Sound Property AccessibilityAMBFurnitureDoor Auto
 
 
 Event OnInit()
-    RegisterForSingleUpdate(10.0)
+    RegisterForSingleUpdate(30.0)
 EndEvent
 
 Event OnUpdate()
@@ -23,7 +23,11 @@ Bool Function IsPlayerReady()
     If PlayerRef == None
         Return False
     EndIf
-    If PlayerRef.GetParentCell() == None
+    Cell PlayerCell = PlayerRef.GetParentCell()
+    If PlayerCell == None
+        Return False
+    EndIf
+    If !PlayerCell.IsAttached()
         Return False
     EndIf
     If !PlayerRef.Is3DLoaded()
