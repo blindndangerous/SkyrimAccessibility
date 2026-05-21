@@ -30,8 +30,19 @@ Required mods for Skyrim Accessibility to run. Install all before launching the 
   - <https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files>
 - **Stay At The System Page - AE**. Keeps the pause menu on the System page after closing it.
   - <https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files>
+- **SkyUI**. Required for accurate menu reading by SkyrimTTS and for the Mod Configuration Menu (MCM) that Skyrim Accessibility uses for settings.
+  - <https://www.nexusmods.com/skyrimspecialedition/mods/12604?tab=files>
 
 ## Required companion mod
 
 - **SkyrimTTS**. Text-to-speech bridge. Required to read in-game text aloud.
   - <https://github.com/DioKyrie-Git/SkyrimTTS/releases>
+
+## Recommended accessibility mods
+
+These are not required, but they remove visual-only puzzles that are hard or impossible to do without sight. The SkyrimTTS guide recommends both.
+
+- **Puzzle Pillar Auto-Solve**. All puzzle pillars in dungeons are pre-solved; just pull the lever.
+  - <https://www.nexusmods.com/skyrimspecialedition/mods/125875?tab=files>
+- **Dragon Claws Auto-Unlock**. Claw doors open automatically when you have the matching claw.
+  - <https://www.nexusmods.com/skyrimspecialedition/mods/47329?tab=files>

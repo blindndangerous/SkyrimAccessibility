@@ -59,6 +59,7 @@ In your web browser, log in to Nexus Mods, then open each mod page below and use
 - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files)
 - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files)
 - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files)
+- [SkyUI](https://www.nexusmods.com/skyrimspecialedition/mods/12604?tab=files). Required for SkyrimTTS to read menus correctly and for the Mod Configuration Menu (MCM).
 
 ## 7. Download Skyrim Accessibility and SkyrimTTS
 
