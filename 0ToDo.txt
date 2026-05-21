@@ -15,6 +15,7 @@
 14. Filter empty entries from displaying, can be found in ActivateMenu script.
 15. Port Initialisation script.
 16. Add Skill based lockpicking.
+17. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
