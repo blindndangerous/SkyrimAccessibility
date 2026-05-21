@@ -8,35 +8,35 @@ Join the Discord server to test the mod, ask for help, or follow development: <h
 
 ## Features
 
-- **Intro walkthrough**. Skip past the Helgen opening to a known safe position.
-- **Clairvoyance**. A guiding spell that leads you to your current quest marker via a sound trail. Can be toggled to auto-cast every 5 seconds.
-- **Accessibility Menu**. A four-level menu (top menu / sub-menu / entry list / per-entry action) covering containers, items, NPCs, doors, activators, fast travel destinations, and settings. Each entry can be selected, teleported to, marked, walked to, followed, or camera-locked.
-- **Auto Lockpicking**. Open locks from the Accessibility Menu with a 25% chance per attempt. On failure, the menu re-opens so you can try again.
-- **Walking-in-Place notifier**. A sound cue when you hold a movement key without actually moving.
-- **Ambient sound markers**. Audio cues for nearby enemies, items, containers, doors, and furniture (rolled out gradually; see [CHANGELOG.md](CHANGELOG.md) for what is shipped per version).
+- **Intro walkthrough**. Skip past the Helgen opening straight to a safe position so you can start playing.
+- **Clairvoyance**. A guiding spell that leads you to your current quest marker with a sound trail. Can be toggled to cast itself every 5 seconds so you do not have to re-cast.
+- **Accessibility Menu**. The main menu the mod adds. Browse nearby containers, items, people, doors, and other objects, plus fast travel destinations and settings. For each thing you can select it, teleport to it, drop a marker on it, walk to it, follow it, or lock the camera on it.
+- **Auto Lockpicking**. Open locks from the Accessibility Menu with a 25% chance per attempt. If you fail, the menu re-opens so you can try again.
+- **Walking-in-place notifier**. Plays a sound when you hold a movement key but are not actually moving (for example, walking into a wall).
+- **Ambient sound cues**. Audio cues for nearby enemies, items, containers, doors, and furniture. New cues are added over time; see [CHANGELOG.md](CHANGELOG.md) for what is in each version.
 
 ## Hotkeys
 
-- `V`. Open or close the Accessibility Menu (containers, NPCs, items, fast travel, etc.).
-- `L`. Open the Initialisation Menu (intro walkthrough, debug info, Clairvoyance toggle).
+- `V`. Open or close the main Accessibility Menu (containers, people, items, fast travel, and more).
+- `L`. Open the helper menu (intro walkthrough, position info, Clairvoyance on/off).
 
 Inside the Accessibility Menu:
 
 - `Z` / `C`. Previous / next top-level menu.
 - `A` / `D`. Previous / next sub-menu.
 - `W` / `S`. Previous / next entry in the current sub-menu.
-- `Space`. Select. Default action for the current entry.
+- `Space`. Select. Does the default action on the current entry.
 - `Left Ctrl`. Teleport to the current entry.
 - `Q`. Place a marker at the current entry.
 - `E`. Walk to the current entry.
-- `F`. Follow the current entry (NPCs).
+- `F`. Follow the current entry (people).
 - `R`. Lock the camera onto the current entry.
 
-For the full controls reference, including DXScanCode values, see [Docs/Controls.md](Docs/Controls.md).
+For the full controls reference, see [Docs/Controls.md](Docs/Controls.md).
 
 ## Install
 
-Pick your mod manager and follow the matching guide. Each guide is self-contained, end-to-end.
+Pick your mod manager and follow the matching guide. Each guide is self-contained from start to finish.
 
 1. [Mod Organizer 2 install guide](Docs/InstallGuideMO2.md)
 2. [Vortex install guide](Docs/InstallGuideVortex.md)
@@ -45,9 +45,9 @@ If something does not work, see [Docs/Troubleshooting.md](Docs/Troubleshooting.m
 
 ## Project files
 
-- [CHANGELOG.md](CHANGELOG.md). Version history.
-- [Contributing.md](Contributing.md). How to contribute, build the mod from source, and submit changes.
-- [License.md](License.md). Per-asset license terms.
+- [CHANGELOG.md](CHANGELOG.md). What changed in each version.
+- [Contributing.md](Contributing.md). For developers who want to help build the mod.
+- [License.md](License.md). License terms for the files in this mod.
 
 ## Licenses Notice
 

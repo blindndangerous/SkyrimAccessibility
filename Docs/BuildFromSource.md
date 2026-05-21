@@ -142,3 +142,9 @@ After both halves build:
 
 - **CRLF in `flake.nix`/`xmake.lua` breaks the Nix dev shell.** See the Linux/Nix section above.
 - **XMake target name does not match the runtime plugin name yet.** Clean `main` produces `commonlibsse-template.dll`. The mod's Papyrus scripts expect a plugin called `AccessibilityNatives` once the C++ port lands. Until then the dll is a scaffold and the mod runs from Papyrus alone.
+
+## The mod does not pick up my built `.dll`
+
+- Drop the built `.dll` into `<your-mod>/SKSE/Plugins/` inside Mod Organizer 2 (or directly into `Data/SKSE/Plugins/` if you do not use a mod manager), then re-launch through SKSE.
+- If you use Mod Organizer 2, the mod manager overlays a virtual `Data` folder; the system `Data` folder is not what the game reads. Drop the `.dll` into the MO2 mod, not the real `Data`.
+- If you changed Papyrus sources, you also need to recompile the `.psc` files to `.pex` with the Papyrus Compiler. The SKSE `.dll` build does not touch Papyrus.
