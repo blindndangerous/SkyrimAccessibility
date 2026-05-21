@@ -2,6 +2,8 @@
 
 Every hotkey the mod adds, and what each key does inside the mod's menus.
 
+> Many of the keys you will press during normal play (the nearby-object scanner on Page Up / Page Down / Home / End, autowalk on Shift + Home, the enemy locator on X, and the menu / journal reading) come from SkyrimTTS, not from this mod. SkyrimTTS is a required companion mod; see its [GUIDE.md](https://github.com/DioKyrie-Git/SkyrimTTS/blob/main/GUIDE.md) for that full key reference.
+
 The hotkeys assume a US QWERTY keyboard layout. They only work during normal gameplay, not while you are inside a Skyrim menu (inventory, dialogue, pause menu, and so on). Inside the mod's own menus the navigation keys take over.
 
 ## Global hotkeys
