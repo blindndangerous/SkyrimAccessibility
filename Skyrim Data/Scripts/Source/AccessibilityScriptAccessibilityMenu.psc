@@ -13,7 +13,7 @@ Int CurrentSubMenu Auto
 ObjectReference[] EntriesList Auto
 Int CurrentEntry Auto
 
-Bool AutoLockPick Auto ;Add Setting to enable/disable this.
+Bool AutoLockPick Auto
 
 Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
 Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
@@ -219,7 +219,7 @@ Function MenuListRefresh()
     MenuList[0] = "Accessibility Menu"
     MenuList[1] = "Travel Menu"
     MenuList[2] = "Utility Menu"
-    MenuList[3] = "Settings Menu"
+    MenuList[3] = "Preferences Menu"
 EndFunction
 
 Function SubMenuListRefresh()
@@ -435,7 +435,7 @@ Function CurrentEntryName()
     EndIf
 EndFunction
 
-Function Select() ;ToDo Add Skill based lockpicking.
+Function Select()
     If CurrentMenu == 0
         If CurrentSubMenu == 0 || CurrentSubMenu == 3
             AutoLockPick()
@@ -636,7 +636,7 @@ Function SortMapMarkers()
     While MapMarkersIndex < MapMarkers.Length
         Int IconType = DbSkseFunctions.GetMapMarkerIconType(MapMarkers[MapMarkersIndex])
 
-        If IconType == 0 || IconType == 1 || IconType == 20 || IconType == 25 || IconType == 26 || IconType == 59 || IconType == 60 || IconType == 61 || IconType == 62 || IconType == 63 || IconType == 64 || IconType == 65 || IconType == 66
+        If IconType == 0 || IconType == 1 || IconType == 20 || IconType == 25 || IconType == 26 || IconType == 59 || IconType == 60 || IconType == 61 || IconType == 62 || IconType == 63 || IconType == 64 || IconType == 65 || IconType == 66 ; Misc
             MiscArray[MiscIndex] = MapMarkers[MapMarkersIndex]
             MiscIndex += 1
         ElseIf IconType == 2 ; Town
