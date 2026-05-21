@@ -103,7 +103,7 @@ Event OnInit()
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
-    AutoLockPick = True ;This should be moved to player controlled setting.
+    AutoLockPick = True ;This should be moved to MCM.
     SortMapMarkers()
     Debug.Notification("Accessibility menu is ready")
 EndEvent
@@ -280,10 +280,10 @@ Function SubMenuListRefresh()
         SubMenuList[33] = "DLC02"
     ElseIf CurrentMenu == 2
         SubMenuList = New String[1]
-        SubMenuList[0] = "2 menu"
+        SubMenuList[0] = "2 menu's submenu"
     ElseIf CurrentMenu == 3
         SubMenuList = New String[1]
-        SubMenuList[0] = "3 menu"
+        SubMenuList[0] = "General Preferences"
     EndIf
 EndFunction
 
@@ -393,6 +393,10 @@ Function EntriesListRefresh()
             EntriesList = CapitolArray
         ElseIf CurrentSubMenu == 33
             EntriesList = DLC02Array
+        EndIf
+    ElseIf CurrentMenu == 2
+    ElseIf CurrentMenu == 3
+        If CurrentSubMenu == 0
         EndIf
     EndIf
 EndFunction

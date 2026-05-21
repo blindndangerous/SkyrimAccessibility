@@ -18,12 +18,11 @@
       {
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "SkyrimAccessibility";
-          version = "0.11.2";
+          version = "1.0.0";
           # Sources
           src = (./.);
           sourceRoot = "pname"; # Build starts in parent directory of all source directories.
           buildPhase = ''
-            xmake build
           '';
           nativeBuildInputs = with pkgs; [
           #git

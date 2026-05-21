@@ -16,6 +16,7 @@
 15. Port Initialisation script.
 16. Add Skill based lockpicking.
 17. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
+18. Add sounds from enemy when enemy getting damage.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
@@ -37,3 +38,4 @@ Documentation:
 
 TTS:
 Add narration of pickpocket chance.
+Read books line by line.
