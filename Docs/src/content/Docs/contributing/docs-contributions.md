@@ -21,7 +21,7 @@ Before you can add content or preview your writing, you need to set up the envir
    ```
 
 2. **Install Node.js:**
-   Make sure you have **Node.js 20 (LTS)** or higher installed on your computer. You can download it from [nodejs.org](https://nodejs.org/).
+   Make sure you have **Node.js 22 (LTS)** or higher installed on your computer. You can download it from [nodejs.org](https://nodejs.org/).
 
 3. **Install Project Dependencies:**
    Open your terminal, navigate directly into the documentation folder, and install the required packages:
@@ -69,17 +69,31 @@ When linking to another internal documentation page, use relative paths **withou
 - ❌ **Bad:** `[Read UI Guides](/guides/ui.md)` or `[Read UI Guides](/guides/ui/)`
 - **Good:** `[Read UI Guides](/guides/ui)`
 
+### 5. Documenting Keyboard & Controller Inputs (`<Kbd>`)
+
+Because this is an accessibility mod, clearly detailing mechanical inputs is incredibly important. We use the custom `starlight-kbd` plugin to display interactive keyboard and gamepad buttons.
+
+To use this feature on a documentation page, your file extension **must use `.mdx` instead of `.md`** so you can leverage custom code imports:
+
+```mdx
+import { Kbd } from "starlight-kbd/components";
+
+To cycle through targeting points, press <Kbd windows="Tab" controller="LB" /> on your layout configuration setup.
+```
+
+- **Provide Both Properties:** Always make sure to include both the `windows="..."` and `controller="..."` properties on every key badge invocation. This enables readers to dynamically swap the text outputs site-wide based on their layout view preference in the navigation toolbar picker.
+
 ---
 
 ## 📂 Content Folder Directory Mapping
 
 Our sidebar uses an automatic crawler engine. To make your new file appear in the correct section dropdown block, place it in the corresponding case-sensitive folder path:
 
-- **Core References:** Global operational concepts belong directly in `src/content/Docs/guides/` (e.g., `ui.md`, `mechanics.md`).
-- **Installation Manuals:** Setup tool instructions belong in `src/content/Docs/guides/install/` (e.g., `mo2.md`, `vortex.md`).
+- **Core References:** Global operational concepts belong directly in `src/content/Docs/guides/` (e.g., `ui.mdx`, `mechanics.mdx`).
+- **Installation Manuals:** Setup tool instructions belong in `src/content/Docs/guides/install/` (e.g., `mo2.mdx`, `vortex.mdx`).
 - **Quest Walkthroughs:** Step-by-step quest guides belong inside the structural segments of `src/content/Docs/guides/walkthroughs/quests/`:
-  - Main Story missions belong inside `main/` (e.g., `unbound.md`).
-  - Faction progression missions belong inside labeled group subdirectories like `dark-brotherhood/` (e.g., `delayed-burial.md`).
+  - Main Story missions belong inside `main/` (e.g., `unbound.mdx`).
+  - Faction progression missions belong inside labeled group subdirectories like `dark-brotherhood/` (e.g., `delayed-burial.mdx`).
 
 ---
 
@@ -87,7 +101,7 @@ Our sidebar uses an automatic crawler engine. To make your new file appear in th
 
 We are committed to helping blind players worldwide. If you want to translate existing documentation into a supported community locale (such as Spanish), you must ensure file structure alignment:
 
-1. **Folder Parity:** Sibling folders inside `src/content/Docs/` handle translated configurations. Your target file must replicate the English file path naming scheme precisely inside that language's directory boundary (e.g., English `guides/ui.md` aligns with Spanish `es/guides/ui.md`).
+1. **Folder Parity:** Sibling folders inside `src/content/Docs/` handle translated configurations. Your target file must replicate the English file path naming scheme precisely inside that language's directory boundary (e.g., English `guides/ui.mdx` aligns with Spanish `es/guides/ui.mdx`).
 2. **Text Processing Bound:** Only translate text values assigned to parameters or nested underneath headings. Do not translate the structure keys themselves (e.g., keep the literal prefix declaration `title:` completely intact, and modify only the tracking string next to it).
 
 > 💡 **Recommended Tooling:** Install the **Starlight i18n** extension in Visual Studio Code. Run the command palette command `Starlight i18n` to select a target language folder; it automatically handles creating directories, validating slug formatting matching, and opening a split-view workspace.
