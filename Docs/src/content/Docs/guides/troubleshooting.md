@@ -4,7 +4,7 @@ description: Common problems with Skyrim Accessibility install and first launch,
 ---
 
 
-Common problems and how to fix them. If your problem is not here, ask on the project Discord (link in [Readme.md](../Readme.md)).
+Common problems and how to fix them. If your problem is not here, ask on the project Discord: <https://discord.gg/ncREHq4cmx>.
 
 ## NVDA does not speak in the game
 

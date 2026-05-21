@@ -1,22 +1,21 @@
 ---
 title: Mod Development Guide
-description: Rules, guidelines, and tool requirements for contributing code to the Skyrim Accessibility Mod.
+description: Rules, tools, and pull-request workflow for contributing code to Skyrim Accessibility.
 ---
 
-If you are interested in helping with the development of **Skyrim Accessibility Mod by Dio Kyrie**, please follow the requirements and workflows outlined below.
 
-## Contributing Rules
+Thanks for your interest in helping develop the Skyrim Accessibility Mod by Dio Kyrie. This document covers the project's rules, tools, and pull-request process.
 
-1. **Code Formatting:** Papyrus is case-insensitive, but for clarity across the repository, only pull requests containing **PascalCase** formatting in `.psc` files will be accepted.
-2. **SKSE Plugin Preference:** If any feature can be implemented inside an SKSE plugin, it _must_ be done there. This ensures maximal compatibility with other community mods and avoids the need for players to start a fresh game after updating versions.
-3. **AI Generated Code:** AI-generated code must be clearly labeled as such in your pull requests. Acknowledge that your pull request containing it may be routed to a separate development branch for manual rewriting.
-4. **Environment Setup:** This repository provides a **Nix flake**, which can be used to quickly spin up a clean local development environment.
+## Contributing rules
 
-## Required Tools
+1. Papyrus is case-insensitive, but for clarity only pull requests using PascalCase identifiers in `.psc` files will be accepted.
+2. If a feature can be done in the SKSE plugin, it should be done there. This keeps compatibility with other mods high and avoids the need for a new game on every update.
+3. AI-generated code must be clearly labeled as such. Pull requests containing AI-generated code may be moved to a separate branch for review and rewrite.
+4. The repository ships a Nix flake for quick setup of the development environment on Linux.
 
-### For Papyrus & Creation Kit Work
+## Tools
 
-Make sure you have the following tools installed to work with Skyrim Special Edition or Anniversary Edition scripts:
+### Skyrim SE/AE plugin work (Papyrus, esp)
 
 - Creation Kit
 - Creation Kit Platform Extended
@@ -25,7 +24,27 @@ Make sure you have the following tools installed to work with Skyrim Special Edi
 - SSEEdit
 - Champollion GUI
 
-### For SKSE C++ Plugin Work
+### SKSE plugin work (C++)
 
-- [XMake](https://xmake.io) (Version 3.0.0+)
-- A modern C++23 Compiler such as MSVC or Clang-CL
+- [XMake](https://xmake.io) 3.0.0+
+- A C++23 compiler. On Windows: MSVC or Clang-CL.
+
+For the full build flow (cloning with submodules, building the SKSE plugin, compiling Papyrus scripts, packaging into a mod folder), see the [Building from Source](/contributing/build-from-source/) guide.
+
+## Pull-request process
+
+1. Fork the repo and create a branch off `main`. Branch names: `feat/<short-slug>` for features, `fix/<short-slug>` for bug fixes, `docs/<short-slug>` for documentation.
+2. Keep commits small and focused. One logical change per commit makes review faster and lets us revert cleanly when needed.
+3. Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages. Common prefixes: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`. Lowercase, imperative, under 72 characters in the subject.
+4. Add a CHANGELOG entry under `## [Unreleased]` in [CHANGELOG.md](https://github.com/DioKyrie-Git/SkyrimAccessibility/blob/main/CHANGELOG.md) for any user-visible change.
+5. Test in-game before opening the pull request. Note in the PR description which game version (SE 1.5.97 or AE 1.6.x) you tested on.
+6. Open the pull request against `main`. Link any related issue.
+
+## Code style
+
+- `.psc` files: PascalCase identifiers, four-space indent, no tabs.
+- C++ files: follow the style already present in `src/` and the surrounding CommonLibSSE conventions.
+
+## Reporting issues
+
+Open an issue on GitHub. Include the information listed under "How to report a new issue" in the [Troubleshooting](/guides/troubleshooting/) guide.
