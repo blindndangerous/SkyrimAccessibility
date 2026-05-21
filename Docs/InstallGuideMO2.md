@@ -24,16 +24,7 @@
 20. Download [nvdaControllerClient](https://download.nvaccess.org/releases/stable/) and extract nvdaControllerClient.dll into game folder where .exe files are.
 > [!Note]
 > If you've done all correctly both skse64_loader.exe and nvdaControllerClient.dll should now be in same folder with SkyrimSE.exe
-21. Download all the mods bellow from Nexus Mods using the "Install via Mod Manager" button.
-> [!Note]
-> - [Addres Library for SKSE plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files);
-> - [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files);
-> - [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files);
-> - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
-> - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
-> - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
-> - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
-> - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
+21. Download all required mods from Nexus Mods using the "Install via Mod Manager" button. See [Dependencies](Dependencies.md) for the full list, including which Address Library file to pick for SE 1.5.97 vs AE 1.6.x.
 22. Download latest releases of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) and [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
 23. Go to folder where you extracted MO2.
 24. Move two downloaded archives inside of Mod Organizer's downloads folder. Exempli gratia: Z:/Moding/ModOrganizer2/downloads/
