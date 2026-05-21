@@ -40,6 +40,10 @@
 23. Go back to Vortex.
 24. Use Tab to reach the Downloads button and press Space.
 25. Use Tab to reach the Install button and press Space.
+> [!Note]
+> When installing Skyrim Accessibility, the FOMOD installer has two steps:
+> - "Core Mod Install" is required and installs automatically.
+> - "Optional Sounds > Experimental Sounds" is optional and off by default. These ambient sounds for items, doors, and similar objects can be loud or distracting. You can leave them off for now and reinstall later if you want them.
 26. Use Tab to reach the Install button again and press Space.
 27. Use Tab to reach the Dashboard button (the list with one item) and press Space.
 28. Use Tab to reach the Launch button and press Space.

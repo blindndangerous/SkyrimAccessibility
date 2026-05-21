@@ -43,6 +43,10 @@
 28. Use Tab until you reach the tree view with downloads.
 29. Use the up/down arrows to navigate through the Downloads tab.
 30. Press Enter to quick-install the selected mod.
+> [!Note]
+> When installing Skyrim Accessibility itself, the FOMOD installer has two steps:
+> - "Core Mod Install" is required and installs automatically.
+> - "Optional Sounds > Experimental Sounds" is optional and off by default. These ambient sounds for items, doors, and similar objects can be loud or distracting. You can leave them off for now and reinstall later if you want them.
 31. Install all mods in the Downloads tab.
 32. Use Tab until you reach the tree view with mods.
 33. Press Shift+F10 and select "Enable All Mods".
