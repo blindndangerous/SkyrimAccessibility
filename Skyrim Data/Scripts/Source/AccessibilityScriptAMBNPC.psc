@@ -4,13 +4,29 @@ Scriptname AccessibilityScriptAMBNPC extends ReferenceAlias
 Sound Property AccessibilityAMBNPCEnemy Auto
 
 Event OnInit()
-    RegisterForSingleUpdate(2.0)
+    RegisterForSingleUpdate(10.0)
 EndEvent
 
 Event OnUpdate()
-    FindNPCEnemy()
+    If IsPlayerReady()
+        FindNPCEnemy()
+    EndIf
     RegisterForSingleUpdate(2.0)
 EndEvent
+
+Bool Function IsPlayerReady()
+    Actor PlayerRef = Game.GetPlayer()
+    If PlayerRef == None
+        Return False
+    EndIf
+    If PlayerRef.GetParentCell() == None
+        Return False
+    EndIf
+    If !PlayerRef.Is3DLoaded()
+        Return False
+    EndIf
+    Return True
+EndFunction
 
 Function FindNPCEnemy()
     ObjectReference[] Array = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 3000.0)
