@@ -17,22 +17,38 @@ Sound Property AccessibilityAMBItemScroll Auto
 Sound Property AccessibilityAMBItemMisc Auto
 
 Event OnInit()
-    RegisterForSingleUpdate(5.0)
+    RegisterForSingleUpdate(10.0)
 EndEvent
 
 Event OnUpdate()
-    FindAllIngestible()
-    FindAllWeapons()
-    FindAllAmmo()
-    FindAllArmors()
-    FindAllBooks()
-    FindAllKeys()
-    FindAllSoulGems()
-    FindAllIngredients()
-    FindAllScrolls()
-    FindAllMisc()
+    If IsPlayerReady()
+        FindAllIngestible()
+        FindAllWeapons()
+        FindAllAmmo()
+        FindAllArmors()
+        FindAllBooks()
+        FindAllKeys()
+        FindAllSoulGems()
+        FindAllIngredients()
+        FindAllScrolls()
+        FindAllMisc()
+    EndIf
     RegisterForSingleUpdate(5.0)
 EndEvent
+
+Bool Function IsPlayerReady()
+    Actor PlayerRef = Game.GetPlayer()
+    If PlayerRef == None
+        Return False
+    EndIf
+    If PlayerRef.GetParentCell() == None
+        Return False
+    EndIf
+    If !PlayerRef.Is3DLoaded()
+        Return False
+    EndIf
+    Return True
+EndFunction
 
 Function FindAllIngestible()
     ObjectReference[] Array = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 3000.0)
