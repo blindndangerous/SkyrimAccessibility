@@ -2,6 +2,8 @@ Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
 
 Bool IsAccessibilityMenuOpen Auto
 
+ObjectReference SelectedEntry Auto
+
 String[] MenuList Auto
 Int CurrentMenu Auto
 
@@ -96,10 +98,12 @@ Event OnInit()
     RegisterForKey(19) ;R key
     RegisterForKey(44) ;Z key
     RegisterForKey(46) ;C key
+    RegisterForKey(24) ;O key
     IsAccessibilityMenuOpen = False ;Reset Bool
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
+    AutoLockPick = True ;This should be moved to player controlled setting.
     SortMapMarkers()
     Debug.Notification("Accessibility menu is ready")
 EndEvent
@@ -141,6 +145,8 @@ Event OnKeyDown(Int KeyCode)
         Follow()
     ElseIf KeyCode == 19 && IsAccessibilityMenuOpen == True ;R key
         LockCameraOn()
+    ElseIf KeyCode == 24 ;O key
+        SelectEntry()
     EndIf
 EndEvent
 
@@ -151,6 +157,7 @@ Function ScrollCurrentMenuRight()
         CurrentMenu = 0
     EndIf
     CurrentMenuName()
+    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -161,6 +168,7 @@ Function ScrollCurrentMenuLeft()
         CurrentMenu = MenuList.Length - 1
     EndIf
     CurrentMenuName()
+    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -171,6 +179,7 @@ Function ScrollCurrentEntryDown()
         CurrentEntry = 0
     EndIf
     CurrentEntryName()
+    EntriesListRefresh()
 EndFunction
 
 Function ScrollCurrentEntryUp()
@@ -180,6 +189,7 @@ Function ScrollCurrentEntryUp()
         CurrentEntry = EntriesList.Length - 1
     EndIf
     CurrentEntryName()
+    EntriesListRefresh()
 EndFunction
 
 Function ScrollCurrentSubMenuLeft()
@@ -410,7 +420,7 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + OutOf + " " + Status + " " + Distance + " " + Units)
+            Debug.Notification(Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
@@ -420,7 +430,7 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + OutOf + " " + Distance + " " + Units)
+            Debug.Notification(Name + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     EndIf
 EndFunction
@@ -515,6 +525,38 @@ Function LockCameraOn() ;30 Seconds of Camera Lock On. !!!Vertical Angle Not Wor
             Utility.Wait(0.5)
             LockCameraTimer += 1
         EndWhile
+    EndIf
+EndFunction
+
+Function SelectEntry()
+    If IsAccessibilityMenuOpen == True
+        SelectedEntry = EntriesList[CurrentEntry]
+        Debug.Notification("Entry Selected")
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
+        String PlayerPos = Game.GetPlayer().GetPositionX() As Int + Game.GetPlayer().GetPositionY() As Int + " " + Game.GetPlayer().GetPositionZ() As Int
+        String SelectedEntryPos = SelectedEntry.GetPositionX() As Int + " " + SelectedEntry.GetPositionY() As Int + " " + SelectedEntry.GetPositionZ() As Int
+        Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
+        Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
+        String SelectedEntryDirection
+        Debug.Notification("Player: " + PlayerPos)
+        Debug.Notification("Selected Entry: " + SelectedEntryPos)
+        If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
+            Debug.Notification("Selected Entry is higher by: " + (AltitudeDifference / 0.7) As Int + "Centimeters")
+        Else
+            Debug.Notification("Selected Entry is lower by: " + (AltitudeDifference / 0.7) As Int + "Centimeters")
+        EndIf
+        If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
+            SelectedEntryDirection = "Front"
+        ElseIf SelectedEntryAngle >= 45.0 && SelectedEntryAngle <= 135.0
+            SelectedEntryDirection = "Right"
+        ElseIf SelectedEntryAngle <= -45.0 && SelectedEntryAngle >= -135.0
+            SelectedEntryDirection = "Left"
+        Else
+            SelectedEntryDirection = "Back"
+        EndIf
+        Debug.Notification("Selected Entry Direction: " + SelectedEntryDirection + " Angle is " + SelectedEntryAngle As Int)
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
+        Debug.Notification("No Entry Selected")
     EndIf
 EndFunction
 

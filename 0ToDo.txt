@@ -33,3 +33,5 @@ False empty menus.
 Divide units by 70
 Add ambient sounds to obstacles.
 resize array before so it is not always 127 in travel
+Add a ObjectReference SelectedEntry to remember ObjectReference for future interaction out of menu.
+Add a O key for out of menu statistics such as player coordinates, SelectedEntry coordinates, Altitude diference of Player with SelectedEntry, Diection in angles to SelectedEntry.
