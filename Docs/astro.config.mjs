@@ -9,6 +9,8 @@ import starlightImageZoom from "starlight-image-zoom";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://DioKyrie-Git.github.io",
+  base: "/SkyrimAccessibility",
   integrations: [
     starlight({
       title: "Skyrim Accessibility Docs",
