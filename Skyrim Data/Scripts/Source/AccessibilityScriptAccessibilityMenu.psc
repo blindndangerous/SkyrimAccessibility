@@ -408,7 +408,27 @@ Function CurrentMenuName()
 EndFunction
 
 Function CurrentEntryName()
-    If CurrentMenu == 1
+    If CurrentMenu == 0
+        If CurrentSubMenu == 15
+            If EntriesList.Length == 0
+                Debug.Notification("No entries")
+            Else
+                String Name = ""
+                If EntriesList[CurrentEntry].GetDisplayName() != ""
+                    String Name = EntriesList[CurrentEntry].GetDisplayName()
+                Else
+                    String Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                EndIf
+                If EntriesList[CurrentEntry].IsHarvested() == True
+                    String Name = Name + " Harvested"
+                EndIf
+                String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
+                String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
+                String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
+                Debug.Notification(Name + " " + Distance + " " + Units + " " + OutOf)
+            EndIf
+        EndIf
+    ElseIf CurrentMenu == 1
         If EntriesList.Length == 0
             Debug.Notification("No entries")
         Else
@@ -452,7 +472,7 @@ Function Select()
             If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
                 EntriesList[CurrentEntry].Activate(Game.GetPlayer())
             Else
-                Debug.Notification("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + "meters too far")
+                Debug.Notification("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + " meters too far")
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -461,6 +481,8 @@ Function Select()
 
     ElseIf CurrentMenu == 3
     EndIf
+    EntriesListRefresh()
+    CurrentEntryName()
 EndFunction
 
 Function AutoLockPick()
@@ -551,9 +573,9 @@ Function SelectEntry()
         Debug.Notification("Player: " + PlayerPos)
         Debug.Notification("Selected Entry: " + SelectedEntryPos)
         If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
-            Debug.Notification("Selected Entry is higher by: " + (AltitudeDifference / 0.7) As Int + "Centimeters")
+            Debug.Notification("Selected Entry is higher by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
         Else
-            Debug.Notification("Selected Entry is lower by: " + (AltitudeDifference / 0.7) As Int + "Centimeters")
+            Debug.Notification("Selected Entry is lower by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
         EndIf
         If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
             SelectedEntryDirection = "Front"

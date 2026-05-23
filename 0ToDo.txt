@@ -4,19 +4,18 @@
 3. Add a walk to aimlocked enemy
 4. Add ambient sounds to obstacles.
 5. Coin purse script? Is it still needed?
-6. Expand Ambient sounds.
-7. All sounds from items should be togleable.
-8. Add sound for when not enough lockpicks Papyrus
-9. Change the lockpick ammount need and exp gain dynamicaly based on lock level instead of hardcoding every time.
-10. Add Setting to enable/disable Bool AutoLockPick from MCM menu.
-11. Add Properties to esp.
-12. Port ambiance sound from old scripts.
-13. Filter empty entries from displaying, can be found in ActivateMenu script.
-14. Port Initialisation script.
-15. Add Skill based lockpicking.
-16. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
-17. Add sounds from enemy when enemy getting damage.
-18. Nature add Harvested text if harvested.
+6. All sounds from items should be togleable.
+7. Add sound for when not enough lockpicks Papyrus
+8. Change the lockpick ammount need and exp gain dynamicaly based on lock level instead of hardcoding every time.
+9. Add Setting to enable/disable Bool AutoLockPick from MCM menu.
+10. Add Properties to esp.
+11. Port ambiance sound from old scripts.
+12. Filter empty entries from displaying, can be found in ActivateMenu script.
+13. Port Initialisation script.
+14. Add Skill based lockpicking.
+15. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
+16. Add sounds from enemy when enemy getting damage.
+17. Nature add Harvested text if harvested.
 
 
 2.0.0
