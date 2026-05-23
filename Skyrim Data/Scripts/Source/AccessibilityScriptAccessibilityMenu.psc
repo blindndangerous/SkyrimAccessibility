@@ -535,9 +535,10 @@ EndFunction
 Function SelectEntry()
     If IsAccessibilityMenuOpen == True
         SelectedEntry = EntriesList[CurrentEntry]
-        Debug.Notification("Entry Selected")
+        Debug.Notification("Entry Selected:")
+        CurrentEntryName()
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
-        String PlayerPos = Game.GetPlayer().GetPositionX() As Int + Game.GetPlayer().GetPositionY() As Int + " " + Game.GetPlayer().GetPositionZ() As Int
+        String PlayerPos = Game.GetPlayer().GetPositionX() As Int + " " + Game.GetPlayer().GetPositionY() As Int + " " + Game.GetPlayer().GetPositionZ() As Int
         String SelectedEntryPos = SelectedEntry.GetPositionX() As Int + " " + SelectedEntry.GetPositionY() As Int + " " + SelectedEntry.GetPositionZ() As Int
         Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
         Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
