@@ -100,6 +100,7 @@ Event OnInit()
     RegisterForKey(44) ;Z key
     RegisterForKey(46) ;C key
     RegisterForKey(24) ;O key
+    RegisterForKey(38) ;L key
     IsAccessibilityMenuOpen = False ;Reset IsAccessibilityMenuOpen
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
@@ -149,6 +150,8 @@ Event OnKeyDown(Int KeyCode)
         LockCameraOn()
     ElseIf KeyCode == 24 ;O key
         SelectEntry()
+    ElseIf KeyCode == 38 ;L key
+        ReturnToNavMesh()
     EndIf
 EndEvent
 
@@ -886,4 +889,8 @@ Function SortActivators()
             TotalNPCIndex += 1
         EndWhile
     EndIf
+EndFunction
+
+Function ReturnToNavMesh()
+    PO3_SKSEFunctions.MoveToNearestNavmeshLocation(Game.GetPlayer())
 EndFunction

@@ -8,6 +8,7 @@
 7. Port ambiance sound from old scripts.
 8. Port Initialisation script.
 9. Add sounds from enemy when enemy getting damage.
+10. Add sound library to untility menu to listen how and what each sound represents.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
