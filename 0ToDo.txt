@@ -7,8 +7,7 @@
 6. All sounds from items should be togleable.
 7. Port ambiance sound from old scripts.
 8. Port Initialisation script.
-9. flake.nix should build Papyrus.
-10. Add sounds from enemy when enemy getting damage.
+9. Add sounds from enemy when enemy getting damage.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.

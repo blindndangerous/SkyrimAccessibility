@@ -21,9 +21,19 @@
           version = "1.0.0";
           # Sources
           src = (./.);
-          sourceRoot = "pname"; # Build starts in parent directory of all source directories.
           buildPhase = ''
-            papyrus-compiler compile -h "./lib/skse/scripts/vanilla/" -h "./lib/skse/scripts/modified/" -h "./lib/papyrus-extender/Papyrus/Source/scripts/" -h "./lib/papyrus-extender-tweaks/Skyrim/Data/source/scripts/" -h "./lib/db-skse-functions/DbSkseFunctions/Papyrus/Scripts/Source/" -h "./lib/papyrus-util/Scripts/Source/" -h "./lib/skyui-community/source/scripts/" -h "./lib/ck-scripts/Scripts/Source/Scripts/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
+            papyrus-compiler compile \
+            -h "./lib/skse/scripts/vanilla/" \
+            -h "./lib/skse/scripts/modified/" \
+            -h "./lib/papyrus-extender/Papyrus/Source/scripts/" \
+            -h "./lib/papyrus-extender-tweaks/Skyrim/Data/source/scripts/" \
+            -h "./lib/db-skse-functions/DbSkseFunctions/Papyrus/Scripts/Source/" \
+            -h "./lib/papyrus-util/Scripts/Source/" \
+            -h "./lib/skyui-community/source/scripts/" \
+            -h "./lib/ck-scripts/Scripts/Source/Scripts/" \
+            -i "./Skyrim Data/Scripts/Source/" \
+            -o "./Skyrim Data/Scripts/" \
+            -verbose
           '';
           nativeBuildInputs = with pkgs; [
           papyrus-compiler.packages.${system}.default
@@ -42,6 +52,8 @@
         };
       });
 }
+
+# ck-scripts requires manual copy of original game scripts
 
 # Use command bellow to compile .psc files. Update to include 2 outpus and multiple header folders.
 # papyrus-compiler compile -h "/home/cubozoa/Games/Skyrim Special Edition/Data/Scripts/Source/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
