@@ -2,7 +2,7 @@
 .papyrus/
 build/
 "Skyrim Data/Sounds"
-lib/Dependencies/*
+lib/ck-scripts
 
 *.wav
 *.zip

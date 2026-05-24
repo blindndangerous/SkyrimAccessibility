@@ -7,7 +7,7 @@
 6. All sounds from items should be togleable.
 7. Port ambiance sound from old scripts.
 8. Port Initialisation script.
-9. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
+9. flake.nix should build Papyrus.
 10. Add sounds from enemy when enemy getting damage.
 
 2.0.0

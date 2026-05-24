@@ -23,9 +23,9 @@
           src = (./.);
           sourceRoot = "pname"; # Build starts in parent directory of all source directories.
           buildPhase = ''
+            papyrus-compiler compile -h "./lib/skse/scripts/vanilla/" -h "./lib/skse/scripts/modified/" -h "./lib/papyrus-extender/Papyrus/Source/scripts/" -h "./lib/papyrus-extender-tweaks/Skyrim/Data/source/scripts/" -h "./lib/db-skse-functions/DbSkseFunctions/Papyrus/Scripts/Source/" -h "./lib/papyrus-util/Scripts/Source/" -h "./lib/skyui-community/source/scripts/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
           '';
           nativeBuildInputs = with pkgs; [
-          #git
           papyrus-compiler.packages.${system}.default
           #xmake
           ];
@@ -42,11 +42,6 @@
         };
       });
 }
-
-            #xmake f -p windows --arch=x86_64 --toolchain=clang-cl --sdk="$(which clang-cl)" --cc="$(which clang-cl)" --cxx="$(which clang-cl)" --ldflags="-fuse-ld=lld"
-            #xmake build
-# nix build -f flake.nix
-
 
 # Use command bellow to compile .psc files. Update to include 2 outpus and multiple header folders.
 # papyrus-compiler compile -h "/home/cubozoa/Games/Skyrim Special Edition/Data/Scripts/Source/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
