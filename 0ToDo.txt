@@ -10,13 +10,9 @@
 9. Add Setting to enable/disable Bool AutoLockPick from MCM menu.
 10. Add Properties to esp.
 11. Port ambiance sound from old scripts.
-12. Filter empty entries from displaying, can be found in ActivateMenu script.
-13. Port Initialisation script.
-14. Add Skill based lockpicking.
-15. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
-16. Add sounds from enemy when enemy getting damage.
-17. Nature add Harvested text if harvested.
-
+12. Port Initialisation script.
+13. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
+14. Add sounds from enemy when enemy getting damage.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.

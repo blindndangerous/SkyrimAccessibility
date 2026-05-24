@@ -413,7 +413,7 @@ Function CurrentEntryName()
             If EntriesList.Length == 0
                 Debug.Notification("No entries")
             Else
-                String Name = ""
+                String Name
                 If EntriesList[CurrentEntry].GetDisplayName() != ""
                     String Name = EntriesList[CurrentEntry].GetDisplayName()
                 Else
@@ -433,7 +433,7 @@ Function CurrentEntryName()
             Debug.Notification("No entries")
         Else
             String Name = DbSkseFunctions.GetMapMarkerName(EntriesList[CurrentEntry])
-            String Status = ""
+            String Status
             If (EntriesList[CurrentEntry].IsMapMarkerVisible() == True && EntriesList[CurrentEntry].CanFastTravelToMarker() == True)
                 Status = "Discovered"
             ElseIf (EntriesList[CurrentEntry].IsMapMarkerVisible() == True && EntriesList[CurrentEntry].CanFastTravelToMarker() == False)
@@ -450,7 +450,7 @@ Function CurrentEntryName()
         If EntriesList.Length == 0
             Debug.Notification("No entries")
         Else
-            String Name = ""
+            String Name
             If EntriesList[CurrentEntry].GetDisplayName() != ""
                 String Name = EntriesList[CurrentEntry].GetDisplayName()
             Else
@@ -486,6 +486,39 @@ Function Select()
 EndFunction
 
 Function AutoLockPick()
+    Int LockPicksNeeded
+    Int LockPickingSkillBasedRandom
+    Float LockPickingSkill = Game.GetPlayer().GetActorValue("Lockpicking")
+    If LockPickingSkill >= 10 && LockPickingSkill < 20
+        LockPickingSkillBasedRandom = 10 ; 8%
+    ElseIf LockPickingSkill >= 20 && LockPickingSkill < 30
+        LockPickingSkillBasedRandom = 9 ; 9%
+    ElseIf LockPickingSkill >= 30 && LockPickingSkill < 40
+        LockPickingSkillBasedRandom = 8 ; 10%
+    ElseIf LockPickingSkill >= 40 && LockPickingSkill < 50
+        LockPickingSkillBasedRandom = 7 ; 11%
+    ElseIf LockPickingSkill >= 50 && LockPickingSkill < 60
+        LockPickingSkillBasedRandom = 6 ; 12%
+    ElseIf LockPickingSkill >= 60 && LockPickingSkill < 70
+        LockPickingSkillBasedRandom = 5 ; 14%
+    ElseIf LockPickingSkill >= 70 && LockPickingSkill < 80
+        LockPickingSkillBasedRandom = 4 ; 16%
+    ElseIf LockPickingSkill >= 80 && LockPickingSkill < 90
+        LockPickingSkillBasedRandom = 3 ; 20%
+    ElseIf LockPickingSkill >= 90 && LockPickingSkill < 100
+        LockPickingSkillBasedRandom = 2 ; 25%
+    ElseIf LockPickingSkill == 100 ; 50%
+        LockPickingSkillBasedRandom = 1
+    EndIf
+
+    LockPickingSkillBasedRandom = EntriesList[CurrentEntry].GetLockLevel() / LockPickingSkill As Int
+
+    If LockPickingSkillBasedRandom < 1
+        LockPickingSkillBasedRandom = 1
+    EndIf
+
+    Int LockPickingSkillBasedExperience = 2 + (EntriesList[CurrentEntry].GetLockLevel() + 16) / 48 + LockPickingSkill As Int / 3
+
     If EntriesList[CurrentEntry].IsLocked() == 0
         EntriesList[CurrentEntry].Activate(Game.GetPlayer())
     ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
@@ -495,22 +528,22 @@ Function AutoLockPick()
             If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
                 EntriesList[CurrentEntry].Lock(False)
                 AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
-                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= 1
-                    If Utility.RandomInt(0, 3) == 0
+            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= LockPicksNeeded
+                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= LockPicksNeeded
+                    If Utility.RandomInt(0, LockPickingSkillBasedRandom) == 0
                         EntriesList[CurrentEntry].Lock(False)
                         AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                        Game.GetPlayer().RemoveItem(Lockpick, 1)
-                        Game.AdvanceSkill("Lockpicking", 2.0)
+                        Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
+                        Game.AdvanceSkill("Lockpicking", LockPickingSkillBasedExperience)
                     Else
-                        Game.GetPlayer().RemoveItem(Lockpick, 1)
+                        Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
                         Game.AdvanceSkill("Lockpicking", 1.0)
                         AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
                     EndIf
                     Utility.Wait(0.5)
                 EndWhile
-                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) == 0
-                    Debug.Notification("You run out of Lockpicks")
+                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < LockPicksNeeded
+                    Debug.Notification("Not enough Lockpicks")
                 EndIf
             Else
                 Debug.Notification("Not enough Lockpicks")
