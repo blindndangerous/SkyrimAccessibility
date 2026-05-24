@@ -23,7 +23,7 @@
           src = (./.);
           sourceRoot = "pname"; # Build starts in parent directory of all source directories.
           buildPhase = ''
-            papyrus-compiler compile -h "./lib/skse/scripts/vanilla/" -h "./lib/skse/scripts/modified/" -h "./lib/papyrus-extender/Papyrus/Source/scripts/" -h "./lib/papyrus-extender-tweaks/Skyrim/Data/source/scripts/" -h "./lib/db-skse-functions/DbSkseFunctions/Papyrus/Scripts/Source/" -h "./lib/papyrus-util/Scripts/Source/" -h "./lib/skyui-community/source/scripts/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
+            papyrus-compiler compile -h "./lib/skse/scripts/vanilla/" -h "./lib/skse/scripts/modified/" -h "./lib/papyrus-extender/Papyrus/Source/scripts/" -h "./lib/papyrus-extender-tweaks/Skyrim/Data/source/scripts/" -h "./lib/db-skse-functions/DbSkseFunctions/Papyrus/Scripts/Source/" -h "./lib/papyrus-util/Scripts/Source/" -h "./lib/skyui-community/source/scripts/" -h "./lib/ck-scripts/Scripts/Source/Scripts/" -i "./Skyrim Data/Scripts/Source/" -o "./Skyrim Data/Scripts/"
           '';
           nativeBuildInputs = with pkgs; [
           papyrus-compiler.packages.${system}.default
