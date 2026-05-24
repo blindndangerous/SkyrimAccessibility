@@ -13,10 +13,11 @@ Int CurrentSubMenu Auto
 ObjectReference[] EntriesList Auto
 Int CurrentEntry Auto
 
-Bool AutoLockPick Auto
+Bool AutoLockPick Auto ;Add to MCM
 
 Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
 Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
+Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
 
 MiscObject Property Lockpick Auto ;Add to esp
 MiscObject Property SkeletonKey Auto ;Add to esp
@@ -99,13 +100,14 @@ Event OnInit()
     RegisterForKey(44) ;Z key
     RegisterForKey(46) ;C key
     RegisterForKey(24) ;O key
-    IsAccessibilityMenuOpen = False ;Reset Bool
+    IsAccessibilityMenuOpen = False ;Reset IsAccessibilityMenuOpen
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
-    AutoLockPick = True ;This should be moved to MCM.
+    SelectedEntry = None ;Reset SelectedEntry
+    AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
-    Debug.Notification("Accessibility menu is ready")
+    Debug.Notification("Accessibility Menu Ready")
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
@@ -116,11 +118,11 @@ Event OnKeyDown(Int KeyCode)
         CurrentEntryName()
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
-        Debug.Notification("Accessibility menu is open")
+        Debug.Notification("Accessibility Menu Open")
     ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
         Game.EnablePlayerControls()
         IsAccessibilityMenuOpen = False
-        Debug.Notification("Accessibility menu is closed")
+        Debug.Notification("Accessibility Menu Closed")
     ElseIf KeyCode == 17 && IsAccessibilityMenuOpen == True ;W key
         ScrollCurrentEntryUp()
     ElseIf KeyCode == 30 && IsAccessibilityMenuOpen == True ;A key
@@ -544,9 +546,11 @@ Function AutoLockPick()
                 EndWhile
                 If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < LockPicksNeeded
                     Debug.Notification("Not enough Lockpicks")
+                    AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
                 EndIf
             Else
                 Debug.Notification("Not enough Lockpicks")
+                AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
             EndIf
         EndIf
     ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255

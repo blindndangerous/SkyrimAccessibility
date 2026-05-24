@@ -5,14 +5,10 @@
 4. Add ambient sounds to obstacles.
 5. Coin purse script? Is it still needed?
 6. All sounds from items should be togleable.
-7. Add sound for when not enough lockpicks Papyrus
-8. Change the lockpick ammount need and exp gain dynamicaly based on lock level instead of hardcoding every time.
-9. Add Setting to enable/disable Bool AutoLockPick from MCM menu.
-10. Add Properties to esp.
-11. Port ambiance sound from old scripts.
-12. Port Initialisation script.
-13. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
-14. Add sounds from enemy when enemy getting damage.
+7. Port ambiance sound from old scripts.
+8. Port Initialisation script.
+9. flake.nix should build Papyrus, also add folder lib/Dependencies to host all headers for Papyrus. This folder should be in gitignore.
+10. Add sounds from enemy when enemy getting damage.
 
 2.0.0
 1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
