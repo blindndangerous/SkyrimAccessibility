@@ -18,7 +18,7 @@ Bool AutoLockPick Auto ;Add to MCM
 Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
 Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
 Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
-
+Sound Property AccessibilityCNDNPCDamageReceived Auto ;Add to esp
 Sound Property AccessibilityCNDWalkInPlace Auto ;Add to esp
 
 Sound Property AccessibilityAMBContainerUnlocked Auto ;Add to esp
@@ -107,6 +107,8 @@ ObjectReference[] HalfMiscActivatorsArray Auto
 ObjectReference[] TalkingActivatorsArray Auto
 ObjectReference[] MiscActivatorsArray Auto
 
+Int[] NPCHealthArray
+
 
 
 Event OnInit()
@@ -131,6 +133,7 @@ Event OnInit()
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
     SelectedEntry = None ;Reset SelectedEntry
+    NPCHealthArray = New Int[1] ;Initialise Array
     AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
     AmbientSound()
@@ -139,6 +142,10 @@ EndEvent
 
 Event OnUpdate()
     AmbientSound()
+    If Game.GetPlayer().GetCombatState() == 1
+        SoundOnNPCDamageReceived()
+    EndIf
+    RegisterForSingleUpdate(5.0)
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
@@ -938,7 +945,6 @@ Function PlayerStatus()
 EndFunction
 
 Function AmbientSound()
-    RegisterForSingleUpdate(5.0)
     AddAmbientSound(ContainersArray, AccessibilityAMBContainerUnlocked, AccessibilityAMBContainerLocked)
     AddAmbientSound(AliveNPCArray, AccessibilityAMBNPCNeutral, AccessibilityAMBNPCEnemy)
     AddAmbientSound(LootNPCArray, AccessibilityAMBLootNPC, None)
@@ -1007,6 +1013,21 @@ Function AddAmbientSound(ObjectReference[] Array, Sound AMBSound, Sound AMBSound
                 AMBSound.Play(Array[Index])
             EndIf
         EndIf
+        Index += 1
+    EndWhile
+EndFunction
+
+Function SoundOnNPCDamageReceived()
+    Int Index = 0
+    While Index < AliveNPCArray.Length
+        If NPCHealthArray[Index] != (AliveNPCArray[Index] As Actor).GetActorValue("Health") As Int
+            AccessibilityCNDNPCDamageReceived.Play(AliveNPCArray[Index])
+            Index += 1
+        EndIf
+    EndWhile
+    Index = 0
+    While Index < AliveNPCArray.Length
+        NPCHealthArray = PapyrusUtil.PushInt(NPCHealthArray, (AliveNPCArray[Index] As Actor).GetActorValue("Health") As Int)
         Index += 1
     EndWhile
 EndFunction
