@@ -19,6 +19,8 @@ Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
 Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
 Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
 
+Sound Property AccessibilityCNDWalkInPlace Auto ;Add to esp
+
 MiscObject Property Lockpick Auto ;Add to esp
 MiscObject Property SkeletonKey Auto ;Add to esp
 
