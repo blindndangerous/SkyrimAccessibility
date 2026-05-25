@@ -11,13 +11,8 @@ Follow NPC.
 
 Sound:
 Utility has a Sound Library where palyers can listen to what each sound denominates.
-Sound for Alive Enemies.
 Sound when enemies receive damage.
 Sound for Obstacles.
-Sound for Flora.
-Sound for peaceful animals.
-Sound for Dead NPC.
-Sound for Items.
 
 
 2.0.0
