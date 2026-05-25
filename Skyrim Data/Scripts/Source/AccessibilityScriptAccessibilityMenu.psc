@@ -101,6 +101,7 @@ Event OnInit()
     RegisterForKey(46) ;C key
     RegisterForKey(24) ;O key
     RegisterForKey(38) ;L key
+    RegisterForKey(34) ;G key
     IsAccessibilityMenuOpen = False ;Reset IsAccessibilityMenuOpen
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
@@ -152,6 +153,8 @@ Event OnKeyDown(Int KeyCode)
         SelectEntry()
     ElseIf KeyCode == 38 ;L key
         ReturnToNavMesh()
+    ElseIf KeyCode == 34 ;G key
+        PlayerStatus()
     EndIf
 EndEvent
 
@@ -893,4 +896,14 @@ EndFunction
 
 Function ReturnToNavMesh()
     PO3_SKSEFunctions.MoveToNearestNavmeshLocation(Game.GetPlayer())
+EndFunction
+
+Function PlayerStatus()
+    Int Health = Game.GetPlayer().GetActorValue("Health") As Int
+    Int Stamina = Game.GetPlayer().GetActorValue("Stamina") As Int
+    Int Magicka = Game.GetPlayer().GetActorValue("Magicka") As Int
+    Int Gold = Game.GetPlayer().GetGoldAmount()
+    Int CarryWeight = Game.GetPlayer().GetActorValue("InventoryWeight") As Int
+    Int MaxCarryWeight = Game.GetPlayer().GetActorValue("CarryWeight") As Int
+    Debug.Notification("Halth: " + Health + " Stamina: " + Stamina + " Magicka: " + Magicka + " Gold: " + Gold + " Carry Weight: " + CarryWeight + "/" + MaxCarryWeight)
 EndFunction
