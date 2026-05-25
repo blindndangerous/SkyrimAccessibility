@@ -21,6 +21,28 @@ Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
 
 Sound Property AccessibilityCNDWalkInPlace Auto ;Add to esp
 
+Sound Property AccessibilityAMBContainerUnlocked Auto ;Add to esp
+Sound Property AccessibilityAMBContainerLocked Auto ;Add to esp
+Sound Property AccessibilityAMBNPCNeutral Auto ;Add to esp
+Sound Property AccessibilityAMBNPCEnemy Auto ;Add to esp
+Sound Property AccessibilityAMBLootNPC Auto ;Add to esp
+Sound Property AccessibilityAMBDoorUnlocked Auto ;Add to esp
+Sound Property AccessibilityAMBDoorLocked Auto ;Add to esp
+Sound Property AccessibilityAMBIngestible Auto ;Add to esp
+Sound Property AccessibilityAMBWeapon Auto ;Add to esp
+Sound Property AccessibilityAMBAmmo Auto ;Add to esp
+Sound Property AccessibilityAMBArmor Auto ;Add to esp
+Sound Property AccessibilityAMBBook Auto ;Add to esp
+Sound Property AccessibilityAMBKey Auto ;Add to esp
+Sound Property AccessibilityAMBSoulGem Auto ;Add to esp
+Sound Property AccessibilityAMBIngredient Auto ;Add to esp
+Sound Property AccessibilityAMBScroll Auto ;Add to esp
+Sound Property AccessibilityAMBMiscItem Auto ;Add to esp
+Sound Property AccessibilityAMBFurniture Auto ;Add to esp
+Sound Property AccessibilityAMBNatureUnharvested Auto ;Add to esp
+Sound Property AccessibilityAMBNatureHarvested Auto ;Add to esp
+Sound Property AccessibilityAMBMiscActivator Auto ;Add to esp
+
 MiscObject Property Lockpick Auto ;Add to esp
 MiscObject Property SkeletonKey Auto ;Add to esp
 
@@ -111,7 +133,12 @@ Event OnInit()
     SelectedEntry = None ;Reset SelectedEntry
     AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
+    AmbientSound()
     Debug.Notification("Accessibility Menu Ready")
+EndEvent
+
+Event OnUpdate()
+    AmbientSound()
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
@@ -908,4 +935,78 @@ Function PlayerStatus()
     Int CarryWeight = Game.GetPlayer().GetActorValue("InventoryWeight") As Int
     Int MaxCarryWeight = Game.GetPlayer().GetActorValue("CarryWeight") As Int
     Debug.Notification("Halth: " + Health + " Stamina: " + Stamina + " Magicka: " + Magicka + " Gold: " + Gold + " Carry Weight: " + CarryWeight + "/" + MaxCarryWeight)
+EndFunction
+
+Function AmbientSound()
+    RegisterForSingleUpdate(5.0)
+    AddAmbientSound(ContainersArray, AccessibilityAMBContainerUnlocked, AccessibilityAMBContainerLocked)
+    AddAmbientSound(AliveNPCArray, AccessibilityAMBNPCNeutral, AccessibilityAMBNPCEnemy)
+    AddAmbientSound(LootNPCArray, AccessibilityAMBLootNPC, None)
+    AddAmbientSound(DoorsArray, AccessibilityAMBDoorUnlocked, AccessibilityAMBDoorLocked)
+    AddAmbientSound(IngestiblesArray, AccessibilityAMBIngestible, None)
+    AddAmbientSound(WeaponArray, AccessibilityAMBWeapon, None)
+    AddAmbientSound(AmmoArray, AccessibilityAMBAmmo, None)
+    AddAmbientSound(ArmorArray, AccessibilityAMBArmor, None)
+    AddAmbientSound(BooksArray, AccessibilityAMBBook, None)
+    AddAmbientSound(KeysArray, AccessibilityAMBKey, None)
+    AddAmbientSound(SoulGemsArray, AccessibilityAMBSoulGem, None)
+    AddAmbientSound(IngredientsArray, AccessibilityAMBIngredient, None)
+    AddAmbientSound(ScrollsArray, AccessibilityAMBScroll, None)
+    AddAmbientSound(MiscItemsArray, AccessibilityAMBMiscItem, None)
+    AddAmbientSound(FurnitureArray, AccessibilityAMBFurniture, None)
+    AddAmbientSound(NatureArray, AccessibilityAMBNatureUnharvested, AccessibilityAMBNatureHarvested)
+    AddAmbientSound(MiscActivatorsArray, AccessibilityAMBMiscActivator, None)
+EndFunction
+
+Function AddAmbientSound(ObjectReference[] Array, Sound AMBSound, Sound AMBSoundAlt)
+    Int Index = 0
+    While Index < Array.Length
+        If Array[Index] != None
+            Utility.Wait(Utility.RandomFloat())
+            If Array == ContainersArray && Array[Index].IsLocked() == False
+                AMBSound.Play(Array[Index])
+            ElseIf Array == ContainersArray && Array[Index].IsLocked() == True
+                AMBSoundAlt.Play(Array[Index])
+            ElseIf Array == LootNPCArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == AliveNPCArray && (Array[Index] As Actor).IsHostileToActor(Game.GetPlayer()) == False
+                AMBSound.Play(Array[Index])
+            ElseIf Array == AliveNPCArray && (Array[Index] As Actor).IsHostileToActor(Game.GetPlayer()) == True
+                AMBSoundAlt.Play(Array[Index])
+            ElseIf Array == DoorsArray && Array[Index].IsLocked() == False
+                AMBSound.Play(Array[Index])
+            ElseIf Array == DoorsArray && Array[Index].IsLocked() == True
+                AMBSoundAlt.Play(Array[Index])
+            ElseIf Array == IngestiblesArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == WeaponArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == AmmoArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == ArmorArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == BooksArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == KeysArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == SoulGemsArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == IngredientsArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == ScrollsArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == MiscItemsArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == FurnitureArray
+                AMBSound.Play(Array[Index])
+            ElseIf Array == NatureArray && Array[Index].IsHarvested() == False
+                AMBSound.Play(Array[Index])
+            ElseIf Array == NatureArray && Array[Index].IsHarvested() == True
+                AMBSoundAlt.Play(Array[Index])
+            ElseIf Array == MiscActivatorsArray
+                AMBSound.Play(Array[Index])
+            EndIf
+        EndIf
+        Index += 1
+    EndWhile
 EndFunction
