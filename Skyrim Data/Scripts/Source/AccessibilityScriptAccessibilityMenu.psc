@@ -135,7 +135,8 @@ Event OnInit()
     AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
     AmbientSound()
-    Debug.Notification("Accessibility Menu Ready")
+    Utility.Wait(5.0)
+    DisplayMenuText("Accessibility Menu Ready")
 EndEvent
 
 Event OnUpdate()
@@ -152,11 +153,11 @@ Event OnKeyDown(Int KeyCode)
         CurrentEntryName()
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
-        Debug.Notification("Accessibility Menu Open")
+        DisplayMenuText("Accessibility Menu Open")
     ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
         Game.EnablePlayerControls()
         IsAccessibilityMenuOpen = False
-        Debug.Notification("Accessibility Menu Closed")
+        DisplayMenuText("Accessibility Menu Closed")
     ElseIf KeyCode == 17 && IsAccessibilityMenuOpen == True ;W key
         ScrollCurrentEntryUp()
     ElseIf KeyCode == 30 && IsAccessibilityMenuOpen == True ;A key
@@ -199,7 +200,6 @@ Function ScrollCurrentMenuRight()
         CurrentMenu = 0
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -210,7 +210,6 @@ Function ScrollCurrentMenuLeft()
         CurrentMenu = MenuList.Length - 1
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -241,7 +240,6 @@ Function ScrollCurrentSubMenuLeft()
         CurrentSubMenu = SubMenuList.Length - 1
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -252,7 +250,6 @@ Function ScrollCurrentSubMenuRight()
         CurrentSubMenu = 0
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -446,14 +443,14 @@ EndFunction
 Function CurrentMenuName()
     SubMenuListRefresh()
     EntriesListRefresh()
-    Debug.Notification(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
+    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
 EndFunction
 
 Function CurrentEntryName()
     If CurrentMenu == 0
         If CurrentSubMenu == 15
             If EntriesList.Length == 0
-                Debug.Notification("No entries")
+                DisplayMenuText("No entries")
             Else
                 String Name
                 If EntriesList[CurrentEntry].GetDisplayName() != ""
@@ -467,12 +464,12 @@ Function CurrentEntryName()
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
                 String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-                Debug.Notification(Name + " " + Distance + " " + Units + " " + OutOf)
+                DisplayMenuText(Name + " " + Distance + " " + Units + " " + OutOf)
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
         If EntriesList.Length == 0
-            Debug.Notification("No entries")
+            DisplayMenuText("No entries")
         Else
             String Name = DbSkseFunctions.GetMapMarkerName(EntriesList[CurrentEntry])
             String Status
@@ -486,11 +483,11 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
+            DisplayMenuText(Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
-            Debug.Notification("No entries")
+            DisplayMenuText("No entries")
         Else
             String Name
             If EntriesList[CurrentEntry].GetDisplayName() != ""
@@ -501,7 +498,7 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + Distance + " " + Units + " " + OutOf)
+            DisplayMenuText(Name + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     EndIf
 EndFunction
@@ -514,7 +511,7 @@ Function Select()
             If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
                 EntriesList[CurrentEntry].Activate(Game.GetPlayer())
             Else
-                Debug.Notification("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + " meters too far")
+                DisplayMenuText("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + " meters too far")
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -577,19 +574,21 @@ Function AutoLockPick()
                         AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
                         Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
                         Game.AdvanceSkill("Lockpicking", LockPickingSkillBasedExperience)
+                        DisplayMenuText("Success")
                     Else
                         Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
                         Game.AdvanceSkill("Lockpicking", 1.0)
                         AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
+                        DisplayMenuText("Fail")
                     EndIf
                     Utility.Wait(0.5)
                 EndWhile
                 If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < LockPicksNeeded
-                    Debug.Notification("Not enough Lockpicks")
+                    DisplayMenuText("Not enough Lockpicks")
                     AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
                 EndIf
             Else
-                Debug.Notification("Not enough Lockpicks")
+                DisplayMenuText("Not enough Lockpicks")
                 AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
             EndIf
         EndIf
@@ -601,7 +600,7 @@ EndFunction
 Function Teleport()
     If CurrentMenu == 0
         If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 3500
-            Debug.Notification("Too far to teleport")
+            DisplayMenuText("Too far to teleport")
         Else
             Game.GetPlayer().MoveTo(EntriesList[CurrentEntry])
         EndIf
@@ -635,8 +634,8 @@ EndFunction
 Function SelectEntry()
     If IsAccessibilityMenuOpen == True
         SelectedEntry = EntriesList[CurrentEntry]
-        Debug.Notification("Entry Selected:")
-        CurrentEntryName()
+        String SelectedEntryName = CurrentEntryName()
+        DisplayMenuText("Entry Selected: " + SelectedEntryName)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
         SelectedEntry = None
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
@@ -645,12 +644,11 @@ Function SelectEntry()
         Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
         Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
         String SelectedEntryDirection
-        Debug.Notification("Player: " + PlayerPos)
-        Debug.Notification("Selected Entry: " + SelectedEntryPos)
+        String Altitude
         If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
-            Debug.Notification("Selected Entry is higher by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
+            Altitude = (" Entry up by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
         Else
-            Debug.Notification("Selected Entry is lower by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
+            Altitude = (" Entry down by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
         EndIf
         If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
             SelectedEntryDirection = "Front"
@@ -661,9 +659,9 @@ Function SelectEntry()
         Else
             SelectedEntryDirection = "Back"
         EndIf
-        Debug.Notification("Selected Entry Direction: " + SelectedEntryDirection + " Angle is " + SelectedEntryAngle As Int)
+        DisplayMenuText("Direction: " + SelectedEntryDirection + " Angle: " + SelectedEntryAngle As Int + Altitude + " Player: " + PlayerPos + " Entry: " + SelectedEntryPos)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
-        Debug.Notification("No Entry Selected")
+        DisplayMenuText("No Entry Selected")
     EndIf
 EndFunction
 
@@ -944,7 +942,7 @@ Function PlayerStatus()
     Int Gold = Game.GetPlayer().GetGoldAmount()
     Int CarryWeight = Game.GetPlayer().GetActorValue("InventoryWeight") As Int
     Int MaxCarryWeight = Game.GetPlayer().GetActorValue("CarryWeight") As Int
-    Debug.Notification("Halth: " + Health + " Stamina: " + Stamina + " Magicka: " + Magicka + " Gold: " + Gold + " Carry Weight: " + CarryWeight + "/" + MaxCarryWeight)
+    DisplayMenuText("Halth: " + Health + " Stamina: " + Stamina + " Magicka: " + Magicka + " Gold: " + Gold + " Carry Weight: " + CarryWeight + "/" + MaxCarryWeight)
 EndFunction
 
 Function AmbientSound()
@@ -1018,4 +1016,8 @@ Function AddAmbientSound(ObjectReference[] Array, Sound AMBSound, Sound AMBSound
         EndIf
         Index += 1
     EndWhile
+EndFunction
+
+Function DisplayMenuText(String Text)
+	UI.InvokeString("HUD Menu", "_root.HUDMovieBaseInstance.QuestUpdateBaseInstance.ShowNotification", Text)
 EndFunction
