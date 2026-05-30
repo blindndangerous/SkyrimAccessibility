@@ -5,8 +5,8 @@ Clairvoyance/Objctive direction.
 
 Sound:
 Utility has a Sound Library where palyers can listen to what each sound denominates.
-Sound for Obstacles.
-Add sound to Selected Entry
+Add sound for Obstacles.
+Add sound to ore veins.
 
 
 1.1.0

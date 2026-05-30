@@ -153,6 +153,7 @@ EndEvent
 Event OnKeyDown(Int KeyCode)
     If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
         DisplayMenuText("Accessibility Menu Open")
+        Utility.Wait(2.0)
         MenuListRefresh()
         CurrentMenuName()
         SortActivators()
