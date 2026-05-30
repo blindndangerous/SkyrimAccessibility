@@ -12,6 +12,7 @@ Int CurrentSubMenu Auto
 
 ObjectReference[] EntriesList Auto
 Int CurrentEntry Auto
+String CurrentEntryName Auto
 
 Bool AutoLockPick Auto ;Add to MCM
 
@@ -219,7 +220,7 @@ Function ScrollCurrentEntryDown()
     Else
         CurrentEntry = 0
     EndIf
-    CurrentEntryName()
+    CurrentEntryNameShow()
     EntriesListRefresh()
 EndFunction
 
@@ -229,7 +230,7 @@ Function ScrollCurrentEntryUp()
     Else
         CurrentEntry = EntriesList.Length - 1
     EndIf
-    CurrentEntryName()
+    CurrentEntryNameShow()
     EntriesListRefresh()
 EndFunction
 
@@ -440,17 +441,11 @@ Function EntriesListRefresh()
     EndIf
 EndFunction
 
-Function CurrentMenuName()
-    SubMenuListRefresh()
-    EntriesListRefresh()
-    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
-EndFunction
-
 Function CurrentEntryName()
     If CurrentMenu == 0
         If CurrentSubMenu == 15
             If EntriesList.Length == 0
-                DisplayMenuText("No entries")
+                CurrentEntryName = ("No entries")
             Else
                 String Name
                 If EntriesList[CurrentEntry].GetDisplayName() != ""
@@ -464,12 +459,12 @@ Function CurrentEntryName()
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
                 String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-                DisplayMenuText(Name + " " + Distance + " " + Units + " " + OutOf)
+                CurrentEntryName = (Name + " " + Distance + " " + Units + " " + OutOf)
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
         If EntriesList.Length == 0
-            DisplayMenuText("No entries")
+            CurrentEntryName = ("No entries")
         Else
             String Name = DbSkseFunctions.GetMapMarkerName(EntriesList[CurrentEntry])
             String Status
@@ -483,11 +478,11 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            DisplayMenuText(Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
+            CurrentEntryName = (Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
-            DisplayMenuText("No entries")
+            CurrentEntryName = ("No entries")
         Else
             String Name
             If EntriesList[CurrentEntry].GetDisplayName() != ""
@@ -498,9 +493,19 @@ Function CurrentEntryName()
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
             String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            DisplayMenuText(Name + " " + Distance + " " + Units + " " + OutOf)
+            CurrentEntryName = (Name + " " + Distance + " " + Units + " " + OutOf)
         EndIf
     EndIf
+EndFunction
+
+Function CurrentEntryNameShow()
+    DisplayMenuText(CurrentEntryName)
+EndFunction
+
+Function CurrentMenuName()
+    SubMenuListRefresh()
+    EntriesListRefresh()
+    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu] + " : " + CurrentEntryName)
 EndFunction
 
 Function Select()
