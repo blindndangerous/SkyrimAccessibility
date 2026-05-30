@@ -543,7 +543,6 @@ Function Select()
 EndFunction
 
 Function AutoLockPick()
-    Int LockPicksNeeded
     Int LockPickingSkillBasedRandom
     Float LockPickingSkill = Game.GetPlayer().GetActorValue("Lockpicking")
     If LockPickingSkill >= 10 && LockPickingSkill < 20
@@ -585,23 +584,22 @@ Function AutoLockPick()
             If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
                 EntriesList[CurrentEntry].Lock(False)
                 AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= LockPicksNeeded
-                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= LockPicksNeeded
+            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= 1
                     If Utility.RandomInt(0, LockPickingSkillBasedRandom) == 0
                         EntriesList[CurrentEntry].Lock(False)
                         AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                        Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
                         Game.AdvanceSkill("Lockpicking", LockPickingSkillBasedExperience)
                         DisplayMenuText("Success")
                     Else
-                        Game.GetPlayer().RemoveItem(Lockpick, LockPicksNeeded)
                         Game.AdvanceSkill("Lockpicking", 1.0)
                         AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
                         DisplayMenuText("Fail")
                     EndIf
+                    Game.GetPlayer().RemoveItem(Lockpick, 1)
                     Utility.Wait(0.5)
                 EndWhile
-                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < LockPicksNeeded
+                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < 1
                     DisplayMenuText("Not enough Lockpicks")
                     AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
                 EndIf
