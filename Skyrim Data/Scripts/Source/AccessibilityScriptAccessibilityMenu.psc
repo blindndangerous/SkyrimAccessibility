@@ -638,8 +638,7 @@ EndFunction
 Function SelectEntry()
     If IsAccessibilityMenuOpen == True
         SelectedEntry = EntriesList[CurrentEntry]
-        String SelectedEntryName = CurrentEntryNameShow()
-        DisplayMenuText("Entry Selected: " + SelectedEntryName)
+        DisplayMenuText("Entry Selected: " + CurrentEntryName)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
         SelectedEntry = None
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
