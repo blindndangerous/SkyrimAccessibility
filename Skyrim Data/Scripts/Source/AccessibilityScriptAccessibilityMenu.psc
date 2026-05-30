@@ -151,7 +151,6 @@ Event OnKeyDown(Int KeyCode)
         MenuListRefresh()
         CurrentMenuName()
         SortActivators()
-        CurrentEntryName()
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
         DisplayMenuText("Accessibility Menu Open")
@@ -441,7 +440,7 @@ Function EntriesListRefresh()
     EndIf
 EndFunction
 
-Function CurrentEntryName()
+Function CurrentEntryNameFind()
     If CurrentMenu == 0
         If CurrentSubMenu == 15
             If EntriesList.Length == 0
@@ -458,8 +457,7 @@ Function CurrentEntryName()
                 EndIf
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-                String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-                CurrentEntryName = (Name + " " + Distance + " " + Units + " " + OutOf)
+                CurrentEntryName = (Name + " " + Distance + " " + OutOf)
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -477,8 +475,7 @@ Function CurrentEntryName()
             EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            CurrentEntryName = (Name + " " + Status + " " + Distance + " " + Units + " " + OutOf)
+            CurrentEntryName = (Name + " " + Status + " " + Distance + " " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
@@ -492,19 +489,20 @@ Function CurrentEntryName()
             EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            CurrentEntryName = (Name + " " + Distance + " " + Units + " " + OutOf)
+            CurrentEntryName = (Name + " " + Distance + " " + OutOf)
         EndIf
     EndIf
 EndFunction
 
 Function CurrentEntryNameShow()
+    CurrentEntryNameFind()
     DisplayMenuText(CurrentEntryName)
 EndFunction
 
 Function CurrentMenuName()
     SubMenuListRefresh()
     EntriesListRefresh()
+    CurrentEntryNameFind()
     DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu] + " : " + CurrentEntryName)
 EndFunction
 
@@ -526,7 +524,7 @@ Function Select()
     ElseIf CurrentMenu == 3
     EndIf
     EntriesListRefresh()
-    CurrentEntryName()
+    CurrentEntryNameShow()
 EndFunction
 
 Function AutoLockPick()
@@ -639,7 +637,7 @@ EndFunction
 Function SelectEntry()
     If IsAccessibilityMenuOpen == True
         SelectedEntry = EntriesList[CurrentEntry]
-        String SelectedEntryName = CurrentEntryName()
+        String SelectedEntryName = CurrentEntryNameShow()
         DisplayMenuText("Entry Selected: " + SelectedEntryName)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
         SelectedEntry = None
