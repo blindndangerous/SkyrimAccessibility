@@ -453,12 +453,12 @@ Function CurrentEntryNameFind()
             Else
                 String Name
                 If EntriesList[CurrentEntry].GetDisplayName() != ""
-                    String Name = EntriesList[CurrentEntry].GetDisplayName()
+                    Name = EntriesList[CurrentEntry].GetDisplayName()
                 Else
-                    String Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                    Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
                 EndIf
                 If EntriesList[CurrentEntry].IsHarvested() == True
-                    String Name = Name + " Harvested"
+                    Name = Name + " Harvested"
                 EndIf
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
@@ -470,9 +470,9 @@ Function CurrentEntryNameFind()
             Else
                 String Name
                 If EntriesList[CurrentEntry].GetDisplayName() != ""
-                    String Name = EntriesList[CurrentEntry].GetDisplayName()
+                    Name = EntriesList[CurrentEntry].GetDisplayName()
                 Else
-                    String Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                    Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
                 EndIf
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
@@ -530,10 +530,10 @@ Function Select()
         If CurrentSubMenu == 0 || CurrentSubMenu == 3
             AutoLockPick()
         Else
-            If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
+            If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) <= 70
                 EntriesList[CurrentEntry].Activate(Game.GetPlayer())
             Else
-                DisplayMenuText("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + " meters too far")
+                DisplayMenuText("Too far to interact")
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -549,27 +549,6 @@ EndFunction
 Function AutoLockPick()
     Int LockPickingSkillBasedRandom
     Float LockPickingSkill = Game.GetPlayer().GetActorValue("Lockpicking")
-    If LockPickingSkill >= 10 && LockPickingSkill < 20
-        LockPickingSkillBasedRandom = 10 ; 8%
-    ElseIf LockPickingSkill >= 20 && LockPickingSkill < 30
-        LockPickingSkillBasedRandom = 9 ; 9%
-    ElseIf LockPickingSkill >= 30 && LockPickingSkill < 40
-        LockPickingSkillBasedRandom = 8 ; 10%
-    ElseIf LockPickingSkill >= 40 && LockPickingSkill < 50
-        LockPickingSkillBasedRandom = 7 ; 11%
-    ElseIf LockPickingSkill >= 50 && LockPickingSkill < 60
-        LockPickingSkillBasedRandom = 6 ; 12%
-    ElseIf LockPickingSkill >= 60 && LockPickingSkill < 70
-        LockPickingSkillBasedRandom = 5 ; 14%
-    ElseIf LockPickingSkill >= 70 && LockPickingSkill < 80
-        LockPickingSkillBasedRandom = 4 ; 16%
-    ElseIf LockPickingSkill >= 80 && LockPickingSkill < 90
-        LockPickingSkillBasedRandom = 3 ; 20%
-    ElseIf LockPickingSkill >= 90 && LockPickingSkill < 100
-        LockPickingSkillBasedRandom = 2 ; 25%
-    ElseIf LockPickingSkill == 100 ; 50%
-        LockPickingSkillBasedRandom = 1
-    EndIf
 
     LockPickingSkillBasedRandom = EntriesList[CurrentEntry].GetLockLevel() / LockPickingSkill As Int
 
@@ -638,17 +617,17 @@ Function Follow() ;Stop only when wasd key pressed
 EndFunction
 
 Function LockCameraOn() ;30 Seconds of Camera Lock On. !!!Vertical Angle Not Working
-    If !EntriesList[CurrentEntry].IsDisabled()
-        Int LockCameraTimer = 0
-        While LockCameraTimer < 60
-            Float XAngle = Game.GetPlayer().GetAngleX()
-            Float YAngle = Game.GetPlayer().GetAngleY()
-            Float ZAngle = Game.GetPlayer().GetAngleZ() + Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
-            Game.GetPlayer().SetAngle(XAngle, YAngle, ZAngle)
-            Utility.Wait(0.5)
-            LockCameraTimer += 1
-        EndWhile
-    EndIf
+    ;If !EntriesList[CurrentEntry].IsDisabled()
+    ;    Int LockCameraTimer = 0
+    ;    While LockCameraTimer < 60
+    ;        Float XAngle = Game.GetPlayer().GetAngleX()
+    ;        Float YAngle = Game.GetPlayer().GetAngleY()
+    ;        Float ZAngle = Game.GetPlayer().GetAngleZ() + Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
+    ;        Game.GetPlayer().SetAngle(XAngle, YAngle, ZAngle)
+    ;        Utility.Wait(0.5)
+    ;        LockCameraTimer += 1
+    ;    EndWhile
+    ;EndIf
 EndFunction
 
 Function SelectEntry()
@@ -686,7 +665,6 @@ EndFunction
 
 Function SelectedEntryMark()
     If SelectedEntry != None
-        Utility.Wait(Utility.RandomFloat())
         AccessibilityAMBSelectedEntryMark.Play(SelectedEntry)
     EndIf
 EndFunction
