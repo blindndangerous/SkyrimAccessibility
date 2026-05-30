@@ -459,11 +459,11 @@ Function CurrentEntryNameFind()
                     Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
                 EndIf
                 If EntriesList[CurrentEntry].IsHarvested() == True
-                    Name = Name + " Harvested"
+                    Name = Name + ", Harvested"
                 EndIf
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-                CurrentEntryName = (Name + " " + Distance + " " + OutOf)
+                CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
             EndIf
         Else
             If EntriesList.Length == 0
@@ -477,7 +477,7 @@ Function CurrentEntryNameFind()
                 EndIf
                 String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-                CurrentEntryName = (Name + " " + Distance + " " + OutOf)
+                CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -495,7 +495,7 @@ Function CurrentEntryNameFind()
             EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            CurrentEntryName = (Name + " " + Status + " " + Distance + " " + OutOf)
+            CurrentEntryName = (Name + ", " + Status + ", " + Distance + ", " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
@@ -509,7 +509,7 @@ Function CurrentEntryNameFind()
             EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            CurrentEntryName = (Name + " " + Distance + " " + OutOf)
+            CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
         EndIf
     EndIf
 EndFunction
@@ -637,16 +637,16 @@ Function SelectEntry()
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
         SelectedEntry = None
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
-        String PlayerPos = "X: " + Game.GetPlayer().GetPositionX() As Int + " Y: " + Game.GetPlayer().GetPositionY() As Int + " Z: " + Game.GetPlayer().GetPositionZ() As Int
-        String SelectedEntryPos = "X: " + SelectedEntry.GetPositionX() As Int + " Y: " + SelectedEntry.GetPositionY() As Int + " Z: " + SelectedEntry.GetPositionZ() As Int
+        String PlayerPos = "X: " + Game.GetPlayer().GetPositionX() As Int + ", Y: " + Game.GetPlayer().GetPositionY() As Int + ", Z: " + Game.GetPlayer().GetPositionZ() As Int
+        String SelectedEntryPos = "X: " + SelectedEntry.GetPositionX() As Int + ", Y: " + SelectedEntry.GetPositionY() As Int + ", Z: " + SelectedEntry.GetPositionZ() As Int
         Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
         Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
         String SelectedEntryDirection
         String Altitude
         If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
-            Altitude = (" Entry up by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
+            Altitude = (", Entry up by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
         Else
-            Altitude = (" Entry down by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
+            Altitude = (", Entry down by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
         EndIf
         If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
             SelectedEntryDirection = "Front"
@@ -657,7 +657,7 @@ Function SelectEntry()
         Else
             SelectedEntryDirection = "Back"
         EndIf
-        DisplayMenuText("Direction: " + SelectedEntryDirection + ". Angle: " + SelectedEntryAngle As Int + Altitude + ". Player: " + PlayerPos + ". Entry: " + SelectedEntryPos)
+        DisplayMenuText("Direction: " + SelectedEntryDirection + ", Angle: " + SelectedEntryAngle As Int + Altitude + ", Player: " + PlayerPos + ", Entry: " + SelectedEntryPos)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
         DisplayMenuText("No Entry Selected")
     EndIf
