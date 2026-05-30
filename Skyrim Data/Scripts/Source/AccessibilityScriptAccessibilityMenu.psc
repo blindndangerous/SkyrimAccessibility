@@ -152,12 +152,12 @@ EndEvent
 
 Event OnKeyDown(Int KeyCode)
     If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
+        DisplayMenuText("Accessibility Menu Open")
         MenuListRefresh()
         CurrentMenuName()
         SortActivators()
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
-        DisplayMenuText("Accessibility Menu Open")
     ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
         Game.EnablePlayerControls()
         IsAccessibilityMenuOpen = False
@@ -543,7 +543,6 @@ Function Select()
     ElseIf CurrentMenu == 3
     EndIf
     EntriesListRefresh()
-    CurrentEntryNameShow()
 EndFunction
 
 Function AutoLockPick()
@@ -671,230 +670,128 @@ EndFunction
 
 Function SortMapMarkers()
     MapMarkers = DbSkseFunctions.GetAllMapMarkerRefs(-1, -1)
-    MiscArray = new ObjectReference[128]
-    TownArray = new ObjectReference[128]
-    SettlementArray = new ObjectReference[128]
-    CaveArray = new ObjectReference[128]
-    CampArray = new ObjectReference[128]
-    FortArray = new ObjectReference[128]
-    NordicRuinsArray = new ObjectReference[128]
-    DwemerRuinArray = new ObjectReference[128]
-    ShipwreckArray = new ObjectReference[128]
-    GroveArray = new ObjectReference[128]
-    LandmarkArray = new ObjectReference[128]
-    DragonLairArray = new ObjectReference[128]
-    FarmArray = new ObjectReference[128]
-    WoodMillArray = new ObjectReference[128]
-    MineArray = new ObjectReference[128]
-    ImperialCampArray = new ObjectReference[128]
-    StormcloakCampArray = new ObjectReference[128]
-    DoomstoneArray = new ObjectReference[128]
-    WheatMillArray = new ObjectReference[128]
-    StableArray = new ObjectReference[128]
-    ImperialTowerArray = new ObjectReference[128]
-    ClearingArray = new ObjectReference[128]
-    PassArray = new ObjectReference[128]
-    LighthouseArray = new ObjectReference[128]
-    OrcStrongholdArray = new ObjectReference[128]
-    GiantCampArray = new ObjectReference[128]
-    ShackArray = new ObjectReference[128]
-    NordicTowerArray = new ObjectReference[128]
-    NordicDwellingArray = new ObjectReference[128]
-    DocksArray = new ObjectReference[128]
-    ShrineArray = new ObjectReference[128]
-    CastleArray = new ObjectReference[128]
-    CapitolArray = new ObjectReference[128]
-    DLC02Array = new ObjectReference[128]
+
+    MiscArray            = PapyrusUtil.ResizeObjRefArray(MiscArray, 0)
+    TownArray            = PapyrusUtil.ResizeObjRefArray(TownArray, 0)
+    SettlementArray      = PapyrusUtil.ResizeObjRefArray(SettlementArray, 0)
+    CaveArray            = PapyrusUtil.ResizeObjRefArray(CaveArray, 0)
+    CampArray            = PapyrusUtil.ResizeObjRefArray(CampArray, 0)
+    FortArray            = PapyrusUtil.ResizeObjRefArray(FortArray, 0)
+    NordicRuinsArray     = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, 0)
+    DwemerRuinArray      = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, 0)
+    ShipwreckArray       = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, 0)
+    GroveArray           = PapyrusUtil.ResizeObjRefArray(GroveArray, 0)
+    LandmarkArray        = PapyrusUtil.ResizeObjRefArray(LandmarkArray, 0)
+    DragonLairArray      = PapyrusUtil.ResizeObjRefArray(DragonLairArray, 0)
+    FarmArray            = PapyrusUtil.ResizeObjRefArray(FarmArray, 0)
+    WoodMillArray        = PapyrusUtil.ResizeObjRefArray(WoodMillArray, 0)
+    MineArray            = PapyrusUtil.ResizeObjRefArray(MineArray, 0)
+    ImperialCampArray    = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, 0)
+    StormcloakCampArray  = PapyrusUtil.ResizeObjRefArray(StormcloakCampArray, 0)
+    DoomstoneArray       = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, 0)
+    WheatMillArray       = PapyrusUtil.ResizeObjRefArray(WheatMillArray, 0)
+    StableArray          = PapyrusUtil.ResizeObjRefArray(StableArray, 0)
+    ImperialTowerArray   = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, 0)
+    ClearingArray        = PapyrusUtil.ResizeObjRefArray(ClearingArray, 0)
+    PassArray            = PapyrusUtil.ResizeObjRefArray(PassArray, 0)
+    LighthouseArray      = PapyrusUtil.ResizeObjRefArray(LighthouseArray, 0)
+    OrcStrongholdArray   = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, 0)
+    GiantCampArray       = PapyrusUtil.ResizeObjRefArray(GiantCampArray, 0)
+    ShackArray           = PapyrusUtil.ResizeObjRefArray(ShackArray, 0)
+    NordicTowerArray     = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, 0)
+    NordicDwellingArray  = PapyrusUtil.ResizeObjRefArray(NordicDwellingArray, 0)
+    DocksArray           = PapyrusUtil.ResizeObjRefArray(DocksArray, 0)
+    ShrineArray          = PapyrusUtil.ResizeObjRefArray(ShrineArray, 0)
+    CastleArray          = PapyrusUtil.ResizeObjRefArray(CastleArray, 0)
+    CapitolArray         = PapyrusUtil.ResizeObjRefArray(CapitolArray, 0)
+    DLC02Array           = PapyrusUtil.ResizeObjRefArray(DLC02Array, 0)
 
     Int MapMarkersIndex = 0
-    Int MiscIndex = 0
-    Int TownIndex = 0
-    Int SettlementIndex = 0
-    Int CaveIndex = 0
-    Int CampIndex = 0
-    Int FortIndex = 0
-    Int NordicRuinsIndex = 0
-    Int DwemerRuinIndex = 0
-    Int ShipwreckIndex = 0
-    Int GroveIndex = 0
-    Int LandmarkIndex = 0
-    Int DragonLairIndex = 0
-    Int FarmIndex = 0
-    Int WoodMillIndex = 0
-    Int MineIndex = 0
-    Int ImperialCampIndex = 0
-    Int StormcloakCampIndex = 0
-    Int DoomstoneIndex = 0
-    Int WheatMillIndex = 0
-    Int StableIndex = 0
-    Int ImperialTowerIndex = 0
-    Int ClearingIndex = 0
-    Int PassIndex = 0
-    Int LighthouseIndex = 0
-    Int OrcStrongholdIndex = 0
-    Int GiantCampIndex = 0
-    Int ShackIndex = 0
-    Int NordicTowerIndex = 0
-    Int NordicDwellingIndex = 0
-    Int DocksIndex = 0
-    Int ShrineIndex = 0
-    Int CastleIndex = 0
-    Int CapitolIndex = 0
-    Int DLC02Index = 0
 
     While MapMarkersIndex < MapMarkers.Length
         Int IconType = DbSkseFunctions.GetMapMarkerIconType(MapMarkers[MapMarkersIndex])
 
         If IconType == 0 || IconType == 1 || IconType == 20 || IconType == 25 || IconType == 26 || IconType == 59 || IconType == 60 || IconType == 61 || IconType == 62 || IconType == 63 || IconType == 64 || IconType == 65 || IconType == 66 ; Misc
-            MiscArray[MiscIndex] = MapMarkers[MapMarkersIndex]
-            MiscIndex += 1
+            MiscArray = PapyrusUtil.PushObjRef(MiscArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 2 ; Town
-            TownArray[TownIndex] = MapMarkers[MapMarkersIndex]
-            TownIndex += 1
+            TownArray = PapyrusUtil.PushObjRef(TownArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 3 ; Settlement
-            SettlementArray[SettlementIndex] = MapMarkers[MapMarkersIndex]
-            SettlementIndex += 1
+            SettlementArray = PapyrusUtil.PushObjRef(SettlementArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 4 ; Cave
-            CaveArray[CaveIndex] = MapMarkers[MapMarkersIndex]
-            CaveIndex += 1
+            CaveArray = PapyrusUtil.PushObjRef(CaveArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 5 ; Camp
-            CampArray[CampIndex] = MapMarkers[MapMarkersIndex]
-            CampIndex += 1
+            CampArray = PapyrusUtil.PushObjRef(CampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 6 ; Fort
-            FortArray[FortIndex] = MapMarkers[MapMarkersIndex]
-            FortIndex += 1
+            FortArray = PapyrusUtil.PushObjRef(FortArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 7 ; NordicRuins
-            NordicRuinsArray[NordicRuinsIndex] = MapMarkers[MapMarkersIndex]
-            NordicRuinsIndex += 1
+            NordicRuinsArray = PapyrusUtil.PushObjRef(NordicRuinsArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 8 ; DwemerRuin
-            DwemerRuinArray[DwemerRuinIndex] = MapMarkers[MapMarkersIndex]
-            DwemerRuinIndex += 1
+            DwemerRuinArray = PapyrusUtil.PushObjRef(DwemerRuinArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 9 ; Shipwreck
-            ShipwreckArray[ShipwreckIndex] = MapMarkers[MapMarkersIndex]
-            ShipwreckIndex += 1
+            ShipwreckArray = PapyrusUtil.PushObjRef(ShipwreckArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 10 ; Grove
-            GroveArray[GroveIndex] = MapMarkers[MapMarkersIndex]
-            GroveIndex += 1
+            GroveArray = PapyrusUtil.PushObjRef(GroveArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 11 ; Landmark
-            LandmarkArray[LandmarkIndex] = MapMarkers[MapMarkersIndex]
-            LandmarkIndex += 1
+            LandmarkArray = PapyrusUtil.PushObjRef(LandmarkArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 12 ; DragonLair
-            DragonLairArray[DragonLairIndex] = MapMarkers[MapMarkersIndex]
-            DragonLairIndex += 1
+            DragonLairArray = PapyrusUtil.PushObjRef(DragonLairArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 13 ; Farm
-            FarmArray[FarmIndex] = MapMarkers[MapMarkersIndex]
-            FarmIndex += 1
+            FarmArray = PapyrusUtil.PushObjRef(FarmArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 14 ; WoodMill
-            WoodMillArray[WoodMillIndex] = MapMarkers[MapMarkersIndex]
-            WoodMillIndex += 1
+            WoodMillArray = PapyrusUtil.PushObjRef(WoodMillArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 15 ; Mine
-            MineArray[MineIndex] = MapMarkers[MapMarkersIndex]
-            MineIndex += 1
+            MineArray = PapyrusUtil.PushObjRef(MineArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 16 ; ImperialCamp
-            ImperialCampArray[ImperialCampIndex] = MapMarkers[MapMarkersIndex]
-            ImperialCampIndex += 1
+            ImperialCampArray = PapyrusUtil.PushObjRef(ImperialCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 17 ; StormcloakCamp
-            StormcloakCampArray[StormcloakCampIndex] = MapMarkers[MapMarkersIndex]
-            StormcloakCampIndex += 1
+            StormcloakCampArray = PapyrusUtil.PushObjRef(StormcloakCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 18 ; Doomstone
-            DoomstoneArray[DoomstoneIndex] = MapMarkers[MapMarkersIndex]
-            DoomstoneIndex += 1
+            DoomstoneArray = PapyrusUtil.PushObjRef(DoomstoneArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 19 ; WheatMill
-            WheatMillArray[WheatMillIndex] = MapMarkers[MapMarkersIndex]
-            WheatMillIndex += 1
+            WheatMillArray = PapyrusUtil.PushObjRef(WheatMillArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 21 ; Stable
-            StableArray[StableIndex] = MapMarkers[MapMarkersIndex]
-            StableIndex += 1
+            StableArray = PapyrusUtil.PushObjRef(StableArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 22 ; ImperialTower
-            ImperialTowerArray[ImperialTowerIndex] = MapMarkers[MapMarkersIndex]
-            ImperialTowerIndex += 1
+            ImperialTowerArray = PapyrusUtil.PushObjRef(ImperialTowerArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 23 ; Clearing
-            ClearingArray[ClearingIndex] = MapMarkers[MapMarkersIndex]
-            ClearingIndex += 1
+            ClearingArray = PapyrusUtil.PushObjRef(ClearingArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 24 ; Pass
-            PassArray[PassIndex] = MapMarkers[MapMarkersIndex]
-            PassIndex += 1
+            PassArray = PapyrusUtil.PushObjRef(PassArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 27 ; Lighthouse
-            LighthouseArray[LighthouseIndex] = MapMarkers[MapMarkersIndex]
-            LighthouseIndex += 1
+            LighthouseArray = PapyrusUtil.PushObjRef(LighthouseArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 28 ; OrcStronghold
-            OrcStrongholdArray[OrcStrongholdIndex] = MapMarkers[MapMarkersIndex]
-            OrcStrongholdIndex += 1
+            OrcStrongholdArray = PapyrusUtil.PushObjRef(OrcStrongholdArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 29 ; GiantCamp
-            GiantCampArray[GiantCampIndex] = MapMarkers[MapMarkersIndex]
-            GiantCampIndex += 1
+            GiantCampArray = PapyrusUtil.PushObjRef(GiantCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 30 ; Shack
-            ShackArray[ShackIndex] = MapMarkers[MapMarkersIndex]
-            ShackIndex += 1
+            ShackArray = PapyrusUtil.PushObjRef(ShackArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 31 ; NordicTower
-            NordicTowerArray[NordicTowerIndex] = MapMarkers[MapMarkersIndex]
-            NordicTowerIndex += 1
+            NordicTowerArray = PapyrusUtil.PushObjRef(NordicTowerArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 32 ; NordicDwelling
-            NordicDwellingArray[NordicDwellingIndex] = MapMarkers[MapMarkersIndex]
-            NordicDwellingIndex += 1
+            NordicDwellingArray = PapyrusUtil.PushObjRef(NordicDwellingArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 33 ; Docks
-            DocksArray[DocksIndex] = MapMarkers[MapMarkersIndex]
-            DocksIndex += 1
+            DocksArray = PapyrusUtil.PushObjRef(DocksArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 34 ; Shrine
-            ShrineArray[ShrineIndex] = MapMarkers[MapMarkersIndex]
-            ShrineIndex += 1
+            ShrineArray = PapyrusUtil.PushObjRef(ShrineArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 35 || IconType == 37 || IconType == 39 || IconType == 41 || IconType == 43 || IconType == 45 || IconType == 47 || IconType == 49 || IconType == 51 ; Castles
-            CastleArray[CastleIndex] = MapMarkers[MapMarkersIndex]
-            CastleIndex += 1
+            CastleArray = PapyrusUtil.PushObjRef(CastleArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 36 || IconType == 38 || IconType == 40 || IconType == 42 || IconType == 44 || IconType == 46 || IconType == 48 || IconType == 50 || IconType == 52 ; Capitols
-            CapitolArray[CapitolIndex] = MapMarkers[MapMarkersIndex]
-            CapitolIndex += 1
+            CapitolArray = PapyrusUtil.PushObjRef(CapitolArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 53 || IconType == 54 || IconType == 55 || IconType == 56 || IconType == 57 || IconType == 58 ; DLC02
-            DLC02Array[DLC02Index] = MapMarkers[MapMarkersIndex]
-            DLC02Index += 1
+            DLC02Array = PapyrusUtil.PushObjRef(DLC02Array, MapMarkers[MapMarkersIndex])
         Else ; any other -> Misc
-            MiscArray[MiscIndex] = MapMarkers[MapMarkersIndex]
-            MiscIndex += 1
+            MiscArray = PapyrusUtil.PushObjRef(MiscArray, MapMarkers[MapMarkersIndex])
         EndIf
+
         MapMarkersIndex += 1
     EndWhile
-
-    MiscArray           = PapyrusUtil.ResizeObjRefArray(MiscArray, MiscIndex)
-    TownArray           = PapyrusUtil.ResizeObjRefArray(TownArray, TownIndex)
-    SettlementArray     = PapyrusUtil.ResizeObjRefArray(SettlementArray, SettlementIndex)
-    CaveArray           = PapyrusUtil.ResizeObjRefArray(CaveArray, CaveIndex)
-    CampArray           = PapyrusUtil.ResizeObjRefArray(CampArray, CampIndex)
-    FortArray           = PapyrusUtil.ResizeObjRefArray(FortArray, FortIndex)
-    NordicRuinsArray    = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, NordicRuinsIndex)
-    DwemerRuinArray     = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, DwemerRuinIndex)
-    ShipwreckArray      = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, ShipwreckIndex)
-    GroveArray          = PapyrusUtil.ResizeObjRefArray(GroveArray, GroveIndex)
-    LandmarkArray       = PapyrusUtil.ResizeObjRefArray(LandmarkArray, LandmarkIndex)
-    DragonLairArray     = PapyrusUtil.ResizeObjRefArray(DragonLairArray, DragonLairIndex)
-    FarmArray           = PapyrusUtil.ResizeObjRefArray(FarmArray, FarmIndex)
-    WoodMillArray       = PapyrusUtil.ResizeObjRefArray(WoodMillArray, WoodMillIndex)
-    MineArray           = PapyrusUtil.ResizeObjRefArray(MineArray, MineIndex)
-    ImperialCampArray   = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, ImperialCampIndex)
-    StormcloakCampArray = PapyrusUtil.ResizeObjRefArray(StormcloakCampArray, StormcloakCampIndex)
-    DoomstoneArray      = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, DoomstoneIndex)
-    WheatMillArray      = PapyrusUtil.ResizeObjRefArray(WheatMillArray, WheatMillIndex)
-    StableArray         = PapyrusUtil.ResizeObjRefArray(StableArray, StableIndex)
-    ImperialTowerArray  = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, ImperialTowerIndex)
-    ClearingArray       = PapyrusUtil.ResizeObjRefArray(ClearingArray, ClearingIndex)
-    PassArray           = PapyrusUtil.ResizeObjRefArray(PassArray, PassIndex)
-    LighthouseArray     = PapyrusUtil.ResizeObjRefArray(LighthouseArray, LighthouseIndex)
-    OrcStrongholdArray  = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, OrcStrongholdIndex)
-    GiantCampArray      = PapyrusUtil.ResizeObjRefArray(GiantCampArray, GiantCampIndex)
-    ShackArray          = PapyrusUtil.ResizeObjRefArray(ShackArray, ShackIndex)
-    NordicTowerArray    = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, NordicTowerIndex)
-    NordicDwellingArray = PapyrusUtil.ResizeObjRefArray(NordicDwellingArray, NordicDwellingIndex)
-    DocksArray          = PapyrusUtil.ResizeObjRefArray(DocksArray, DocksIndex)
-    ShrineArray         = PapyrusUtil.ResizeObjRefArray(ShrineArray, ShrineIndex)
-    CastleArray         = PapyrusUtil.ResizeObjRefArray(CastleArray, CastleIndex)
-    CapitolArray        = PapyrusUtil.ResizeObjRefArray(CapitolArray, CapitolIndex)
-    DLC02Array          = PapyrusUtil.ResizeObjRefArray(DLC02Array, DLC02Index)
 EndFunction
 
 Function SortActivators()
     ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, 3500.0)
     TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 3500.0)
-    LootNPCArray            = new ObjectReference[1]
-    AliveNPCArray           = new ObjectReference[1]
+    AliveNPCArray = PapyrusUtil.ResizeObjRefArray(AliveNPCArray, 0)
+    LootNPCArray = PapyrusUtil.ResizeObjRefArray(LootNPCArray, 0)
     DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, 3500.0)
     IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 3500.0)
     WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, 3500.0)
@@ -913,9 +810,6 @@ Function SortActivators()
     HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, 3500.0)
     TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 3500.0)
     MiscActivatorsArray     = PapyrusUtil.MergeObjRefArray(HalfMiscActivatorsArray, TalkingActivatorsArray)
-
-    LootNPCArray = PapyrusUtil.ResizeObjRefArray(LootNPCArray, 0)
-    AliveNPCArray = PapyrusUtil.ResizeObjRefArray(AliveNPCArray, 0)
 
     If TotalNPCArray.Length > 0
         Int TotalNPCIndex = 0
