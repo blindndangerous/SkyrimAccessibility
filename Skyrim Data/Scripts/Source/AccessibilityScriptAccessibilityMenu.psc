@@ -41,6 +41,7 @@ Sound Property AccessibilityAMBFurniture Auto ;Add to esp
 Sound Property AccessibilityAMBNatureUnharvested Auto ;Add to esp
 Sound Property AccessibilityAMBNatureHarvested Auto ;Add to esp
 Sound Property AccessibilityAMBMiscActivator Auto ;Add to esp
+Sound Property AccessibilityAMBSelectedEntryMark Auto ;Add to esp
 
 MiscObject Property Lockpick Auto ;Add to esp
 MiscObject Property SkeletonKey Auto ;Add to esp
@@ -633,9 +634,11 @@ Function SelectEntry()
         SelectedEntry = EntriesList[CurrentEntry]
         Debug.Notification("Entry Selected:")
         CurrentEntryName()
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
+        SelectedEntry = None
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
-        String PlayerPos = Game.GetPlayer().GetPositionX() As Int + " " + Game.GetPlayer().GetPositionY() As Int + " " + Game.GetPlayer().GetPositionZ() As Int
-        String SelectedEntryPos = SelectedEntry.GetPositionX() As Int + " " + SelectedEntry.GetPositionY() As Int + " " + SelectedEntry.GetPositionZ() As Int
+        String PlayerPos = "X: " + Game.GetPlayer().GetPositionX() As Int + " Y: " + Game.GetPlayer().GetPositionY() As Int + " Z: " + Game.GetPlayer().GetPositionZ() As Int
+        String SelectedEntryPos = "X: " + SelectedEntry.GetPositionX() As Int + " Y: " + SelectedEntry.GetPositionY() As Int + " Z: " + SelectedEntry.GetPositionZ() As Int
         Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
         Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
         String SelectedEntryDirection
@@ -658,6 +661,13 @@ Function SelectEntry()
         Debug.Notification("Selected Entry Direction: " + SelectedEntryDirection + " Angle is " + SelectedEntryAngle As Int)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
         Debug.Notification("No Entry Selected")
+    EndIf
+EndFunction
+
+Function SelectedEntryMark()
+    If SelectedEntry != None
+        Utility.Wait(Utility.RandomFloat())
+        AccessibilityAMBSelectedEntryMark.Play(SelectedEntry)
     EndIf
 EndFunction
 
