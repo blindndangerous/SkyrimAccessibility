@@ -126,6 +126,7 @@ Event OnInit()
     RegisterForKey(24) ;O key
     RegisterForKey(38) ;L key
     RegisterForKey(34) ;G key
+    RegisterForKey(42) ;Left Shift
     IsAccessibilityMenuOpen = False ;Reset IsAccessibilityMenuOpen
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
@@ -182,6 +183,8 @@ Event OnKeyDown(Int KeyCode)
         LockCameraOn()
     ElseIf KeyCode == 24 ;O key
         SelectEntry()
+    ElseIf KeyCode == 42 ;Left Shift
+        ;Vacant
     ElseIf KeyCode == 38 ;L key
         ReturnToNavMesh()
     ElseIf KeyCode == 34 ;G key
@@ -647,7 +650,7 @@ Function SelectEntry()
         If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
             Debug.Notification("Selected Entry is higher by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
         Else
-            Debug.Notification("Selected Entry is lower by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
+            Debug.Notification("Selected Entry is lower by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
         EndIf
         If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
             SelectedEntryDirection = "Front"
