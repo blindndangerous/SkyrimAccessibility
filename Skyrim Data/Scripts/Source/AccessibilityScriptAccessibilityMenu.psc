@@ -441,6 +441,7 @@ Function EntriesListRefresh()
 EndFunction
 
 Function CurrentEntryNameFind()
+    CurrentEntryName = ""
     If CurrentMenu == 0
         If CurrentSubMenu == 15
             If EntriesList.Length == 0
