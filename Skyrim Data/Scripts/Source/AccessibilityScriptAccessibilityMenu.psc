@@ -16,6 +16,8 @@ String CurrentEntryName Auto
 
 Bool AutoLockPick Auto ;Add to MCM
 
+Int SingleUpdateInterval Auto
+
 Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
 Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
 Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
@@ -132,10 +134,12 @@ Event OnInit()
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
+    SingleUpdateInterval = 5 ;Reset SingleUpdateInterval
     SelectedEntry = None ;Reset SelectedEntry
     AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
     AmbientSound()
+    RegisterForSingleUpdate(SingleUpdateInterval)
     Utility.Wait(5.0)
     DisplayMenuText("Accessibility Menu Ready")
 EndEvent
@@ -143,7 +147,7 @@ EndEvent
 Event OnUpdate()
     AmbientSound()
     SelectedEntryMark()
-    RegisterForSingleUpdate(5.0)
+    RegisterForSingleUpdate(SingleUpdateInterval)
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
