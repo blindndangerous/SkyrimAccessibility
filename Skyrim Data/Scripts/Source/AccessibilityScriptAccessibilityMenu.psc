@@ -460,6 +460,20 @@ Function CurrentEntryNameFind()
                 String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
                 CurrentEntryName = (Name + " " + Distance + " " + OutOf)
             EndIf
+        Else
+            If EntriesList.Length == 0
+                CurrentEntryName = ("No entries")
+            Else
+                String Name
+                If EntriesList[CurrentEntry].GetDisplayName() != ""
+                    String Name = EntriesList[CurrentEntry].GetDisplayName()
+                Else
+                    String Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                EndIf
+                String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
+                String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
+                CurrentEntryName = (Name + " " + Distance + " " + OutOf)
+            EndIf
         EndIf
     ElseIf CurrentMenu == 1
         If EntriesList.Length == 0
