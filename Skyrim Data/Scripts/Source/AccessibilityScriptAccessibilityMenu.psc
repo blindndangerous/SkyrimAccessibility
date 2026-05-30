@@ -934,6 +934,9 @@ Function SortActivators()
     TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 3500.0)
     MiscActivatorsArray     = PapyrusUtil.MergeObjRefArray(HalfMiscActivatorsArray, TalkingActivatorsArray)
 
+    LootNPCArray = PapyrusUtil.ResizeObjRefArray(LootNPCArray, 0)
+    AliveNPCArray = PapyrusUtil.ResizeObjRefArray(AliveNPCArray, 0)
+
     If TotalNPCArray.Length > 0
         Int TotalNPCIndex = 0
         While TotalNPCIndex < TotalNPCArray.Length
