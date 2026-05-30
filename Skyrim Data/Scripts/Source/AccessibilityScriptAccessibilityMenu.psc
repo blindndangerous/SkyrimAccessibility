@@ -522,7 +522,7 @@ Function CurrentMenuName()
     SubMenuListRefresh()
     EntriesListRefresh()
     CurrentEntryNameFind()
-    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu] + " : " + CurrentEntryName)
+    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + CurrentEntryName + " : " + MenuList[CurrentMenu])
 EndFunction
 
 Function Select()
@@ -656,7 +656,7 @@ Function SelectEntry()
         Else
             SelectedEntryDirection = "Back"
         EndIf
-        DisplayMenuText("Direction: " + SelectedEntryDirection + " Angle: " + SelectedEntryAngle As Int + Altitude + " Player: " + PlayerPos + " Entry: " + SelectedEntryPos)
+        DisplayMenuText("Direction: " + SelectedEntryDirection + ". Angle: " + SelectedEntryAngle As Int + Altitude + ". Player: " + PlayerPos + ". Entry: " + SelectedEntryPos)
     ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
         DisplayMenuText("No Entry Selected")
     EndIf
