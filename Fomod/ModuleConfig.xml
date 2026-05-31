@@ -13,33 +13,11 @@
                             <description>Required files will be installed!</description>
                             <files>
                                 <folder source="Skyrim Data/Scripts" destination="Scripts"/>
+                                <folder source="Skyrim Data/Sound" destination="Sound"/>
                                 <file source="Skyrim Data/SkyrimAccessibility.esp" destination="SkyrimAccessibility.esp"/>
-                                <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav" destination="Sound/FX/Accessibility/Ambiance/Spells/Clairvoyance.wav"/>
-                                <file source="Skyrim Data/Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav" destination="Sound/FX/Accessibility/Ambiance/NPC/Enemy.wav"/>
-                                <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickFail.wav" destination="Sound/FX/Accessibility/Conditional/LockPickFail.wav"/>
-                                <file source="Skyrim Data/Sound/FX/Accessibility/Conditional/LockPickSuccess.wav" destination="Sound/FX/Accessibility/Conditional/LockPickSuccess.wav"/>
                             </files>
                             <typeDescriptor>
                                 <type name="Required"/>
-                            </typeDescriptor>
-                        </plugin>
-
-                    </plugins>
-                </group>
-            </optionalFileGroups>
-        </installStep>
-        <installStep name="Optional Sounds">
-            <optionalFileGroups order="Explicit">
-                <group name="" type="SelectAny">
-                    <plugins order="Explicit">
-
-                        <plugin name="Experimental Sounds">
-                            <description>Optional experimental ambient sounds. They may be loud and distracting!</description>
-                            <files>
-                                <folder source="Skyrim Data/Sound" destination="Sound"/>
-                            </files>
-                            <typeDescriptor>
-                                <type name="Optional"/>
                             </typeDescriptor>
                         </plugin>
 
