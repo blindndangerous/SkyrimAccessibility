@@ -1,4 +1,4 @@
-Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
+Scriptname AccessibilityScriptAccessibilityMenu Extends ReferenceAlias
 
 Bool IsAccessibilityMenuOpen Auto
 
@@ -18,37 +18,37 @@ Bool AutoLockPick Auto ;Add to MCM
 
 Int SingleUpdateInterval Auto
 
-Sound Property AccessibilityCNDLockPickFail Auto ;Add to esp
-Sound Property AccessibilityCNDLockPickSuccess Auto ;Add to esp
-Sound Property AccessibilityCNDNoLockPicks Auto ;Add to esp
-Sound Property AccessibilityCNDWalkInPlace Auto ;Add to esp
+Sound Property AccessibilityCNDLockPickFail Auto
+Sound Property AccessibilityCNDLockPickSuccess Auto
+Sound Property AccessibilityCNDNoLockPicks Auto
+Sound Property AccessibilityCNDWalkInPlace Auto
 
-Sound Property AccessibilityAMBContainerUnlocked Auto ;Add to esp
-Sound Property AccessibilityAMBContainerLocked Auto ;Add to esp
-Sound Property AccessibilityAMBNPCNeutral Auto ;Add to esp
-Sound Property AccessibilityAMBNPCEnemy Auto ;Add to esp
-Sound Property AccessibilityAMBLootNPC Auto ;Add to esp
-Sound Property AccessibilityAMBDoorUnlocked Auto ;Add to esp
-Sound Property AccessibilityAMBDoorLocked Auto ;Add to esp
-Sound Property AccessibilityAMBIngestible Auto ;Add to esp
-Sound Property AccessibilityAMBWeapon Auto ;Add to esp
-Sound Property AccessibilityAMBAmmo Auto ;Add to esp
-Sound Property AccessibilityAMBArmor Auto ;Add to esp
-Sound Property AccessibilityAMBBook Auto ;Add to esp
-Sound Property AccessibilityAMBKey Auto ;Add to esp
-Sound Property AccessibilityAMBSoulGem Auto ;Add to esp
-Sound Property AccessibilityAMBIngredient Auto ;Add to esp
-Sound Property AccessibilityAMBScroll Auto ;Add to esp
-Sound Property AccessibilityAMBMiscItem Auto ;Add to esp
-Sound Property AccessibilityAMBFurniture Auto ;Add to esp
-Sound Property AccessibilityAMBNatureUnharvested Auto ;Add to esp
-Sound Property AccessibilityAMBNatureHarvested Auto ;Add to esp
-Sound Property AccessibilityAMBMiscActivator Auto ;Add to esp
+Sound Property AccessibilityAMBContainerUnlocked Auto
+Sound Property AccessibilityAMBContainerLocked Auto
+Sound Property AccessibilityAMBNPCNeutral Auto
+Sound Property AccessibilityAMBNPCEnemy Auto
+Sound Property AccessibilityAMBLootNPC Auto
+Sound Property AccessibilityAMBDoorUnlocked Auto
+Sound Property AccessibilityAMBDoorLocked Auto
+Sound Property AccessibilityAMBIngestible Auto
+Sound Property AccessibilityAMBWeapon Auto
+Sound Property AccessibilityAMBAmmo Auto
+Sound Property AccessibilityAMBArmor Auto
+Sound Property AccessibilityAMBBook Auto
+Sound Property AccessibilityAMBKey Auto
+Sound Property AccessibilityAMBSoulGem Auto
+Sound Property AccessibilityAMBIngredient Auto
+Sound Property AccessibilityAMBScroll Auto
+Sound Property AccessibilityAMBMiscItem Auto
+Sound Property AccessibilityAMBFurniture Auto
+Sound Property AccessibilityAMBNatureUnharvested Auto
+Sound Property AccessibilityAMBNatureHarvested Auto
+Sound Property AccessibilityAMBMiscActivator Auto
 
-Sound Property AccessibilityAMBSelectedEntryMark Auto ;Add to esp
+Sound Property AccessibilityAMBSelectedEntryMark Auto
 
-MiscObject Property Lockpick Auto ;Add to esp
-MiscObject Property SkeletonKey Auto ;Add to esp
+MiscObject Property Lockpick Auto
+MiscObject Property SkeletonKey Auto
 
 
 ObjectReference[] MapMarkers Auto
