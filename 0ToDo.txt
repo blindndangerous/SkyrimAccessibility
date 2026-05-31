@@ -44,6 +44,7 @@ Documentation:
 3. Add changelog section with mod's versions to html.
 4. Add achievements enabler mod as Dependency
 5. Mention to use 64 bit nvda controller
+6. Vortex was updated, need to update guide.
 
 TTS:
 Add narration of pickpocket chance.
