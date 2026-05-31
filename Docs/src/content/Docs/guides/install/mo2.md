@@ -1,8 +1,12 @@
-# Skyrim Accessibility Install Guide for Mod Organizer 2.
+---
+title: Mod Organizer 2 Install Guide
+description: Step-by-step installation guide for Mod Organizer 2.
+---
+
 1. Install [Skyrim Special Edition](https://store.steampowered.com/app/489830/The_Elder_Scrolls_V_Skyrim_Special_Edition/).
-> [!Note]
-> Skyrim Anniversary Edition is update with community mods on top of Skyrim Special Edition.
-> It is still the same game version, you can use eighther of those two editions.
+   > [!Note]
+   > Skyrim Anniversary Edition is update with community mods on top of Skyrim Special Edition.
+   > It is still the same game version, you can use eighther of those two editions.
 2. Download Portable [Mod.Organizer-2.5.2.7z](https://github.com/ModOrganizer2/modorganizer/releases/tag/v2.5.2) and extract it where you like.
 3. Make a shortcut for ModOrganizer.exe and move it to desktop so you don't have to launch it from MO2 folder every time.
 4. Launch MO2.
@@ -22,18 +26,19 @@
 18. Open web browser.
 19. Download [SKSE](https://www.nexusmods.com/skyrimspecialedition/mods/30379?tab=files) and install it manually by extracting contents of archive into game folder where .exe files are.
 20. Download [nvdaControllerClient](https://download.nvaccess.org/releases/stable/) and extract nvdaControllerClient.dll into game folder where .exe files are.
-> [!Note]
-> If you've done all correctly both skse64_loader.exe and nvdaControllerClient.dll should now be in same folder with SkyrimSE.exe
+    > [!Note]
+    > If you've done all correctly both skse64_loader.exe and nvdaControllerClient.dll should now be in same folder with SkyrimSE.exe
 21. Download all the mods bellow from Nexus Mods using the "Install via Mod Manager" button.
-> [!Note]
-> - [Addres Library for SKSE plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files);
-> - [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files);
-> - [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files);
-> - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
-> - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
-> - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
-> - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
-> - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
+    > [!Note]
+    >
+    > - [Addres Library for SKSE plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444?tab=files);
+    > - [Power Of Three's Papyrus Extender](https://www.nexusmods.com/skyrimspecialedition/mods/22854?tab=files);
+    > - [Power Of Three's Tweaks](https://www.nexusmods.com/skyrimspecialedition/mods/51073?tab=files);
+    > - [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561?tab=files);
+    > - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948?tab=files);
+    > - [Better MessageBox Controls](https://www.nexusmods.com/skyrimspecialedition/mods/1428?tab=files);
+    > - [Dylbills Papyrus Functions](https://www.nexusmods.com/skyrimspecialedition/mods/65410?tab=files);
+    > - [Stay At The System Page - AE](https://www.nexusmods.com/skyrimspecialedition/mods/67883?tab=files).
 22. Download latest releases of [Skyrim Accessibility](https://github.com/DioKyrie-Git/SkyrimAccessibility/releases) and [SkyrimTTS](https://github.com/DioKyrie-Git/SkyrimTTS/releases) from GitHub.
 23. Go to folder where you extracted MO2.
 24. Move two downloaded archives inside of Mod Organizer's downloads folder. Exempli gratia: Z:/Moding/ModOrganizer2/downloads/

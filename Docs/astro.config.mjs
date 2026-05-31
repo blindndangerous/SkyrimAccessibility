@@ -1,0 +1,77 @@
+// @ts-check
+import { defineConfig } from "astro/config";
+import starlight from "@astrojs/starlight";
+import starlightLinksValidator from "starlight-links-validator";
+import starlightKbd from "starlight-kbd";
+import starlightImageZoom from "starlight-image-zoom";
+// todo: add versions back in once it works with Astro 6
+// import starlightVersions from "starlight-versions";
+
+// https://astro.build/config
+export default defineConfig({
+  site: "https://DioKyrie-Git.github.io",
+  base: "/SkyrimAccessibility",
+  integrations: [
+    starlight({
+      title: "Skyrim Accessibility Docs",
+      defaultLocale: "root",
+      // Read about the locales option in the Starlight documentation: https://starlight.astro.build/guides/i18n/
+      locales: {
+        root: {
+          label: "English",
+          lang: "en",
+        },
+        es: {
+          label: "Español",
+          lang: "es",
+        },
+      },
+      plugins: [
+        starlightLinksValidator(),
+        starlightKbd({
+          types: [
+            {
+              id: "windows",
+              label: "Windows",
+              detector: "windows",
+              default: true,
+            },
+            {
+              id: "controller",
+              label: "Controller",
+            },
+          ],
+        }),
+        starlightImageZoom(),
+        /*
+				starlightVersions({
+					versions: [
+						{
+							slug: "0.11",
+						},
+					],
+				}),
+				*/
+      ],
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/DioKyrie-Git/SkyrimAccessibility",
+        },
+      ],
+      sidebar: [
+        {
+          label: "Guides & Walkthroughs",
+          // Scans everything inside src/content/docs/guides/
+          items: [{ autogenerate: { directory: "guides" } }],
+        },
+        {
+          label: "Contributing",
+          collapsed: true,
+          items: [{ autogenerate: { directory: "contributing" } }],
+        },
+      ],
+    }),
+  ],
+});
