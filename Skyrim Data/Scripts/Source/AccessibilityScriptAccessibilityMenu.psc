@@ -18,6 +18,10 @@ Bool AutoLockPick Auto ;Add to MCM
 
 Int SingleUpdateInterval Auto
 
+Float LastScanPosX
+Float LastScanPosY
+Float LastScanPosZ
+
 Sound Property AccessibilityCNDLockPickFail Auto
 Sound Property AccessibilityCNDLockPickSuccess Auto
 Sound Property AccessibilityCNDNoLockPicks Auto
@@ -139,7 +143,7 @@ Event OnInit()
     SelectedEntry = None ;Reset SelectedEntry
     AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
-    AmbientSound()
+    SortActivators(700)
     RegisterForSingleUpdate(SingleUpdateInterval)
     Utility.Wait(5.0)
     DisplayMenuText("Accessibility Menu Ready")
@@ -157,7 +161,7 @@ Event OnKeyDown(Int KeyCode)
         Utility.Wait(2.0)
         MenuListRefresh()
         CurrentMenuName()
-        SortActivators()
+        SortActivators(3500)
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
     ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
@@ -789,28 +793,28 @@ Function SortMapMarkers()
     EndWhile
 EndFunction
 
-Function SortActivators()
-    ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, 3500.0)
-    TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 3500.0)
+Function SortActivators(Int ActivatorsDistance)
+    ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, ActivatorsDistance)
+    TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, ActivatorsDistance)
     AliveNPCArray = PapyrusUtil.ResizeObjRefArray(AliveNPCArray, 0)
     LootNPCArray = PapyrusUtil.ResizeObjRefArray(LootNPCArray, 0)
-    DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, 3500.0)
-    IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 3500.0)
-    WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, 3500.0)
-    AmmoArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, 3500.0)
-    ArmorArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, 3500.0)
-    BooksArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, 3500.0)
-    KeysArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, 3500.0)
-    SoulGemsArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, 3500.0)
-    IngredientsArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, 3500.0)
-    ScrollsArray            = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, 3500.0)
-    MiscItemsArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, 3500.0)
-    FurnitureArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, 3500.0)
-    FloraArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, 3500.0)
-    TreesArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, 3500.0)
+    DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, ActivatorsDistance)
+    IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, ActivatorsDistance)
+    WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, ActivatorsDistance)
+    AmmoArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, ActivatorsDistance)
+    ArmorArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, ActivatorsDistance)
+    BooksArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, ActivatorsDistance)
+    KeysArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, ActivatorsDistance)
+    SoulGemsArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, ActivatorsDistance)
+    IngredientsArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, ActivatorsDistance)
+    ScrollsArray            = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, ActivatorsDistance)
+    MiscItemsArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, ActivatorsDistance)
+    FurnitureArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, ActivatorsDistance)
+    FloraArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, ActivatorsDistance)
+    TreesArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, ActivatorsDistance)
     NatureArray             = PapyrusUtil.MergeObjRefArray(FloraArray, TreesArray)
-    HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, 3500.0)
-    TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 3500.0)
+    HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, ActivatorsDistance)
+    TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, ActivatorsDistance)
     MiscActivatorsArray     = PapyrusUtil.MergeObjRefArray(HalfMiscActivatorsArray, TalkingActivatorsArray)
 
     If TotalNPCArray.Length > 0
@@ -842,76 +846,211 @@ Function PlayerStatus()
 EndFunction
 
 Function AmbientSound()
-    AddAmbientSound(ContainersArray, AccessibilityAMBContainerUnlocked, AccessibilityAMBContainerLocked)
-    AddAmbientSound(AliveNPCArray, AccessibilityAMBNPCNeutral, AccessibilityAMBNPCEnemy)
-    AddAmbientSound(LootNPCArray, AccessibilityAMBLootNPC, None)
-    AddAmbientSound(DoorsArray, AccessibilityAMBDoorUnlocked, AccessibilityAMBDoorLocked)
-    AddAmbientSound(IngestiblesArray, AccessibilityAMBIngestible, None)
-    AddAmbientSound(WeaponArray, AccessibilityAMBWeapon, None)
-    AddAmbientSound(AmmoArray, AccessibilityAMBAmmo, None)
-    AddAmbientSound(ArmorArray, AccessibilityAMBArmor, None)
-    AddAmbientSound(BooksArray, AccessibilityAMBBook, None)
-    AddAmbientSound(KeysArray, AccessibilityAMBKey, None)
-    AddAmbientSound(SoulGemsArray, AccessibilityAMBSoulGem, None)
-    AddAmbientSound(IngredientsArray, AccessibilityAMBIngredient, None)
-    AddAmbientSound(ScrollsArray, AccessibilityAMBScroll, None)
-    AddAmbientSound(MiscItemsArray, AccessibilityAMBMiscItem, None)
-    AddAmbientSound(FurnitureArray, AccessibilityAMBFurniture, None)
-    AddAmbientSound(NatureArray, AccessibilityAMBNatureUnharvested, AccessibilityAMBNatureHarvested)
-    AddAmbientSound(MiscActivatorsArray, AccessibilityAMBMiscActivator, None)
-EndFunction
+    Float ScanPosX = Game.GetPlayer().GetPositionX()
+    Float ScanPosY = Game.GetPlayer().GetPositionY()
+    Float ScanPosZ = Game.GetPlayer().GetPositionZ()
 
-Function AddAmbientSound(ObjectReference[] Array, Sound AMBSound, Sound AMBSoundAlt)
+    If Math.abs(ScanPosX - LastScanPosX) > 70.0 || Math.abs(ScanPosY - LastScanPosY) > 70.0 || Math.abs(ScanPosZ - LastScanPosZ) > 70.0
+        SortActivators(700)
+        LastScanPosX = ScanPosX
+        LastScanPosY = ScanPosY
+        LastScanPosZ = ScanPosZ
+    EndIf
+
+    Int LongestArrayLength = 0
+
+    If ContainersArray.Length > LongestArrayLength
+        LongestArrayLength = ContainersArray.Length
+    EndIf
+    If AliveNPCArray.Length > LongestArrayLength
+        LongestArrayLength = AliveNPCArray.Length
+    EndIf
+    If LootNPCArray.Length > LongestArrayLength
+        LongestArrayLength = LootNPCArray.Length
+    EndIf
+    If DoorsArray.Length > LongestArrayLength
+        LongestArrayLength = DoorsArray.Length
+    EndIf
+    If IngestiblesArray.Length > LongestArrayLength
+        LongestArrayLength = IngestiblesArray.Length
+    EndIf
+    If WeaponArray.Length > LongestArrayLength
+        LongestArrayLength = WeaponArray.Length
+    EndIf
+    If AmmoArray.Length > LongestArrayLength
+        LongestArrayLength = AmmoArray.Length
+    EndIf
+    If ArmorArray.Length > LongestArrayLength
+        LongestArrayLength = ArmorArray.Length
+    EndIf
+    If BooksArray.Length > LongestArrayLength
+        LongestArrayLength = BooksArray.Length
+    EndIf
+    If KeysArray.Length > LongestArrayLength
+        LongestArrayLength = KeysArray.Length
+    EndIf
+    If SoulGemsArray.Length > LongestArrayLength
+        LongestArrayLength = SoulGemsArray.Length
+    EndIf
+    If IngredientsArray.Length > LongestArrayLength
+        LongestArrayLength = IngredientsArray.Length
+    EndIf
+    If ScrollsArray.Length > LongestArrayLength
+        LongestArrayLength = ScrollsArray.Length
+    EndIf
+    If MiscItemsArray.Length > LongestArrayLength
+        LongestArrayLength = MiscItemsArray.Length
+    EndIf
+    If FurnitureArray.Length > LongestArrayLength
+        LongestArrayLength = FurnitureArray.Length
+    EndIf
+    If NatureArray.Length > LongestArrayLength
+        LongestArrayLength = NatureArray.Length
+    EndIf
+    If MiscActivatorsArray.Length > LongestArrayLength
+        LongestArrayLength = MiscActivatorsArray.Length
+    EndIf
+
     Int Index = 0
-    While Index < Array.Length
-        If Array[Index] != None
-            Utility.Wait(Utility.RandomFloat())
-            If Array == ContainersArray && Array[Index].IsLocked() == False
-                AMBSound.Play(Array[Index])
-            ElseIf Array == ContainersArray && Array[Index].IsLocked() == True
-                AMBSoundAlt.Play(Array[Index])
-            ElseIf Array == LootNPCArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == AliveNPCArray && (Array[Index] As Actor).IsHostileToActor(Game.GetPlayer()) == False
-                AMBSound.Play(Array[Index])
-            ElseIf Array == AliveNPCArray && (Array[Index] As Actor).IsHostileToActor(Game.GetPlayer()) == True
-                AMBSoundAlt.Play(Array[Index])
-            ElseIf Array == DoorsArray && Array[Index].IsLocked() == False
-                AMBSound.Play(Array[Index])
-            ElseIf Array == DoorsArray && Array[Index].IsLocked() == True
-                AMBSoundAlt.Play(Array[Index])
-            ElseIf Array == IngestiblesArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == WeaponArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == AmmoArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == ArmorArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == BooksArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == KeysArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == SoulGemsArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == IngredientsArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == ScrollsArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == MiscItemsArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == FurnitureArray
-                AMBSound.Play(Array[Index])
-            ElseIf Array == NatureArray && Array[Index].IsHarvested() == False
-                AMBSound.Play(Array[Index])
-            ElseIf Array == NatureArray && Array[Index].IsHarvested() == True
-                AMBSoundAlt.Play(Array[Index])
-            ElseIf Array == MiscActivatorsArray
-                AMBSound.Play(Array[Index])
-            EndIf
+
+    Int ContainersIndex = 0
+    Int AliveNPCIndex = 0
+    Int LootNPCIndex = 0
+    Int DoorsIndex = 0
+    Int IngestiblesIndex = 0
+    Int WeaponIndex = 0
+    Int AmmoIndex = 0
+    Int ArmorIndex = 0
+    Int BooksIndex = 0
+    Int KeysIndex = 0
+    Int SoulGemsIndex = 0
+    Int IngredientsIndex = 0
+    Int ScrollsIndex = 0
+    Int MiscItemsIndex = 0
+    Int FurnitureIndex = 0
+    Int NatureIndex = 0
+    Int MiscActivatorsIndex = 0
+
+    While Index < LongestArrayLength
+        If ContainersArray[Index] != None
+            AddAmbientSound(ContainersArray, ContainersIndex, AccessibilityAMBContainerUnlocked, AccessibilityAMBContainerLocked)
+            ContainersIndex += 1
+        EndIf
+        If AliveNPCArray[Index] != None
+            AddAmbientSound(AliveNPCArray, AliveNPCIndex, AccessibilityAMBNPCNeutral, AccessibilityAMBNPCEnemy)
+            AliveNPCIndex += 1
+        EndIf
+        If LootNPCArray[Index] != None
+            AddAmbientSound(LootNPCArray, LootNPCIndex, AccessibilityAMBLootNPC, None)
+            LootNPCIndex += 1
+        EndIf
+        If DoorsArray[Index] != None
+            AddAmbientSound(DoorsArray, DoorsIndex, AccessibilityAMBDoorUnlocked, AccessibilityAMBDoorLocked)
+            DoorsIndex += 1
+        EndIf
+        If IngestiblesArray[Index] != None
+            AddAmbientSound(IngestiblesArray, IngestiblesIndex, AccessibilityAMBIngestible, None)
+            IngestiblesIndex += 1
+        EndIf
+        If WeaponArray[Index] != None
+            AddAmbientSound(WeaponArray, WeaponIndex, AccessibilityAMBWeapon, None)
+            WeaponIndex += 1
+        EndIf
+        If AmmoArray[Index] != None
+            AddAmbientSound(AmmoArray, AmmoIndex, AccessibilityAMBAmmo, None)
+            AmmoIndex += 1
+        EndIf
+        If ArmorArray[Index] != None
+            AddAmbientSound(ArmorArray, ArmorIndex, AccessibilityAMBArmor, None)
+            ArmorIndex += 1
+        EndIf
+        If BooksArray[Index] != None
+            AddAmbientSound(BooksArray, BooksIndex, AccessibilityAMBBook, None)
+            BooksIndex += 1
+        EndIf
+        If KeysArray[Index] != None
+            AddAmbientSound(KeysArray, KeysIndex, AccessibilityAMBKey, None)
+            KeysIndex += 1
+        EndIf
+        If SoulGemsArray[Index] != None
+            AddAmbientSound(SoulGemsArray, SoulGemsIndex, AccessibilityAMBSoulGem, None)
+            SoulGemsIndex += 1
+        EndIf
+        If IngredientsArray[Index] != None
+            AddAmbientSound(IngredientsArray, IngredientsIndex, AccessibilityAMBIngredient, None)
+            IngredientsIndex += 1
+        EndIf
+        If ScrollsArray[Index] != None
+            AddAmbientSound(ScrollsArray, ScrollsIndex, AccessibilityAMBScroll, None)
+            ScrollsIndex += 1
+        EndIf
+        If MiscItemsArray[Index] != None
+            AddAmbientSound(MiscItemsArray, MiscItemsIndex, AccessibilityAMBMiscItem, None)
+            MiscItemsIndex += 1
+        EndIf
+        If FurnitureArray[Index] != None
+            AddAmbientSound(FurnitureArray, FurnitureIndex, AccessibilityAMBFurniture, None)
+            FurnitureIndex += 1
+        EndIf
+        If NatureArray[Index] != None
+            AddAmbientSound(NatureArray, NatureIndex, AccessibilityAMBNatureUnharvested, AccessibilityAMBNatureHarvested)
+            NatureIndex += 1
+        EndIf
+        If MiscActivatorsArray[Index] != None
+            AddAmbientSound(MiscActivatorsArray, MiscActivatorsIndex, AccessibilityAMBMiscActivator, None)
+            MiscActivatorsIndex += 1
         EndIf
         Index += 1
     EndWhile
+EndFunction
+
+Function AddAmbientSound(ObjectReference[] Array, Int AmbientIndex, Sound AMBSound, Sound AMBSoundAlt)
+    Utility.Wait(0.2)
+    If Array[AmbientIndex] != None
+        If Array == ContainersArray && Array[AmbientIndex].IsLocked() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ContainersArray && Array[AmbientIndex].IsLocked() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == LootNPCArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AliveNPCArray && (Array[AmbientIndex] As Actor).IsHostileToActor(Game.GetPlayer()) == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AliveNPCArray && (Array[AmbientIndex] As Actor).IsHostileToActor(Game.GetPlayer()) == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == DoorsArray && Array[AmbientIndex].IsLocked() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == DoorsArray && Array[AmbientIndex].IsLocked() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == IngestiblesArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == WeaponArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AmmoArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ArmorArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == BooksArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == KeysArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == SoulGemsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == IngredientsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ScrollsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == MiscItemsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == FurnitureArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == NatureArray && Array[AmbientIndex].IsHarvested() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == NatureArray && Array[AmbientIndex].IsHarvested() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == MiscActivatorsArray
+            AMBSound.Play(Array[AmbientIndex])
+        EndIf
+    EndIf
 EndFunction
 
 Function DisplayMenuText(String Text)

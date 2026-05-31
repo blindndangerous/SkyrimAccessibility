@@ -9,6 +9,9 @@ Add sound for Obstacles.
 Add sound to ore veins.
 Add sound for walls, roads, water, etc. at closer range.
 
+Menu:
+Add Locked to name of door and container.
+
 
 1.1.0
 Notification:
