@@ -44,6 +44,7 @@ Sound Property AccessibilityAMBFurniture Auto ;Add to esp
 Sound Property AccessibilityAMBNatureUnharvested Auto ;Add to esp
 Sound Property AccessibilityAMBNatureHarvested Auto ;Add to esp
 Sound Property AccessibilityAMBMiscActivator Auto ;Add to esp
+
 Sound Property AccessibilityAMBSelectedEntryMark Auto ;Add to esp
 
 MiscObject Property Lockpick Auto ;Add to esp
