@@ -1,35 +1,51 @@
-0.11.3
-1. Reopen lockpick options menu on failed lockpick.
-2. Test WalkInPlace.
-3. Merge empty categories of fast travel to Misc.
-
 1.0.0
-1. Coin purse script? Is it still needed?
-2. Expand Ambient sounds.
-3. Audio from enemies that changes based on health left.
-4. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
-5. Add pets to haul small items of players choise.
-e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
-6. Add workflow for xmake to build msvc plugins on linux.
+
+Notification:
+Clairvoyance/Objctive direction.
+
+Sound:
+Utility has a Sound Library where palyers can listen to what each sound denominates.
+Add sound for Obstacles.
+Add sound to ore veins.
+Add sound for walls, roads, water, etc. at closer range.
+
+Menu:
+Add Locked to name of door and container.
+
+
+1.1.0
+Notification:
+WalkInPlace.
+
+AutoWalk:
+Walk to object.
+Walk to aimlocked enemy.
+Follow NPC.
+
+Misc:
+Add translate possiblity.
 
 2.0.0
-1. Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With MCM settings menu for everything like sound volume, etc.
-2. All sounds from items should be togleable.
-3. Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
-4. Add MCM settings.
-5. Clairvoyance Lost Knife Cave No Direct Path Seen.
-6. Output to braile display
+1. Add glowing effect, around items, activators. Different colour for different things, also pulsing. For people with poor eyesight.
+2. Add pets to haul small items of players choise.
+e.g. go search for potions. Pet will be absent for some minutes and will bring back any loose potions.
+3. Add workflow for xmake to build msvc plugins on linux.
 
+3.0.0
+1. Move Papyrus scripts to C++ SKSE plugin, with PrismaUI for Menus. With MCM settings menu for everything like sound volume, etc.
+2. Tell if door leads to other location c++. In Papyrus can I use static DoorMarker? check if near door.
+3. Clairvoyance Lost Knife Cave No Direct Path Seen.
+4. Output to braile display
+5. Add sound when enemy recives damage.
 
 Documentation:
 1. Add introduction to Skyrim UI and Controls.
 2. Move install guides into html.
 3. Add changelog section with mod's versions to html.
+4. Add achievements enabler mod as Dependency
+5. Mention to use 64 bit nvda controller
+6. Vortex was updated, need to update guide.
 
-Add achievements enabler mod
-Add a follow mod that does not stop
-Add a walk to aimlocked enemy
-False empty menus.
-Divide units by 70
-Add ambient sounds to obstacles.
-resize array before so it is not always 127 in travel
+TTS:
+Add narration of pickpocket chance.
+Read books line by line.

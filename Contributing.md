@@ -5,7 +5,7 @@ Thanks for your interest in helping develop the Skyrim Accessibility Mod by Dio 
 ## Contributing rules
 
 1. Papyrus is case-insensitive, but for clarity only pull requests using PascalCase identifiers in `.psc` files will be accepted.
-2. If a feature can be done in the SKSE plugin, it should be done there. This keeps compatibility with other mods high and avoids the need for a new game on every update.
+2. For mod version 2.0.0, if a feature can be done in the SKSE plugin, it should be done there. This keeps compatibility with other mods high and avoids the need for a new game on every update.
 3. AI-generated code must be clearly labeled as such. Pull requests containing AI-generated code may be moved to a separate branch for review and rewrite.
 4. The repository ships a Nix flake for quick setup of the development environment on Linux.
 
@@ -16,9 +16,8 @@ Thanks for your interest in helping develop the Skyrim Accessibility Mod by Dio 
 - Creation Kit
 - Creation Kit Platform Extended
 - BSA Browser
-- Papyrus Compiler App SSE
+- Papyrus Compiler
 - SSEEdit
-- Champollion GUI
 
 ### SKSE plugin work (C++)
 

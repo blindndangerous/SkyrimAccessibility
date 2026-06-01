@@ -1,6 +1,8 @@
-Scriptname AccessibilityScriptAccessibilityMenu extends ReferenceAlias
+Scriptname AccessibilityScriptAccessibilityMenu Extends ReferenceAlias
 
 Bool IsAccessibilityMenuOpen Auto
+
+ObjectReference SelectedEntry Auto
 
 String[] MenuList Auto
 Int CurrentMenu Auto
@@ -10,11 +12,44 @@ Int CurrentSubMenu Auto
 
 ObjectReference[] EntriesList Auto
 Int CurrentEntry Auto
+String CurrentEntryName Auto
 
-Bool AutoLockPick Auto ;Add Setting to enable/disable this.
+Bool AutoLockPick Auto ;Add to MCM
+
+Int SingleUpdateInterval Auto
+
+Float LastScanPosX
+Float LastScanPosY
+Float LastScanPosZ
 
 Sound Property AccessibilityCNDLockPickFail Auto
 Sound Property AccessibilityCNDLockPickSuccess Auto
+Sound Property AccessibilityCNDNoLockPicks Auto
+Sound Property AccessibilityCNDWalkInPlace Auto
+
+Sound Property AccessibilityAMBContainerUnlocked Auto
+Sound Property AccessibilityAMBContainerLocked Auto
+Sound Property AccessibilityAMBNPCNeutral Auto
+Sound Property AccessibilityAMBNPCEnemy Auto
+Sound Property AccessibilityAMBLootNPC Auto
+Sound Property AccessibilityAMBDoorUnlocked Auto
+Sound Property AccessibilityAMBDoorLocked Auto
+Sound Property AccessibilityAMBIngestible Auto
+Sound Property AccessibilityAMBWeapon Auto
+Sound Property AccessibilityAMBAmmo Auto
+Sound Property AccessibilityAMBArmor Auto
+Sound Property AccessibilityAMBBook Auto
+Sound Property AccessibilityAMBKey Auto
+Sound Property AccessibilityAMBSoulGem Auto
+Sound Property AccessibilityAMBIngredient Auto
+Sound Property AccessibilityAMBScroll Auto
+Sound Property AccessibilityAMBMiscItem Auto
+Sound Property AccessibilityAMBFurniture Auto
+Sound Property AccessibilityAMBNatureUnharvested Auto
+Sound Property AccessibilityAMBNatureHarvested Auto
+Sound Property AccessibilityAMBMiscActivator Auto
+
+Sound Property AccessibilityAMBSelectedEntryMark Auto
 
 MiscObject Property Lockpick Auto
 MiscObject Property SkeletonKey Auto
@@ -96,27 +131,43 @@ Event OnInit()
     RegisterForKey(19) ;R key
     RegisterForKey(44) ;Z key
     RegisterForKey(46) ;C key
-    IsAccessibilityMenuOpen = False ;Reset Bool
+    RegisterForKey(24) ;O key
+    RegisterForKey(38) ;L key
+    RegisterForKey(34) ;G key
+    RegisterForKey(42) ;Left Shift
+    IsAccessibilityMenuOpen = False ;Reset IsAccessibilityMenuOpen
     CurrentMenu = 0 ;Reset CurrentMenu
     CurrentSubMenu = 0 ;Reset CurrentSubMenu
     CurrentEntry = 0 ;Reset CurrentEntry
+    SingleUpdateInterval = 5 ;Reset SingleUpdateInterval
+    SelectedEntry = None ;Reset SelectedEntry
+    AutoLockPick = True ;This should be deleted from here after moving it to MCM.
     SortMapMarkers()
-    Debug.Notification("Accessibility menu is ready")
+    SortActivators(700)
+    RegisterForSingleUpdate(SingleUpdateInterval)
+    Utility.Wait(5.0)
+    DisplayMenuText("Accessibility Menu Ready")
+EndEvent
+
+Event OnUpdate()
+    AmbientSound()
+    SelectedEntryMark()
+    RegisterForSingleUpdate(SingleUpdateInterval)
 EndEvent
 
 Event OnKeyDown(Int KeyCode)
     If KeyCode == 47 && !Utility.IsInMenuMode() && IsAccessibilityMenuOpen == False ;V key
+        DisplayMenuText("Accessibility Menu Open")
+        Utility.Wait(2.0)
         MenuListRefresh()
         CurrentMenuName()
-        SortActivators()
-        CurrentEntryName()
+        SortActivators(3500)
         IsAccessibilityMenuOpen = True
         Game.DisablePlayerControls()
-        Debug.Notification("Accessibility menu is open")
     ElseIf KeyCode == 47 && IsAccessibilityMenuOpen == True ;V key
         Game.EnablePlayerControls()
         IsAccessibilityMenuOpen = False
-        Debug.Notification("Accessibility menu is closed")
+        DisplayMenuText("Accessibility Menu Closed")
     ElseIf KeyCode == 17 && IsAccessibilityMenuOpen == True ;W key
         ScrollCurrentEntryUp()
     ElseIf KeyCode == 30 && IsAccessibilityMenuOpen == True ;A key
@@ -134,13 +185,21 @@ Event OnKeyDown(Int KeyCode)
     ElseIf KeyCode == 29 && IsAccessibilityMenuOpen == True ;Left Ctrl
         Teleport()
     ElseIf KeyCode == 16 && IsAccessibilityMenuOpen == True ;Q key
-        PlaceMark()
+        ;Vacant
     ElseIf KeyCode == 18 && IsAccessibilityMenuOpen == True ;E key
         WalkTo()
     ElseIf KeyCode == 33 && IsAccessibilityMenuOpen == True ;F key
         Follow()
     ElseIf KeyCode == 19 && IsAccessibilityMenuOpen == True ;R key
         LockCameraOn()
+    ElseIf KeyCode == 24 ;O key
+        SelectEntry()
+    ElseIf KeyCode == 42 ;Left Shift
+        ;Vacant
+    ElseIf KeyCode == 38 ;L key
+        ReturnToNavMesh()
+    ElseIf KeyCode == 34 ;G key
+        PlayerStatus()
     EndIf
 EndEvent
 
@@ -170,7 +229,8 @@ Function ScrollCurrentEntryDown()
     Else
         CurrentEntry = 0
     EndIf
-    CurrentEntryName()
+    CurrentEntryNameShow()
+    EntriesListRefresh()
 EndFunction
 
 Function ScrollCurrentEntryUp()
@@ -179,7 +239,8 @@ Function ScrollCurrentEntryUp()
     Else
         CurrentEntry = EntriesList.Length - 1
     EndIf
-    CurrentEntryName()
+    CurrentEntryNameShow()
+    EntriesListRefresh()
 EndFunction
 
 Function ScrollCurrentSubMenuLeft()
@@ -189,7 +250,6 @@ Function ScrollCurrentSubMenuLeft()
         CurrentSubMenu = SubMenuList.Length - 1
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -200,7 +260,6 @@ Function ScrollCurrentSubMenuRight()
         CurrentSubMenu = 0
     EndIf
     CurrentMenuName()
-    EntriesListRefresh()
     CurrentEntry = 0 ;Reset CurrentEntry
 EndFunction
 
@@ -209,7 +268,7 @@ Function MenuListRefresh()
     MenuList[0] = "Accessibility Menu"
     MenuList[1] = "Travel Menu"
     MenuList[2] = "Utility Menu"
-    MenuList[3] = "Settings Menu"
+    MenuList[3] = "Preferences Menu"
 EndFunction
 
 Function SubMenuListRefresh()
@@ -270,10 +329,10 @@ Function SubMenuListRefresh()
         SubMenuList[33] = "DLC02"
     ElseIf CurrentMenu == 2
         SubMenuList = New String[1]
-        SubMenuList[0] = "2 menu"
+        SubMenuList[0] = "2 menu's submenu"
     ElseIf CurrentMenu == 3
         SubMenuList = New String[1]
-        SubMenuList[0] = "3 menu"
+        SubMenuList[0] = "General Preferences"
     EndIf
 EndFunction
 
@@ -384,22 +443,54 @@ Function EntriesListRefresh()
         ElseIf CurrentSubMenu == 33
             EntriesList = DLC02Array
         EndIf
+    ElseIf CurrentMenu == 2
+    ElseIf CurrentMenu == 3
+        If CurrentSubMenu == 0
+        EndIf
     EndIf
 EndFunction
 
-Function CurrentMenuName()
-    SubMenuListRefresh()
-    EntriesListRefresh()
-    Debug.Notification(SubMenuList[CurrentSubMenu] + " : " + MenuList[CurrentMenu])
-EndFunction
-
-Function CurrentEntryName()
-    If CurrentMenu == 1
+Function CurrentEntryNameFind()
+    CurrentEntryName = ""
+    If CurrentMenu == 0
+        If CurrentSubMenu == 15
+            If EntriesList.Length == 0
+                CurrentEntryName = ("No entries")
+            Else
+                String Name
+                If EntriesList[CurrentEntry].GetDisplayName() != ""
+                    Name = EntriesList[CurrentEntry].GetDisplayName()
+                Else
+                    Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                EndIf
+                If EntriesList[CurrentEntry].IsHarvested() == True
+                    Name = Name + ", Harvested"
+                EndIf
+                String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
+                String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
+                CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
+            EndIf
+        Else
+            If EntriesList.Length == 0
+                CurrentEntryName = ("No entries")
+            Else
+                String Name
+                If EntriesList[CurrentEntry].GetDisplayName() != ""
+                    Name = EntriesList[CurrentEntry].GetDisplayName()
+                Else
+                    Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+                EndIf
+                String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
+                String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
+                CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
+            EndIf
+        EndIf
+    ElseIf CurrentMenu == 1
         If EntriesList.Length == 0
-            Debug.Notification("No entries")
+            CurrentEntryName = ("No entries")
         Else
             String Name = DbSkseFunctions.GetMapMarkerName(EntriesList[CurrentEntry])
-            String Status = ""
+            String Status
             If (EntriesList[CurrentEntry].IsMapMarkerVisible() == True && EntriesList[CurrentEntry].CanFastTravelToMarker() == True)
                 Status = "Discovered"
             ElseIf (EntriesList[CurrentEntry].IsMapMarkerVisible() == True && EntriesList[CurrentEntry].CanFastTravelToMarker() == False)
@@ -409,57 +500,46 @@ Function CurrentEntryName()
             EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + OutOf + " " + Status + " " + Distance + " " + Units)
+            CurrentEntryName = (Name + ", " + Status + ", " + Distance + ", " + OutOf)
         EndIf
     Else
         If EntriesList.Length == 0
-            Debug.Notification("No entries")
+            CurrentEntryName = ("No entries")
         Else
-            String Name = EntriesList[CurrentEntry].GetDisplayName()
+            String Name
+            If EntriesList[CurrentEntry].GetDisplayName() != ""
+                String Name = EntriesList[CurrentEntry].GetDisplayName()
+            Else
+                String Name = DbSkseFunctions.GetFormEditorId(EntriesList[CurrentEntry].GetBaseObject())
+            EndIf
             String OutOf = CurrentEntry As String + "/" + (EntriesList.Length - 1) As String
             String Distance = ((Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) / 70) + " Meters"
-            String Units = (Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) As Int) + " Units"
-            Debug.Notification(Name + " " + OutOf + " " + Distance + " " + Units)
+            CurrentEntryName = (Name + ", " + Distance + ", " + OutOf)
         EndIf
     EndIf
 EndFunction
 
-Function Select() ;ToDo Add Skill based lockpicking.
+Function CurrentEntryNameShow()
+    CurrentEntryNameFind()
+    DisplayMenuText(CurrentEntryName)
+EndFunction
+
+Function CurrentMenuName()
+    SubMenuListRefresh()
+    EntriesListRefresh()
+    CurrentEntryNameFind()
+    DisplayMenuText(SubMenuList[CurrentSubMenu] + " : " + CurrentEntryName + " : " + MenuList[CurrentMenu])
+EndFunction
+
+Function Select()
     If CurrentMenu == 0
         If CurrentSubMenu == 0 || CurrentSubMenu == 3
-            If EntriesList[CurrentEntry].IsLocked() == 0
-                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
-                If AutoLockPick == False
-                    EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-                Else
-                    If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
-                        EntriesList[CurrentEntry].Lock(False)
-                        AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                    ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
-                        If Utility.RandomInt(0, 3) == 0
-                            EntriesList[CurrentEntry].Lock(False)
-                            AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
-                            Game.GetPlayer().RemoveItem(Lockpick, 1)
-                            Game.AdvanceSkill("Lockpicking", 2.0)
-                        Else
-                            Game.GetPlayer().RemoveItem(Lockpick, 1)
-                            Game.AdvanceSkill("Lockpicking", 1.0)
-                            AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
-                        EndIf
-                    Else
-                        Debug.Notification("Not enough Lockpicks")
-                    EndIf
-                EndIf
-            ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255
-                EntriesList[CurrentEntry].Activate(Game.GetPlayer())
-            EndIf
+            AutoLockPick()
         Else
-            If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 70
+            If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) <= 70
                 EntriesList[CurrentEntry].Activate(Game.GetPlayer())
             Else
-                Debug.Notification("You are " + Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) / 70 + "meters too far")
+                DisplayMenuText("Too far to interact")
             EndIf
         EndIf
     ElseIf CurrentMenu == 1
@@ -468,22 +548,69 @@ Function Select() ;ToDo Add Skill based lockpicking.
 
     ElseIf CurrentMenu == 3
     EndIf
+    EntriesListRefresh()
+EndFunction
+
+Function AutoLockPick()
+    Int LockPickingSkillBasedRandom
+    Float LockPickingSkill = Game.GetPlayer().GetActorValue("Lockpicking")
+
+    LockPickingSkillBasedRandom = EntriesList[CurrentEntry].GetLockLevel() / LockPickingSkill As Int
+
+    If LockPickingSkillBasedRandom < 1
+        LockPickingSkillBasedRandom = 1
+    EndIf
+
+    Int LockPickingSkillBasedExperience = 2 + (EntriesList[CurrentEntry].GetLockLevel() + 16) / 48 + LockPickingSkill As Int / 3
+
+    If EntriesList[CurrentEntry].IsLocked() == 0
+        EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+    ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() < 255
+        If AutoLockPick == False
+            EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+        Else
+            If Game.GetPlayer().GetItemCount(SkeletonKey) >= 1
+                EntriesList[CurrentEntry].Lock(False)
+                AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+            ElseIf Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                While EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) >= 1
+                    If Utility.RandomInt(0, LockPickingSkillBasedRandom) == 0
+                        EntriesList[CurrentEntry].Lock(False)
+                        AccessibilityCNDLockPickSuccess.Play(Game.GetPlayer())
+                        Game.AdvanceSkill("Lockpicking", LockPickingSkillBasedExperience)
+                        DisplayMenuText("Success")
+                    Else
+                        Game.AdvanceSkill("Lockpicking", 1.0)
+                        AccessibilityCNDLockPickFail.Play(Game.GetPlayer())
+                        DisplayMenuText("Fail")
+                    EndIf
+                    Game.GetPlayer().RemoveItem(Lockpick, 1)
+                    Utility.Wait(0.5)
+                EndWhile
+                If EntriesList[CurrentEntry].IsLocked() == 1 && Game.GetPlayer().GetItemCount(Lockpick) < 1
+                    DisplayMenuText("Not enough Lockpicks")
+                    AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
+                EndIf
+            Else
+                DisplayMenuText("Not enough Lockpicks")
+                AccessibilityCNDNoLockPicks.Play(Game.GetPlayer())
+            EndIf
+        EndIf
+    ElseIf EntriesList[CurrentEntry].IsLocked() == 1 && EntriesList[CurrentEntry].GetLockLevel() == 255
+        EntriesList[CurrentEntry].Activate(Game.GetPlayer())
+    EndIf
 EndFunction
 
 Function Teleport()
     If CurrentMenu == 0
         If Game.GetPlayer().GetDistance(EntriesList[CurrentEntry]) > 3500
-            Debug.Notification("Too far to teleport")
+            DisplayMenuText("Too far to teleport")
         Else
             Game.GetPlayer().MoveTo(EntriesList[CurrentEntry])
         EndIf
     ElseIf CurrentMenu == 1
         Game.FastTravel(EntriesList[CurrentEntry])
     EndIf
-EndFunction
-
-Function PlaceMark() ;60 Seconds of sound mark. Only one can exist.
-
 EndFunction
 
 Function WalkTo() ;Stop when Near or WASD key pressed
@@ -495,262 +622,199 @@ Function Follow() ;Stop only when wasd key pressed
 EndFunction
 
 Function LockCameraOn() ;30 Seconds of Camera Lock On. !!!Vertical Angle Not Working
-    If !EntriesList[CurrentEntry].IsDisabled()
-        Int LockCameraTimer = 0
-        While LockCameraTimer < 60
-            Float XAngle = Game.GetPlayer().GetAngleX()
-            Float YAngle = Game.GetPlayer().GetAngleY()
-            Float ZAngle = Game.GetPlayer().GetAngleZ() + Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
-            Game.GetPlayer().SetAngle(XAngle, YAngle, ZAngle)
-            Utility.Wait(0.5)
-            LockCameraTimer += 1
-        EndWhile
+    ;If !EntriesList[CurrentEntry].IsDisabled()
+    ;    Int LockCameraTimer = 0
+    ;    While LockCameraTimer < 60
+    ;        Float XAngle = Game.GetPlayer().GetAngleX()
+    ;        Float YAngle = Game.GetPlayer().GetAngleY()
+    ;        Float ZAngle = Game.GetPlayer().GetAngleZ() + Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
+    ;        Game.GetPlayer().SetAngle(XAngle, YAngle, ZAngle)
+    ;        Utility.Wait(0.5)
+    ;        LockCameraTimer += 1
+    ;    EndWhile
+    ;EndIf
+EndFunction
+
+Function SelectEntry()
+    If IsAccessibilityMenuOpen == True
+        SelectedEntry = EntriesList[CurrentEntry]
+        DisplayMenuText("Entry Selected: " + CurrentEntryName)
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None && Input.IsKeyPressed(42)
+        SelectedEntry = None
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry != None
+        String PlayerPos = "X: " + Game.GetPlayer().GetPositionX() As Int + ", Y: " + Game.GetPlayer().GetPositionY() As Int + ", Z: " + Game.GetPlayer().GetPositionZ() As Int
+        String SelectedEntryPos = "X: " + SelectedEntry.GetPositionX() As Int + ", Y: " + SelectedEntry.GetPositionY() As Int + ", Z: " + SelectedEntry.GetPositionZ() As Int
+        Float AltitudeDifference = SelectedEntry.GetPositionZ() As Int - Game.GetPlayer().GetPositionZ() As Int
+        Float SelectedEntryAngle = Game.GetPlayer().GetHeadingAngle(EntriesList[CurrentEntry])
+        String SelectedEntryDirection
+        String Altitude
+        If SelectedEntry.GetPositionZ() > Game.GetPlayer().GetPositionZ()
+            Altitude = (", Entry up by: " + (AltitudeDifference / 0.7) As Int + " Centimeters")
+        Else
+            Altitude = (", Entry down by: " + ((AltitudeDifference / 0.7) As Int * -1) + " Centimeters")
+        EndIf
+        If SelectedEntryAngle > -45.0 && SelectedEntryAngle < 45.0
+            SelectedEntryDirection = "Front"
+        ElseIf SelectedEntryAngle >= 45.0 && SelectedEntryAngle <= 135.0
+            SelectedEntryDirection = "Right"
+        ElseIf SelectedEntryAngle <= -45.0 && SelectedEntryAngle >= -135.0
+            SelectedEntryDirection = "Left"
+        Else
+            SelectedEntryDirection = "Back"
+        EndIf
+        DisplayMenuText("Direction: " + SelectedEntryDirection + ", Angle: " + SelectedEntryAngle As Int + Altitude + ", Player: " + PlayerPos + ", Entry: " + SelectedEntryPos)
+    ElseIf IsAccessibilityMenuOpen == False && SelectedEntry == None
+        DisplayMenuText("No Entry Selected")
+    EndIf
+EndFunction
+
+Function SelectedEntryMark()
+    If SelectedEntry != None
+        AccessibilityAMBSelectedEntryMark.Play(SelectedEntry)
     EndIf
 EndFunction
 
 Function SortMapMarkers()
     MapMarkers = DbSkseFunctions.GetAllMapMarkerRefs(-1, -1)
-    MiscArray = new ObjectReference[128]
-    TownArray = new ObjectReference[128]
-    SettlementArray = new ObjectReference[128]
-    CaveArray = new ObjectReference[128]
-    CampArray = new ObjectReference[128]
-    FortArray = new ObjectReference[128]
-    NordicRuinsArray = new ObjectReference[128]
-    DwemerRuinArray = new ObjectReference[128]
-    ShipwreckArray = new ObjectReference[128]
-    GroveArray = new ObjectReference[128]
-    LandmarkArray = new ObjectReference[128]
-    DragonLairArray = new ObjectReference[128]
-    FarmArray = new ObjectReference[128]
-    WoodMillArray = new ObjectReference[128]
-    MineArray = new ObjectReference[128]
-    ImperialCampArray = new ObjectReference[128]
-    StormcloakCampArray = new ObjectReference[128]
-    DoomstoneArray = new ObjectReference[128]
-    WheatMillArray = new ObjectReference[128]
-    StableArray = new ObjectReference[128]
-    ImperialTowerArray = new ObjectReference[128]
-    ClearingArray = new ObjectReference[128]
-    PassArray = new ObjectReference[128]
-    LighthouseArray = new ObjectReference[128]
-    OrcStrongholdArray = new ObjectReference[128]
-    GiantCampArray = new ObjectReference[128]
-    ShackArray = new ObjectReference[128]
-    NordicTowerArray = new ObjectReference[128]
-    NordicDwellingArray = new ObjectReference[128]
-    DocksArray = new ObjectReference[128]
-    ShrineArray = new ObjectReference[128]
-    CastleArray = new ObjectReference[128]
-    CapitolArray = new ObjectReference[128]
-    DLC02Array = new ObjectReference[128]
+
+    MiscArray            = PapyrusUtil.ResizeObjRefArray(MiscArray, 0)
+    TownArray            = PapyrusUtil.ResizeObjRefArray(TownArray, 0)
+    SettlementArray      = PapyrusUtil.ResizeObjRefArray(SettlementArray, 0)
+    CaveArray            = PapyrusUtil.ResizeObjRefArray(CaveArray, 0)
+    CampArray            = PapyrusUtil.ResizeObjRefArray(CampArray, 0)
+    FortArray            = PapyrusUtil.ResizeObjRefArray(FortArray, 0)
+    NordicRuinsArray     = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, 0)
+    DwemerRuinArray      = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, 0)
+    ShipwreckArray       = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, 0)
+    GroveArray           = PapyrusUtil.ResizeObjRefArray(GroveArray, 0)
+    LandmarkArray        = PapyrusUtil.ResizeObjRefArray(LandmarkArray, 0)
+    DragonLairArray      = PapyrusUtil.ResizeObjRefArray(DragonLairArray, 0)
+    FarmArray            = PapyrusUtil.ResizeObjRefArray(FarmArray, 0)
+    WoodMillArray        = PapyrusUtil.ResizeObjRefArray(WoodMillArray, 0)
+    MineArray            = PapyrusUtil.ResizeObjRefArray(MineArray, 0)
+    ImperialCampArray    = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, 0)
+    StormcloakCampArray  = PapyrusUtil.ResizeObjRefArray(StormcloakCampArray, 0)
+    DoomstoneArray       = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, 0)
+    WheatMillArray       = PapyrusUtil.ResizeObjRefArray(WheatMillArray, 0)
+    StableArray          = PapyrusUtil.ResizeObjRefArray(StableArray, 0)
+    ImperialTowerArray   = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, 0)
+    ClearingArray        = PapyrusUtil.ResizeObjRefArray(ClearingArray, 0)
+    PassArray            = PapyrusUtil.ResizeObjRefArray(PassArray, 0)
+    LighthouseArray      = PapyrusUtil.ResizeObjRefArray(LighthouseArray, 0)
+    OrcStrongholdArray   = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, 0)
+    GiantCampArray       = PapyrusUtil.ResizeObjRefArray(GiantCampArray, 0)
+    ShackArray           = PapyrusUtil.ResizeObjRefArray(ShackArray, 0)
+    NordicTowerArray     = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, 0)
+    NordicDwellingArray  = PapyrusUtil.ResizeObjRefArray(NordicDwellingArray, 0)
+    DocksArray           = PapyrusUtil.ResizeObjRefArray(DocksArray, 0)
+    ShrineArray          = PapyrusUtil.ResizeObjRefArray(ShrineArray, 0)
+    CastleArray          = PapyrusUtil.ResizeObjRefArray(CastleArray, 0)
+    CapitolArray         = PapyrusUtil.ResizeObjRefArray(CapitolArray, 0)
+    DLC02Array           = PapyrusUtil.ResizeObjRefArray(DLC02Array, 0)
 
     Int MapMarkersIndex = 0
-    Int MiscIndex = 0
-    Int TownIndex = 0
-    Int SettlementIndex = 0
-    Int CaveIndex = 0
-    Int CampIndex = 0
-    Int FortIndex = 0
-    Int NordicRuinsIndex = 0
-    Int DwemerRuinIndex = 0
-    Int ShipwreckIndex = 0
-    Int GroveIndex = 0
-    Int LandmarkIndex = 0
-    Int DragonLairIndex = 0
-    Int FarmIndex = 0
-    Int WoodMillIndex = 0
-    Int MineIndex = 0
-    Int ImperialCampIndex = 0
-    Int StormcloakCampIndex = 0
-    Int DoomstoneIndex = 0
-    Int WheatMillIndex = 0
-    Int StableIndex = 0
-    Int ImperialTowerIndex = 0
-    Int ClearingIndex = 0
-    Int PassIndex = 0
-    Int LighthouseIndex = 0
-    Int OrcStrongholdIndex = 0
-    Int GiantCampIndex = 0
-    Int ShackIndex = 0
-    Int NordicTowerIndex = 0
-    Int NordicDwellingIndex = 0
-    Int DocksIndex = 0
-    Int ShrineIndex = 0
-    Int CastleIndex = 0
-    Int CapitolIndex = 0
-    Int DLC02Index = 0
 
     While MapMarkersIndex < MapMarkers.Length
         Int IconType = DbSkseFunctions.GetMapMarkerIconType(MapMarkers[MapMarkersIndex])
 
-        If IconType == 0 || IconType == 1 || IconType == 20 || IconType == 25 || IconType == 26 || IconType == 59 || IconType == 60 || IconType == 61 || IconType == 62 || IconType == 63 || IconType == 64 || IconType == 65 || IconType == 66
-            MiscArray[MiscIndex] = MapMarkers[MapMarkersIndex]
-            MiscIndex += 1
+        If IconType == 0 || IconType == 1 || IconType == 20 || IconType == 25 || IconType == 26 || IconType == 59 || IconType == 60 || IconType == 61 || IconType == 62 || IconType == 63 || IconType == 64 || IconType == 65 || IconType == 66 ; Misc
+            MiscArray = PapyrusUtil.PushObjRef(MiscArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 2 ; Town
-            TownArray[TownIndex] = MapMarkers[MapMarkersIndex]
-            TownIndex += 1
+            TownArray = PapyrusUtil.PushObjRef(TownArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 3 ; Settlement
-            SettlementArray[SettlementIndex] = MapMarkers[MapMarkersIndex]
-            SettlementIndex += 1
+            SettlementArray = PapyrusUtil.PushObjRef(SettlementArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 4 ; Cave
-            CaveArray[CaveIndex] = MapMarkers[MapMarkersIndex]
-            CaveIndex += 1
+            CaveArray = PapyrusUtil.PushObjRef(CaveArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 5 ; Camp
-            CampArray[CampIndex] = MapMarkers[MapMarkersIndex]
-            CampIndex += 1
+            CampArray = PapyrusUtil.PushObjRef(CampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 6 ; Fort
-            FortArray[FortIndex] = MapMarkers[MapMarkersIndex]
-            FortIndex += 1
+            FortArray = PapyrusUtil.PushObjRef(FortArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 7 ; NordicRuins
-            NordicRuinsArray[NordicRuinsIndex] = MapMarkers[MapMarkersIndex]
-            NordicRuinsIndex += 1
+            NordicRuinsArray = PapyrusUtil.PushObjRef(NordicRuinsArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 8 ; DwemerRuin
-            DwemerRuinArray[DwemerRuinIndex] = MapMarkers[MapMarkersIndex]
-            DwemerRuinIndex += 1
+            DwemerRuinArray = PapyrusUtil.PushObjRef(DwemerRuinArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 9 ; Shipwreck
-            ShipwreckArray[ShipwreckIndex] = MapMarkers[MapMarkersIndex]
-            ShipwreckIndex += 1
+            ShipwreckArray = PapyrusUtil.PushObjRef(ShipwreckArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 10 ; Grove
-            GroveArray[GroveIndex] = MapMarkers[MapMarkersIndex]
-            GroveIndex += 1
+            GroveArray = PapyrusUtil.PushObjRef(GroveArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 11 ; Landmark
-            LandmarkArray[LandmarkIndex] = MapMarkers[MapMarkersIndex]
-            LandmarkIndex += 1
+            LandmarkArray = PapyrusUtil.PushObjRef(LandmarkArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 12 ; DragonLair
-            DragonLairArray[DragonLairIndex] = MapMarkers[MapMarkersIndex]
-            DragonLairIndex += 1
+            DragonLairArray = PapyrusUtil.PushObjRef(DragonLairArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 13 ; Farm
-            FarmArray[FarmIndex] = MapMarkers[MapMarkersIndex]
-            FarmIndex += 1
+            FarmArray = PapyrusUtil.PushObjRef(FarmArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 14 ; WoodMill
-            WoodMillArray[WoodMillIndex] = MapMarkers[MapMarkersIndex]
-            WoodMillIndex += 1
+            WoodMillArray = PapyrusUtil.PushObjRef(WoodMillArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 15 ; Mine
-            MineArray[MineIndex] = MapMarkers[MapMarkersIndex]
-            MineIndex += 1
+            MineArray = PapyrusUtil.PushObjRef(MineArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 16 ; ImperialCamp
-            ImperialCampArray[ImperialCampIndex] = MapMarkers[MapMarkersIndex]
-            ImperialCampIndex += 1
+            ImperialCampArray = PapyrusUtil.PushObjRef(ImperialCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 17 ; StormcloakCamp
-            StormcloakCampArray[StormcloakCampIndex] = MapMarkers[MapMarkersIndex]
-            StormcloakCampIndex += 1
+            StormcloakCampArray = PapyrusUtil.PushObjRef(StormcloakCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 18 ; Doomstone
-            DoomstoneArray[DoomstoneIndex] = MapMarkers[MapMarkersIndex]
-            DoomstoneIndex += 1
+            DoomstoneArray = PapyrusUtil.PushObjRef(DoomstoneArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 19 ; WheatMill
-            WheatMillArray[WheatMillIndex] = MapMarkers[MapMarkersIndex]
-            WheatMillIndex += 1
+            WheatMillArray = PapyrusUtil.PushObjRef(WheatMillArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 21 ; Stable
-            StableArray[StableIndex] = MapMarkers[MapMarkersIndex]
-            StableIndex += 1
+            StableArray = PapyrusUtil.PushObjRef(StableArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 22 ; ImperialTower
-            ImperialTowerArray[ImperialTowerIndex] = MapMarkers[MapMarkersIndex]
-            ImperialTowerIndex += 1
+            ImperialTowerArray = PapyrusUtil.PushObjRef(ImperialTowerArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 23 ; Clearing
-            ClearingArray[ClearingIndex] = MapMarkers[MapMarkersIndex]
-            ClearingIndex += 1
+            ClearingArray = PapyrusUtil.PushObjRef(ClearingArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 24 ; Pass
-            PassArray[PassIndex] = MapMarkers[MapMarkersIndex]
-            PassIndex += 1
+            PassArray = PapyrusUtil.PushObjRef(PassArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 27 ; Lighthouse
-            LighthouseArray[LighthouseIndex] = MapMarkers[MapMarkersIndex]
-            LighthouseIndex += 1
+            LighthouseArray = PapyrusUtil.PushObjRef(LighthouseArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 28 ; OrcStronghold
-            OrcStrongholdArray[OrcStrongholdIndex] = MapMarkers[MapMarkersIndex]
-            OrcStrongholdIndex += 1
+            OrcStrongholdArray = PapyrusUtil.PushObjRef(OrcStrongholdArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 29 ; GiantCamp
-            GiantCampArray[GiantCampIndex] = MapMarkers[MapMarkersIndex]
-            GiantCampIndex += 1
+            GiantCampArray = PapyrusUtil.PushObjRef(GiantCampArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 30 ; Shack
-            ShackArray[ShackIndex] = MapMarkers[MapMarkersIndex]
-            ShackIndex += 1
+            ShackArray = PapyrusUtil.PushObjRef(ShackArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 31 ; NordicTower
-            NordicTowerArray[NordicTowerIndex] = MapMarkers[MapMarkersIndex]
-            NordicTowerIndex += 1
+            NordicTowerArray = PapyrusUtil.PushObjRef(NordicTowerArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 32 ; NordicDwelling
-            NordicDwellingArray[NordicDwellingIndex] = MapMarkers[MapMarkersIndex]
-            NordicDwellingIndex += 1
+            NordicDwellingArray = PapyrusUtil.PushObjRef(NordicDwellingArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 33 ; Docks
-            DocksArray[DocksIndex] = MapMarkers[MapMarkersIndex]
-            DocksIndex += 1
+            DocksArray = PapyrusUtil.PushObjRef(DocksArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 34 ; Shrine
-            ShrineArray[ShrineIndex] = MapMarkers[MapMarkersIndex]
-            ShrineIndex += 1
+            ShrineArray = PapyrusUtil.PushObjRef(ShrineArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 35 || IconType == 37 || IconType == 39 || IconType == 41 || IconType == 43 || IconType == 45 || IconType == 47 || IconType == 49 || IconType == 51 ; Castles
-            CastleArray[CastleIndex] = MapMarkers[MapMarkersIndex]
-            CastleIndex += 1
+            CastleArray = PapyrusUtil.PushObjRef(CastleArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 36 || IconType == 38 || IconType == 40 || IconType == 42 || IconType == 44 || IconType == 46 || IconType == 48 || IconType == 50 || IconType == 52 ; Capitols
-            CapitolArray[CapitolIndex] = MapMarkers[MapMarkersIndex]
-            CapitolIndex += 1
+            CapitolArray = PapyrusUtil.PushObjRef(CapitolArray, MapMarkers[MapMarkersIndex])
         ElseIf IconType == 53 || IconType == 54 || IconType == 55 || IconType == 56 || IconType == 57 || IconType == 58 ; DLC02
-            DLC02Array[DLC02Index] = MapMarkers[MapMarkersIndex]
-            DLC02Index += 1
+            DLC02Array = PapyrusUtil.PushObjRef(DLC02Array, MapMarkers[MapMarkersIndex])
         Else ; any other -> Misc
-            MiscArray[MiscIndex] = MapMarkers[MapMarkersIndex]
-            MiscIndex += 1
+            MiscArray = PapyrusUtil.PushObjRef(MiscArray, MapMarkers[MapMarkersIndex])
         EndIf
+
         MapMarkersIndex += 1
     EndWhile
-
-    MiscArray           = PapyrusUtil.ResizeObjRefArray(MiscArray, MiscIndex)
-    TownArray           = PapyrusUtil.ResizeObjRefArray(TownArray, TownIndex)
-    SettlementArray     = PapyrusUtil.ResizeObjRefArray(SettlementArray, SettlementIndex)
-    CaveArray           = PapyrusUtil.ResizeObjRefArray(CaveArray, CaveIndex)
-    CampArray           = PapyrusUtil.ResizeObjRefArray(CampArray, CampIndex)
-    FortArray           = PapyrusUtil.ResizeObjRefArray(FortArray, FortIndex)
-    NordicRuinsArray    = PapyrusUtil.ResizeObjRefArray(NordicRuinsArray, NordicRuinsIndex)
-    DwemerRuinArray     = PapyrusUtil.ResizeObjRefArray(DwemerRuinArray, DwemerRuinIndex)
-    ShipwreckArray      = PapyrusUtil.ResizeObjRefArray(ShipwreckArray, ShipwreckIndex)
-    GroveArray          = PapyrusUtil.ResizeObjRefArray(GroveArray, GroveIndex)
-    LandmarkArray       = PapyrusUtil.ResizeObjRefArray(LandmarkArray, LandmarkIndex)
-    DragonLairArray     = PapyrusUtil.ResizeObjRefArray(DragonLairArray, DragonLairIndex)
-    FarmArray           = PapyrusUtil.ResizeObjRefArray(FarmArray, FarmIndex)
-    WoodMillArray       = PapyrusUtil.ResizeObjRefArray(WoodMillArray, WoodMillIndex)
-    MineArray           = PapyrusUtil.ResizeObjRefArray(MineArray, MineIndex)
-    ImperialCampArray   = PapyrusUtil.ResizeObjRefArray(ImperialCampArray, ImperialCampIndex)
-    StormcloakCampArray = PapyrusUtil.ResizeObjRefArray(StormcloakCampArray, StormcloakCampIndex)
-    DoomstoneArray      = PapyrusUtil.ResizeObjRefArray(DoomstoneArray, DoomstoneIndex)
-    WheatMillArray      = PapyrusUtil.ResizeObjRefArray(WheatMillArray, WheatMillIndex)
-    StableArray         = PapyrusUtil.ResizeObjRefArray(StableArray, StableIndex)
-    ImperialTowerArray  = PapyrusUtil.ResizeObjRefArray(ImperialTowerArray, ImperialTowerIndex)
-    ClearingArray       = PapyrusUtil.ResizeObjRefArray(ClearingArray, ClearingIndex)
-    PassArray           = PapyrusUtil.ResizeObjRefArray(PassArray, PassIndex)
-    LighthouseArray     = PapyrusUtil.ResizeObjRefArray(LighthouseArray, LighthouseIndex)
-    OrcStrongholdArray  = PapyrusUtil.ResizeObjRefArray(OrcStrongholdArray, OrcStrongholdIndex)
-    GiantCampArray      = PapyrusUtil.ResizeObjRefArray(GiantCampArray, GiantCampIndex)
-    ShackArray          = PapyrusUtil.ResizeObjRefArray(ShackArray, ShackIndex)
-    NordicTowerArray    = PapyrusUtil.ResizeObjRefArray(NordicTowerArray, NordicTowerIndex)
-    NordicDwellingArray = PapyrusUtil.ResizeObjRefArray(NordicDwellingArray, NordicDwellingIndex)
-    DocksArray          = PapyrusUtil.ResizeObjRefArray(DocksArray, DocksIndex)
-    ShrineArray         = PapyrusUtil.ResizeObjRefArray(ShrineArray, ShrineIndex)
-    CastleArray         = PapyrusUtil.ResizeObjRefArray(CastleArray, CastleIndex)
-    CapitolArray        = PapyrusUtil.ResizeObjRefArray(CapitolArray, CapitolIndex)
-    DLC02Array          = PapyrusUtil.ResizeObjRefArray(DLC02Array, DLC02Index)
 EndFunction
 
-Function SortActivators()
-    ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, 3500.0)
-    TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, 3500.0)
-    LootNPCArray            = new ObjectReference[1]
-    AliveNPCArray           = new ObjectReference[1]
-    DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, 3500.0)
-    IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, 3500.0)
-    WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, 3500.0)
-    AmmoArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, 3500.0)
-    ArmorArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, 3500.0)
-    BooksArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, 3500.0)
-    KeysArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, 3500.0)
-    SoulGemsArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, 3500.0)
-    IngredientsArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, 3500.0)
-    ScrollsArray            = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, 3500.0)
-    MiscItemsArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, 3500.0)
-    FurnitureArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, 3500.0)
-    FloraArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, 3500.0)
-    TreesArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, 3500.0)
+Function SortActivators(Int ActivatorsDistance)
+    ContainersArray         = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 28, ActivatorsDistance)
+    TotalNPCArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 43, ActivatorsDistance)
+    AliveNPCArray = PapyrusUtil.ResizeObjRefArray(AliveNPCArray, 0)
+    LootNPCArray = PapyrusUtil.ResizeObjRefArray(LootNPCArray, 0)
+    DoorsArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 29, ActivatorsDistance)
+    IngestiblesArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 46, ActivatorsDistance)
+    WeaponArray             = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 41, ActivatorsDistance)
+    AmmoArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 42, ActivatorsDistance)
+    ArmorArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 26, ActivatorsDistance)
+    BooksArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 27, ActivatorsDistance)
+    KeysArray               = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 45, ActivatorsDistance)
+    SoulGemsArray           = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 52, ActivatorsDistance)
+    IngredientsArray        = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 30, ActivatorsDistance)
+    ScrollsArray            = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 23, ActivatorsDistance)
+    MiscItemsArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 32, ActivatorsDistance)
+    FurnitureArray          = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 40, ActivatorsDistance)
+    FloraArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 39, ActivatorsDistance)
+    TreesArray              = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 38, ActivatorsDistance)
     NatureArray             = PapyrusUtil.MergeObjRefArray(FloraArray, TreesArray)
-    HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, 3500.0)
-    TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, 3500.0)
+    HalfMiscActivatorsArray = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 24, ActivatorsDistance)
+    TalkingActivatorsArray  = PO3_SKSEFunctions.FindAllReferencesOfFormType(Game.GetPlayer(), 25, ActivatorsDistance)
     MiscActivatorsArray     = PapyrusUtil.MergeObjRefArray(HalfMiscActivatorsArray, TalkingActivatorsArray)
 
     If TotalNPCArray.Length > 0
@@ -765,4 +829,230 @@ Function SortActivators()
             TotalNPCIndex += 1
         EndWhile
     EndIf
+EndFunction
+
+Function ReturnToNavMesh()
+    PO3_SKSEFunctions.MoveToNearestNavmeshLocation(Game.GetPlayer())
+EndFunction
+
+Function PlayerStatus()
+    Int Health = Game.GetPlayer().GetActorValue("Health") As Int
+    Int Stamina = Game.GetPlayer().GetActorValue("Stamina") As Int
+    Int Magicka = Game.GetPlayer().GetActorValue("Magicka") As Int
+    Int Gold = Game.GetPlayer().GetGoldAmount()
+    Int CarryWeight = Game.GetPlayer().GetActorValue("InventoryWeight") As Int
+    Int MaxCarryWeight = Game.GetPlayer().GetActorValue("CarryWeight") As Int
+    DisplayMenuText("Halth: " + Health + " Stamina: " + Stamina + " Magicka: " + Magicka + " Gold: " + Gold + " Carry Weight: " + CarryWeight + "/" + MaxCarryWeight)
+EndFunction
+
+Function AmbientSound()
+    Float ScanPosX = Game.GetPlayer().GetPositionX()
+    Float ScanPosY = Game.GetPlayer().GetPositionY()
+    Float ScanPosZ = Game.GetPlayer().GetPositionZ()
+
+    If Math.abs(ScanPosX - LastScanPosX) > 70.0 || Math.abs(ScanPosY - LastScanPosY) > 70.0 || Math.abs(ScanPosZ - LastScanPosZ) > 70.0
+        SortActivators(700)
+        LastScanPosX = ScanPosX
+        LastScanPosY = ScanPosY
+        LastScanPosZ = ScanPosZ
+    EndIf
+
+    Int LongestArrayLength = 0
+
+    If ContainersArray.Length > LongestArrayLength
+        LongestArrayLength = ContainersArray.Length
+    EndIf
+    If AliveNPCArray.Length > LongestArrayLength
+        LongestArrayLength = AliveNPCArray.Length
+    EndIf
+    If LootNPCArray.Length > LongestArrayLength
+        LongestArrayLength = LootNPCArray.Length
+    EndIf
+    If DoorsArray.Length > LongestArrayLength
+        LongestArrayLength = DoorsArray.Length
+    EndIf
+    If IngestiblesArray.Length > LongestArrayLength
+        LongestArrayLength = IngestiblesArray.Length
+    EndIf
+    If WeaponArray.Length > LongestArrayLength
+        LongestArrayLength = WeaponArray.Length
+    EndIf
+    If AmmoArray.Length > LongestArrayLength
+        LongestArrayLength = AmmoArray.Length
+    EndIf
+    If ArmorArray.Length > LongestArrayLength
+        LongestArrayLength = ArmorArray.Length
+    EndIf
+    If BooksArray.Length > LongestArrayLength
+        LongestArrayLength = BooksArray.Length
+    EndIf
+    If KeysArray.Length > LongestArrayLength
+        LongestArrayLength = KeysArray.Length
+    EndIf
+    If SoulGemsArray.Length > LongestArrayLength
+        LongestArrayLength = SoulGemsArray.Length
+    EndIf
+    If IngredientsArray.Length > LongestArrayLength
+        LongestArrayLength = IngredientsArray.Length
+    EndIf
+    If ScrollsArray.Length > LongestArrayLength
+        LongestArrayLength = ScrollsArray.Length
+    EndIf
+    If MiscItemsArray.Length > LongestArrayLength
+        LongestArrayLength = MiscItemsArray.Length
+    EndIf
+    If FurnitureArray.Length > LongestArrayLength
+        LongestArrayLength = FurnitureArray.Length
+    EndIf
+    If NatureArray.Length > LongestArrayLength
+        LongestArrayLength = NatureArray.Length
+    EndIf
+    If MiscActivatorsArray.Length > LongestArrayLength
+        LongestArrayLength = MiscActivatorsArray.Length
+    EndIf
+
+    Int Index = 0
+
+    Int ContainersIndex = 0
+    Int AliveNPCIndex = 0
+    Int LootNPCIndex = 0
+    Int DoorsIndex = 0
+    Int IngestiblesIndex = 0
+    Int WeaponIndex = 0
+    Int AmmoIndex = 0
+    Int ArmorIndex = 0
+    Int BooksIndex = 0
+    Int KeysIndex = 0
+    Int SoulGemsIndex = 0
+    Int IngredientsIndex = 0
+    Int ScrollsIndex = 0
+    Int MiscItemsIndex = 0
+    Int FurnitureIndex = 0
+    Int NatureIndex = 0
+    Int MiscActivatorsIndex = 0
+
+    While Index < LongestArrayLength
+        If ContainersArray[Index] != None
+            AddAmbientSound(ContainersArray, ContainersIndex, AccessibilityAMBContainerUnlocked, AccessibilityAMBContainerLocked)
+            ContainersIndex += 1
+        EndIf
+        If AliveNPCArray[Index] != None
+            AddAmbientSound(AliveNPCArray, AliveNPCIndex, AccessibilityAMBNPCNeutral, AccessibilityAMBNPCEnemy)
+            AliveNPCIndex += 1
+        EndIf
+        If LootNPCArray[Index] != None
+            AddAmbientSound(LootNPCArray, LootNPCIndex, AccessibilityAMBLootNPC, None)
+            LootNPCIndex += 1
+        EndIf
+        If DoorsArray[Index] != None
+            AddAmbientSound(DoorsArray, DoorsIndex, AccessibilityAMBDoorUnlocked, AccessibilityAMBDoorLocked)
+            DoorsIndex += 1
+        EndIf
+        If IngestiblesArray[Index] != None
+            AddAmbientSound(IngestiblesArray, IngestiblesIndex, AccessibilityAMBIngestible, None)
+            IngestiblesIndex += 1
+        EndIf
+        If WeaponArray[Index] != None
+            AddAmbientSound(WeaponArray, WeaponIndex, AccessibilityAMBWeapon, None)
+            WeaponIndex += 1
+        EndIf
+        If AmmoArray[Index] != None
+            AddAmbientSound(AmmoArray, AmmoIndex, AccessibilityAMBAmmo, None)
+            AmmoIndex += 1
+        EndIf
+        If ArmorArray[Index] != None
+            AddAmbientSound(ArmorArray, ArmorIndex, AccessibilityAMBArmor, None)
+            ArmorIndex += 1
+        EndIf
+        If BooksArray[Index] != None
+            AddAmbientSound(BooksArray, BooksIndex, AccessibilityAMBBook, None)
+            BooksIndex += 1
+        EndIf
+        If KeysArray[Index] != None
+            AddAmbientSound(KeysArray, KeysIndex, AccessibilityAMBKey, None)
+            KeysIndex += 1
+        EndIf
+        If SoulGemsArray[Index] != None
+            AddAmbientSound(SoulGemsArray, SoulGemsIndex, AccessibilityAMBSoulGem, None)
+            SoulGemsIndex += 1
+        EndIf
+        If IngredientsArray[Index] != None
+            AddAmbientSound(IngredientsArray, IngredientsIndex, AccessibilityAMBIngredient, None)
+            IngredientsIndex += 1
+        EndIf
+        If ScrollsArray[Index] != None
+            AddAmbientSound(ScrollsArray, ScrollsIndex, AccessibilityAMBScroll, None)
+            ScrollsIndex += 1
+        EndIf
+        If MiscItemsArray[Index] != None
+            AddAmbientSound(MiscItemsArray, MiscItemsIndex, AccessibilityAMBMiscItem, None)
+            MiscItemsIndex += 1
+        EndIf
+        If FurnitureArray[Index] != None
+            AddAmbientSound(FurnitureArray, FurnitureIndex, AccessibilityAMBFurniture, None)
+            FurnitureIndex += 1
+        EndIf
+        If NatureArray[Index] != None
+            AddAmbientSound(NatureArray, NatureIndex, AccessibilityAMBNatureUnharvested, AccessibilityAMBNatureHarvested)
+            NatureIndex += 1
+        EndIf
+        If MiscActivatorsArray[Index] != None
+            AddAmbientSound(MiscActivatorsArray, MiscActivatorsIndex, AccessibilityAMBMiscActivator, None)
+            MiscActivatorsIndex += 1
+        EndIf
+        Index += 1
+    EndWhile
+EndFunction
+
+Function AddAmbientSound(ObjectReference[] Array, Int AmbientIndex, Sound AMBSound, Sound AMBSoundAlt)
+    Utility.Wait(0.2)
+    If Array[AmbientIndex] != None
+        If Array == ContainersArray && Array[AmbientIndex].IsLocked() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ContainersArray && Array[AmbientIndex].IsLocked() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == LootNPCArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AliveNPCArray && (Array[AmbientIndex] As Actor).IsHostileToActor(Game.GetPlayer()) == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AliveNPCArray && (Array[AmbientIndex] As Actor).IsHostileToActor(Game.GetPlayer()) == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == DoorsArray && Array[AmbientIndex].IsLocked() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == DoorsArray && Array[AmbientIndex].IsLocked() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == IngestiblesArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == WeaponArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == AmmoArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ArmorArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == BooksArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == KeysArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == SoulGemsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == IngredientsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == ScrollsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == MiscItemsArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == FurnitureArray
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == NatureArray && Array[AmbientIndex].IsHarvested() == False
+            AMBSound.Play(Array[AmbientIndex])
+        ElseIf Array == NatureArray && Array[AmbientIndex].IsHarvested() == True
+            AMBSoundAlt.Play(Array[AmbientIndex])
+        ElseIf Array == MiscActivatorsArray
+            AMBSound.Play(Array[AmbientIndex])
+        EndIf
+    EndIf
+EndFunction
+
+Function DisplayMenuText(String Text)
+	UI.InvokeString("HUD Menu", "_root.HUDMovieBaseInstance.QuestUpdateBaseInstance.ShowNotification", Text)
 EndFunction

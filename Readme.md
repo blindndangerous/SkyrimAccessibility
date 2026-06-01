@@ -38,8 +38,8 @@ For the full controls reference, see [Docs/Controls.md](Docs/Controls.md).
 
 Pick your mod manager and follow the matching guide. Each guide is self-contained from start to finish.
 
-1. [Mod Organizer 2 install guide](Docs/InstallGuideMO2.md)
-2. [Vortex install guide](Docs/InstallGuideVortex.md)
+1. [Mod Organizer 2 install guide](Docs/src/content/Docs/guides/install/mo2.md)
+2. [Vortex install guide](Docs/src/content/Docs/guides/install/vortex.md)
 
 If something does not work, see [Docs/Troubleshooting.md](Docs/Troubleshooting.md).
 
