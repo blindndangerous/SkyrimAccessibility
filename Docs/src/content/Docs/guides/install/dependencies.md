@@ -1,6 +1,9 @@
-# Skyrim Accessibility Dependencies
+---
+title: Dependencies
+description: Required and recommended mods for Skyrim Accessibility.
+---
 
-Required mods for Skyrim Accessibility to run. Install all before launching the game.
+Required mods for Skyrim Accessibility to run. Install all before launching the game. The install guides for [Mod Organizer 2](/SkyrimAccessibility/guides/install/mo2/) and [Vortex](/SkyrimAccessibility/guides/install/vortex/) walk through downloading these in order.
 
 ## Runtime libraries (place in game folder beside `SkyrimSE.exe`)
 

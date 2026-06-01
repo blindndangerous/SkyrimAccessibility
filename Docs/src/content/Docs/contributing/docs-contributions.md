@@ -64,10 +64,10 @@ This project **strictly uses spaces** for all indentation across markdown, docum
 
 ### 4. Direct Markdown File Links
 
-When linking to another internal documentation page, use relative paths **without adding a trailing slash or file extensions**.
+When linking to another internal documentation page, write an absolute path that **starts with the site base (`/SkyrimAccessibility`) and ends with a trailing slash**, with no file extension. The site deploys under the `/SkyrimAccessibility` base path on GitHub Pages, and Astro does not rewrite plain Markdown links, so a base-less link such as `/guides/ui/` resolves to the wrong URL in production and fails `starlight-links-validator` during the build.
 
-- ❌ **Bad:** `[Read UI Guides](/guides/ui.md)` or `[Read UI Guides](/guides/ui/)`
-- **Good:** `[Read UI Guides](/guides/ui)`
+- ❌ **Bad:** `[Read UI Guides](/guides/ui.md)`, `[Read UI Guides](/guides/ui)`, or `[Read UI Guides](/guides/ui/)`
+- **Good:** `[Read UI Guides](/SkyrimAccessibility/guides/ui/)`
 
 ### 5. Documenting Keyboard & Controller Inputs (`<Kbd>`)
 

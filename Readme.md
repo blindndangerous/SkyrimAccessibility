@@ -32,16 +32,16 @@ Inside the Accessibility Menu:
 - `F`. Follow the current entry (people).
 - `R`. Lock the camera onto the current entry.
 
-For the full controls reference, see [Docs/Controls.md](Docs/Controls.md).
+For the full controls reference, see [UI Controls & Navigation](https://diokyrie-git.github.io/SkyrimAccessibility/guides/ui/) in the docs.
 
 ## Install
 
 Pick your mod manager and follow the matching guide. Each guide is self-contained from start to finish.
 
-1. [Mod Organizer 2 install guide](Docs/src/content/Docs/guides/install/mo2.md)
-2. [Vortex install guide](Docs/src/content/Docs/guides/install/vortex.md)
+1. [Mod Organizer 2 install guide](https://diokyrie-git.github.io/SkyrimAccessibility/guides/install/mo2/)
+2. [Vortex install guide](https://diokyrie-git.github.io/SkyrimAccessibility/guides/install/vortex/)
 
-If something does not work, see [Docs/Troubleshooting.md](Docs/Troubleshooting.md).
+If something does not work, see [Troubleshooting](https://diokyrie-git.github.io/SkyrimAccessibility/guides/troubleshooting/).
 
 ## Project files
 

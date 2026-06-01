@@ -97,4 +97,4 @@ Both of these are required.
 2. Select "SKSE".
 3. Tab to the Run button and press Space.
 
-Make sure NVDA is running before you launch. If anything does not work, see [Troubleshooting.md](Troubleshooting.md).
+Make sure NVDA is running before you launch. If anything does not work, see [Troubleshooting](/SkyrimAccessibility/guides/troubleshooting/).

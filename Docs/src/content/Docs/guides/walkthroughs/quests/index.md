@@ -9,10 +9,10 @@ You can use `Ctrl + F` to search for needed quests on this page.
 
 ### Act 1
 
-- [Unbound](/guides/walkthroughs/quests/main/unbound/)
+- [Unbound](/SkyrimAccessibility/guides/walkthroughs/quests/main/unbound/)
 
 ## Faction Quests
 
 ### Dark Brotherhood
 
-- [Delayed Burial](/guides/walkthroughs/quests/dark-brotherhood/delayed-burial/)
+- [Delayed Burial](/SkyrimAccessibility/guides/walkthroughs/quests/dark-brotherhood/delayed-burial/)

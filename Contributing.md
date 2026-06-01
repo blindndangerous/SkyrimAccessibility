@@ -24,7 +24,7 @@ Thanks for your interest in helping develop the Skyrim Accessibility Mod by Dio 
 - [XMake](https://xmake.io) 3.0.0+
 - A C++23 compiler. On Windows: MSVC or Clang-CL.
 
-For the full build flow (cloning with submodules, building the SKSE plugin, compiling Papyrus scripts, packaging into a mod folder), see [Docs/BuildFromSource.md](Docs/BuildFromSource.md).
+For the full build flow (cloning with submodules, building the SKSE plugin, compiling Papyrus scripts, packaging into a mod folder), see [Building from Source](https://diokyrie-git.github.io/SkyrimAccessibility/contributing/setup/).
 
 ## Pull-request process
 
@@ -42,4 +42,4 @@ For the full build flow (cloning with submodules, building the SKSE plugin, comp
 
 ## Reporting issues
 
-Open an issue on GitHub. Include the information listed under "How to report a new issue" in [Docs/Troubleshooting.md](Docs/Troubleshooting.md).
+Open an issue on GitHub. Include the information listed under "How to report a new issue" in [Troubleshooting](https://diokyrie-git.github.io/SkyrimAccessibility/guides/troubleshooting/).

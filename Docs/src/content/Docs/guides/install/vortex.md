@@ -91,4 +91,4 @@ Both of these are required.
 1. Press Tab to reach the Dashboard button and press Space.
 2. Press Tab to reach the Launch button and press Space.
 
-Make sure NVDA is running before you launch. If anything does not work, see [Troubleshooting.md](Troubleshooting.md).
+Make sure NVDA is running before you launch. If anything does not work, see [Troubleshooting](/SkyrimAccessibility/guides/troubleshooting/).

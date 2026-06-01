@@ -1,6 +1,9 @@
-# Skyrim Accessibility Troubleshooting
+---
+title: Troubleshooting
+description: Common problems with Skyrim Accessibility and how to fix them.
+---
 
-Common problems and how to fix them. If your problem is not here, ask on the project Discord (link in [Readme.md](../Readme.md)).
+Common problems and how to fix them. If your problem is not here, ask on the project [Discord](https://discord.gg/ncREHq4cmx).
 
 ## NVDA does not speak in the game
 
@@ -25,7 +28,7 @@ There is a known crash early in the game tied to the mod's nearby-object scanner
 
 ## Game crashes when saving or fast travelling
 
-- Make sure all the required mods listed in the install guide are installed and enabled, especially Power Of Three's Papyrus Extender, Power Of Three's Tweaks, and UIExtensions. The Accessibility mod relies on these and crashes if they are missing.
+- Make sure all the required mods listed in [Dependencies](/SkyrimAccessibility/guides/install/dependencies/) are installed and enabled, especially Power Of Three's Papyrus Extender, Power Of Three's Tweaks, and UIExtensions. The Accessibility mod relies on these and crashes if they are missing.
 
 ## Mod Organizer 2 says there are missing masters
 
